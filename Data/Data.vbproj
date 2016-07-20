@@ -68,6 +68,9 @@
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
+    <Import Include="MongoDB.Bson" />
+    <Import Include="MongoDB.Bson.Serialization.Attributes" />
+    <Import Include="MongoDB.Driver" />
     <Import Include="System" />
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
@@ -75,6 +78,16 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsDatabase.vb" />
+    <Compile Include="clsErrorData.vb" />
+    <Compile Include="clsExceptionData.vb" />
+    <Compile Include="clsFeatureData.vb" />
+    <Compile Include="clsProjectData.vb" />
+    <Compile Include="clsServiceCallData.vb" />
+    <Compile Include="clsTaskData.vb" />
+    <Compile Include="clsUserData.vb" />
+    <Compile Include="clsWorkItemData.vb" />
+    <Compile Include="IProcessingData.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
   </ItemGroup>
   <ItemGroup>
