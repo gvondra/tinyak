@@ -86,5 +86,6 @@
     <Build Include="tnyk\Stored Procedures\SSP_User.sql" />
     <Build Include="tnyk\Stored Procedures\SSP_User_By_EmailAddress.sql" />
     <Build Include="tnyk\Stored Procedures\USP_User_Password.sql" />
+    <Build Include="tnyk\Stored Procedures\SSP_User_EmailAddressCount.sql" />
   </ItemGroup>
 </Project>
