@@ -81,5 +81,10 @@
     <Build Include="tnyk\Stored Procedures\ISP_SessionData.sql" />
     <Build Include="tnyk\Stored Procedures\DSP_Session_By_Expiration.sql" />
     <Build Include="tnyk\Stored Procedures\DSP_SessionData_By_SessionGuid.sql" />
+    <Build Include="tnyk\Stored Procedures\ISP_User.sql" />
+    <Build Include="tnyk\Stored Procedures\USP_User.sql" />
+    <Build Include="tnyk\Stored Procedures\SSP_User.sql" />
+    <Build Include="tnyk\Stored Procedures\SSP_User_By_EmailAddress.sql" />
+    <Build Include="tnyk\Stored Procedures\USP_User_Password.sql" />
   </ItemGroup>
 </Project>

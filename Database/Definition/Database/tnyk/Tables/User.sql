@@ -6,3 +6,7 @@
     [IsAdministrator] BIT            DEFAULT (0) NOT NULL
 );
 
+
+GO
+
+CREATE UNIQUE INDEX [IX_User_EmailAddress] ON [tnyk].[User] ([EmailAddress])
