@@ -1,27 +1,22 @@
 ﻿Public Class clsUserData
 
-    Friend Const COLLECTION_NAME As String = "tUser"
+    Friend Const TABLE_NAME As String = "User"
 
-    Private m_strId As String
+    Private m_intId As Nullable(Of Integer)
     Private m_strName As String
     Private m_strEmailAddress As String
     Private m_bytPasswordToken As Byte()
+    Private m_blnIsAdminstrator As Boolean
 
-    Public Sub New()
-        m_strId = ObjectId.GenerateNewId.ToString
-    End Sub
-
-    <BsonId(), BsonRepresentation(BsonType.ObjectId)>
-    Public Property Id As String
+    Public Property Id As Nullable(Of Integer)
         Get
-            Return m_strId
+            Return m_intId
         End Get
-        Set(value As String)
-            m_strId = value
+        Set
+            m_intId = Value
         End Set
     End Property
 
-    <BsonRequired()>
     Public Property Name As String
         Get
             Return m_strName
@@ -31,7 +26,6 @@
         End Set
     End Property
 
-    <BsonRequired()>
     Public Property EmailAddress As String
         Get
             Return m_strEmailAddress
@@ -41,13 +35,21 @@
         End Set
     End Property
 
-    <BsonRequired()>
     Public Property PasswordToken As Byte()
         Get
             Return m_bytPasswordToken
         End Get
         Set
             m_bytPasswordToken = Value
+        End Set
+    End Property
+
+    Public Property IsAdministrator As Boolean
+        Get
+            Return m_blnIsAdminstrator
+        End Get
+        Set
+            m_blnIsAdminstrator = Value
         End Set
     End Property
 End Class

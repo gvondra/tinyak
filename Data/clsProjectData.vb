@@ -1,28 +1,21 @@
 ﻿Public Class clsProjectData
 
-    Friend Const COLLECTION_NAME As String = "Project"
+    Friend Const TABLE_NAME As String = "Project"
 
-    Private m_strId As String
+    Private m_intId As Nullable(Of Integer)
     Private m_strTitle As String
-    Private m_strOwner As String
+    Private m_intOwnerId As Integer
     Private m_colTeamMembers As List(Of String)
-    Private m_colFeatureIds As List(Of ObjectId)
 
-    Public Sub New()
-        m_strId = ObjectId.GenerateNewId.ToString
-    End Sub
-
-    <BsonId(), BsonRepresentation(BsonType.ObjectId)>
-    Public Property Id As String
+    Public Property Id As Nullable(Of Integer)
         Get
-            Return m_strId
+            Return m_intId
         End Get
-        Set(value As String)
-            m_strId = value
+        Set
+            m_intId = Value
         End Set
     End Property
 
-    <BsonRequired>
     Public Property Title As String
         Get
             Return m_strTitle
@@ -32,13 +25,12 @@
         End Set
     End Property
 
-    <BsonRequired>
-    Public Property Owner As String
+    Public Property OwnerId As Integer
         Get
-            Return m_strOwner
+            Return m_intOwnerId
         End Get
         Set
-            m_strOwner = Value
+            m_intOwnerId = Value
         End Set
     End Property
 
@@ -48,15 +40,6 @@
         End Get
         Set
             m_colTeamMembers = Value
-        End Set
-    End Property
-
-    Public Property FeatureIds As List(Of ObjectId)
-        Get
-            Return m_colFeatureIds
-        End Get
-        Set
-            m_colFeatureIds = Value
         End Set
     End Property
 End Class

@@ -1,5 +1,7 @@
 ﻿Public Class clsExceptionData
+    Friend Const TABLE_NAME As String = "Exception"
 
+    Private m_intId As Nullable(Of Integer)
     Private m_strTypeName As String
     Private m_strMessage As String
     Private m_strSource As String
@@ -8,6 +10,15 @@
     Private m_intHResult As Integer
     Private m_objData As Dictionary(Of String, String)
     Private m_objInnerException As clsExceptionData
+
+    Public Property Id As Nullable(Of Integer)
+        Get
+            Return m_intId
+        End Get
+        Set
+            m_intId = Value
+        End Set
+    End Property
 
     Public Property TypeName As String
         Get
@@ -63,8 +74,6 @@
         End Set
     End Property
 
-    <BsonDictionaryOptions(Serialization.Options.DictionaryRepresentation.ArrayOfArrays), _
-    BsonIgnoreIfNull()> _
     Public Property Data As Dictionary(Of String, String)
         Get
             Return m_objData
@@ -74,7 +83,6 @@
         End Set
     End Property
 
-    <BsonIgnoreIfNull()> _
     Public Property InnerException As clsExceptionData
         Get
             Return m_objInnerException

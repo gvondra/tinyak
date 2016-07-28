@@ -1,9 +1,9 @@
-﻿Public Class clsFeatureDAta
+﻿Public Class clsSessionData
 
-    Friend Const TABLE_NAME As String = "Feature"
+    Private Const TABLE_NAME As String = "Session"
 
     Private m_intId As Nullable(Of Integer)
-    Private m_strTitle As String
+    Private m_intUserId As Nullable(Of Integer)
 
     Public Property Id As Nullable(Of Integer)
         Get
@@ -14,12 +14,12 @@
         End Set
     End Property
 
-    Public Property Title As String
+    Public Property UserId As Nullable(Of Integer)
         Get
-            Return m_strTitle
+            Return m_intUserId
         End Get
         Set
-            m_strTitle = Value
+            m_intUserId = Value
         End Set
     End Property
 

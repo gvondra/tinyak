@@ -1,11 +1,20 @@
 ﻿Public Class clsTaskData
+    Private m_intId As Nullable(Of Integer)
     Private m_strTitle As String
     Private m_intStatus As Int16
-    Private m_strAssignedTo As String
+    Private m_intAssignedTo As Nullable(Of Integer)
     Private m_intRemaining As Nullable(Of Int16)
     Private m_strDescription As String
 
-    <BsonRequired>
+    Public Property Id As Nullable(Of Integer)
+        Get
+            Return m_intId
+        End Get
+        Set
+            m_intId = Value
+        End Set
+    End Property
+
     Public Property Title As String
         Get
             Return m_strTitle
@@ -24,12 +33,12 @@
         End Set
     End Property
 
-    Public Property AssignedTo As String
+    Public Property AssignedTo As Nullable(Of Integer)
         Get
-            Return m_strAssignedTo
+            Return m_intAssignedTo
         End Get
         Set
-            m_strAssignedTo = Value
+            m_intAssignedTo = Value
         End Set
     End Property
 

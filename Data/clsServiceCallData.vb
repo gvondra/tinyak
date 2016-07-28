@@ -1,8 +1,8 @@
 ﻿Public Class clsServiceCallData
 
-    Friend Const COLLECTION_NAME As String = "ServiceCall"
+    Friend Const TABLE_NAME As String = "ServiceCall"
 
-    Private m_strId As String
+    Private m_intId As Nullable(Of Integer)
     Private m_strUser As String
     Private m_strEndpointName As String
     Private m_strMethodName As String
@@ -10,17 +10,15 @@
     Private m_datCreateTimestamp As Date
 
     Public Sub New()
-        m_strId = ObjectId.GenerateNewId.ToString
         CreateTimestamp = Date.UtcNow
     End Sub
 
-    <BsonId(), BsonRepresentation(BsonType.ObjectId)>
-    Public Property Id As String
+    Public Property Id As Nullable(Of Integer)
         Get
-            Return m_strId
+            Return m_intId
         End Get
-        Set(value As String)
-            m_strId = value
+        Set
+            m_intId = Value
         End Set
     End Property
 
@@ -68,26 +66,4 @@
             m_datCreateTimestamp = value
         End Set
     End Property
-
-    Public Sub Insert(ByVal objProcessingData As IProcessingData)
-        Dim objCollection As IMongoCollection(Of clsServiceCallData)
-        Dim objDatabase As clsDatabase
-
-        objDatabase = New clsDatabase(objProcessingData)
-        objCollection = objDatabase.GetCollection(Of clsServiceCallData)(COLLECTION_NAME)
-        objCollection.InsertOne(Me)
-    End Sub
-
-    Public Shared Function GetAll(ByVal objProcessingData As IProcessingData) As IEnumerable(Of clsServiceCallData)
-        Dim objCollection As IMongoCollection(Of clsServiceCallData)
-        Dim objDatabase As clsDatabase
-        Dim objCursor As IAsyncCursor(Of clsServiceCallData)
-        Dim objFilterBuilder As FilterDefinitionBuilder(Of clsServiceCallData)
-
-        objDatabase = New clsDatabase(objProcessingData)
-        objCollection = objDatabase.GetCollection(Of clsServiceCallData)(COLLECTION_NAME)
-        objFilterBuilder = New FilterDefinitionBuilder(Of clsServiceCallData)
-        objCursor = objCollection.FindSync(objFilterBuilder.Empty)
-        Return objCursor.Current
-    End Function
 End Class

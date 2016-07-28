@@ -1,5 +1,6 @@
 ﻿Public Interface IProcessingData
 
     ReadOnly Property ConnectionString() As String
-    ReadOnly Property DatabaseName As String
+    Property DatabaseConnection As IDbConnection
+    Property DatabaseTransaction As IDbTransaction
 End Interface
