@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [tnyk].[ErrorLog]
 (
-	[ErrorLogId] INT NOT NULL PRIMARY KEY, 
+	[ErrorLogId] INT NOT NULL PRIMARY KEY IDENTITY, 
     [MachineName] VARCHAR(50) NOT NULL, 
     [AppDomainName] VARCHAR(50) NOT NULL, 
     [ThreadIdentity] VARCHAR(25) NOT NULL, 

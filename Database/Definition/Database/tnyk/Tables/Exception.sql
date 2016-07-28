@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [tnyk].[Exception]
 (
-	[ExceptionId] INT NOT NULL PRIMARY KEY, 
+	[ExceptionId] INT NOT NULL PRIMARY KEY IDENTITY, 
 	[ParentExceptionId] INT NULL,
     [TypeName] VARCHAR(500) NOT NULL, 
     [Message] NTEXT NOT NULL, 

@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [tnyk].[ServiceCall]
 (
-	[ServiceCallId] INT NOT NULL PRIMARY KEY, 
+	[ServiceCallId] INT NOT NULL PRIMARY KEY IDENTITY, 
     [User] NVARCHAR(250) NOT NULL, 
     [EndpointName] VARCHAR(150) NOT NULL, 
     [MethodName] VARCHAR(150) NOT NULL, 
