@@ -76,6 +76,7 @@
     <Compile Include="clsUserData.vb" />
     <Compile Include="clsWorkItemData.vb" />
     <Compile Include="IProcessingData.vb" />
+    <Compile Include="modDatabase.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{58B586DE-DECB-4CBB-AAF0-596E51A15AFD}</ProjectGuid>
+    <ProjectGuid>{038B56D1-C05E-45AF-9F4E-5CF7F871FBE2}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>tinyak.Core</RootNamespace>
-    <AssemblyName>tinyak.Core</AssemblyName>
+    <RootNamespace>tinyak.Interface.tinyak</RootNamespace>
+    <AssemblyName>tinyak.Interface.tinyak</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
@@ -49,10 +49,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -61,27 +61,49 @@
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
+    <Import Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsError.vb" />
-    <Compile Include="clsException.vb" />
-    <Compile Include="clsFeature.vb" />
-    <Compile Include="clsProject.vb" />
-    <Compile Include="clsServiceCall.vb" />
-    <Compile Include="clsSession.vb" />
-    <Compile Include="clsSettings.vb" />
-    <Compile Include="clsTask.vb" />
     <Compile Include="clsUser.vb" />
-    <Compile Include="clsValidation.vb" />
-    <Compile Include="clsWorkItem.vb" />
     <Compile Include="ISettings.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="Service References\UserServiceReference\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data\Data.vbproj">
-      <Project>{52138570-bce0-4050-ad22-4aeea3760c5f}</Project>
-      <Name>Data</Name>
-    </ProjectReference>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Service References\UserServiceReference\User.wsdl" />
+    <None Include="Service References\UserServiceReference\User.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\UserServiceReference\User1.wsdl" />
+    <None Include="Service References\UserServiceReference\User1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\UserServiceReference\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\UserServiceReference\User.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\UserServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\UserServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\UserServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

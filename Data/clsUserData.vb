@@ -5,8 +5,7 @@
     Private m_intId As Nullable(Of Integer)
     Private m_strName As String
     Private m_strEmailAddress As String
-    Private m_bytPasswordToken As Byte()
-    Private m_blnIsAdminstrator As Boolean
+    Private m_blnIsAdministrator As Boolean
 
     Public Property Id As Nullable(Of Integer)
         Get
@@ -35,21 +34,37 @@
         End Set
     End Property
 
-    Public Property PasswordToken As Byte()
+    Public Property IsAdministrator As Boolean
         Get
-            Return m_bytPasswordToken
+            Return m_blnIsAdministrator
         End Get
         Set
-            m_bytPasswordToken = Value
+            m_blnIsAdministrator = Value
         End Set
     End Property
 
-    Public Property IsAdministrator As Boolean
-        Get
-            Return m_blnIsAdminstrator
-        End Get
-        Set
-            m_blnIsAdminstrator = Value
-        End Set
-    End Property
+    Public Shared Function IsEmailAddressAvailable(ByVal objProcessingData As IProcessingData, ByVal strEmailAddress As String) As Boolean
+        Dim objConnection As IDbConnection
+        Dim objCommand As IDbCommand
+        Dim objParameter As IDataParameter
+        Dim objResult As Object
+
+        objConnection = OpenConnection(objProcessingData)
+        Try
+            objCommand = objConnection.CreateCommand
+            objCommand.CommandText = "tnyk.SSP_User_EmailAddressCount"
+            objCommand.CommandType = CommandType.StoredProcedure
+
+            objParameter = CreateParameter(objCommand, "emailAddress", DbType.String)
+            objParameter.Value = strEmailAddress
+            objCommand.Parameters.Add(objParameter)
+
+            objResult = objCommand.ExecuteScalar()
+            objCommand.Dispose()
+            objConnection.Close()
+        Finally
+            objConnection.Dispose()
+        End Try
+        Return (CType(objResult, Integer) = 0)
+    End Function
 End Class
