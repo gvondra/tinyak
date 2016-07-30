@@ -17,7 +17,7 @@
                 End If
             End Code
         </div>
-        <h1>@Html.ActionLink("tinyak", "Index", "Home", New With {.Style = "text-decoration: none"})</h1>
+        <h1>@Html.ActionLink("tinyak", "Index", "Home", Nothing, New With {.Style = "text-decoration: none"})</h1>
     </div>
     <div>
         @RenderBody()
