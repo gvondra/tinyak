@@ -3,7 +3,7 @@ Imports System.Web.Mvc
 
 Namespace Controllers
     Public Class UserController
-        Inherits Controller
+        Inherits clsControllerBase
 
         Public Function Login() As ActionResult
             Return View()
@@ -27,7 +27,8 @@ Namespace Controllers
             If ModelState.IsValid Then
                 objService = New clsUserService(New clsSettings)
                 objUserData = objService.Create(objCreateUser.Name, objCreateUser.EmailAddress, objCreateUser.Password)
-                Return View(objCreateUser)
+                FormsAuthentication.SetAuthCookie(objUserData.EmailAddress, False)
+                Return RedirectToAction("Index", "Home")
             Else
                 Return View(objCreateUser)
             End If
