@@ -7,7 +7,7 @@ Public Class clsValidation
         If String.IsNullOrEmpty(strEmailAddress) Then
             Return False
         Else
-            Return Regex.IsMatch(strEmailAddress, "^\S@\S$")
+            Return Regex.IsMatch(strEmailAddress, "^\S+@\S+$")
         End If
     End Function
 End Class

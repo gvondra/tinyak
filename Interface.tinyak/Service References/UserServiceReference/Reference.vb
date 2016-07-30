@@ -11,27 +11,95 @@
 Option Strict On
 Option Explicit On
 
+Imports System
+Imports System.Runtime.Serialization
 
 Namespace UserServiceReference
     
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0"),  _
-     System.ServiceModel.ServiceContractAttribute([Namespace]:="urn:service.tinyak.net/User/v1", ConfigurationName:="UserServiceReference.User")>  _
-    Friend Interface User
+    <System.Diagnostics.DebuggerStepThroughAttribute(),  _
+     System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0"),  _
+     System.Runtime.Serialization.DataContractAttribute(Name:="User", [Namespace]:="urn:service.tinyak.net/User/v1"),  _
+     System.SerializableAttribute()>  _
+    Partial Friend Class User
+        Inherits Object
+        Implements System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged
         
-        <System.ServiceModel.OperationContractAttribute(Action:="urn:service.tinyak.net/User/v1/User/IsEmailAddressAvailable", ReplyAction:="urn:service.tinyak.net/User/v1/User/IsEmailAddressAvailableResponse")>  _
+        <System.NonSerializedAttribute()>  _
+        Private extensionDataField As System.Runtime.Serialization.ExtensionDataObject
+        
+        <System.Runtime.Serialization.OptionalFieldAttribute()>  _
+        Private EmailAddressField As String
+        
+        <System.Runtime.Serialization.OptionalFieldAttribute()>  _
+        Private NameField As String
+        
+        <Global.System.ComponentModel.BrowsableAttribute(false)>  _
+        Public Property ExtensionData() As System.Runtime.Serialization.ExtensionDataObject Implements System.Runtime.Serialization.IExtensibleDataObject.ExtensionData
+            Get
+                Return Me.extensionDataField
+            End Get
+            Set
+                Me.extensionDataField = value
+            End Set
+        End Property
+        
+        <System.Runtime.Serialization.DataMemberAttribute()>  _
+        Friend Property EmailAddress() As String
+            Get
+                Return Me.EmailAddressField
+            End Get
+            Set
+                If (Object.ReferenceEquals(Me.EmailAddressField, value) <> true) Then
+                    Me.EmailAddressField = value
+                    Me.RaisePropertyChanged("EmailAddress")
+                End If
+            End Set
+        End Property
+        
+        <System.Runtime.Serialization.DataMemberAttribute()>  _
+        Friend Property Name() As String
+            Get
+                Return Me.NameField
+            End Get
+            Set
+                If (Object.ReferenceEquals(Me.NameField, value) <> true) Then
+                    Me.NameField = value
+                    Me.RaisePropertyChanged("Name")
+                End If
+            End Set
+        End Property
+        
+        Public Event PropertyChanged As System.ComponentModel.PropertyChangedEventHandler Implements System.ComponentModel.INotifyPropertyChanged.PropertyChanged
+        
+        Protected Sub RaisePropertyChanged(ByVal propertyName As String)
+            Dim propertyChanged As System.ComponentModel.PropertyChangedEventHandler = Me.PropertyChangedEvent
+            If (Not (propertyChanged) Is Nothing) Then
+                propertyChanged(Me, New System.ComponentModel.PropertyChangedEventArgs(propertyName))
+            End If
+        End Sub
+    End Class
+    
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0"),  _
+     System.ServiceModel.ServiceContractAttribute([Namespace]:="urn:service.tinyak.net/User/v1", ConfigurationName:="UserServiceReference.UserService")>  _
+    Friend Interface UserService
+        
+        <System.ServiceModel.OperationContractAttribute(Action:="urn:service.tinyak.net/User/v1/UserService/IsEmailAddressAvailable", ReplyAction:="urn:service.tinyak.net/User/v1/UserService/IsEmailAddressAvailableResponse")>  _
         Function IsEmailAddressAvailable(ByVal strEmailAddress As String) As Boolean
+        
+        <System.ServiceModel.OperationContractAttribute(Action:="urn:service.tinyak.net/User/v1/UserService/CreateUser", ReplyAction:="urn:service.tinyak.net/User/v1/UserService/CreateUserResponse")>  _
+        Function CreateUser(ByVal strName As String, ByVal strEmailAddress As String, ByVal strPassword As String) As UserServiceReference.User
     End Interface
     
     <System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")>  _
-    Friend Interface UserChannel
-        Inherits UserServiceReference.User, System.ServiceModel.IClientChannel
+    Friend Interface UserServiceChannel
+        Inherits UserServiceReference.UserService, System.ServiceModel.IClientChannel
     End Interface
     
     <System.Diagnostics.DebuggerStepThroughAttribute(),  _
      System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")>  _
-    Partial Friend Class UserClient
-        Inherits System.ServiceModel.ClientBase(Of UserServiceReference.User)
-        Implements UserServiceReference.User
+    Partial Friend Class UserServiceClient
+        Inherits System.ServiceModel.ClientBase(Of UserServiceReference.UserService)
+        Implements UserServiceReference.UserService
         
         Public Sub New()
             MyBase.New
@@ -53,8 +121,12 @@ Namespace UserServiceReference
             MyBase.New(binding, remoteAddress)
         End Sub
         
-        Public Function IsEmailAddressAvailable(ByVal strEmailAddress As String) As Boolean Implements UserServiceReference.User.IsEmailAddressAvailable
+        Public Function IsEmailAddressAvailable(ByVal strEmailAddress As String) As Boolean Implements UserServiceReference.UserService.IsEmailAddressAvailable
             Return MyBase.Channel.IsEmailAddressAvailable(strEmailAddress)
+        End Function
+        
+        Public Function CreateUser(ByVal strName As String, ByVal strEmailAddress As String, ByVal strPassword As String) As UserServiceReference.User Implements UserServiceReference.UserService.CreateUser
+            Return MyBase.Channel.CreateUser(strName, strEmailAddress, strPassword)
         End Function
     End Class
 End Namespace

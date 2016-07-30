@@ -1,4 +1,5 @@
-﻿Imports System.Web.Mvc
+﻿Imports tinyak.Interface.tinyak
+Imports System.Web.Mvc
 
 Namespace Controllers
     Public Class UserController
@@ -19,8 +20,17 @@ Namespace Controllers
 
         <HttpPost(), ValidateAntiForgeryToken()>
         Public Function Create(ByVal objCreateUser As clsCreateUserModel) As ActionResult
+            Dim objService As clsUserService
+            Dim objUserData As clsUser
+
             ValidateCreate(objCreateUser)
-            Return View(objCreateUser)
+            If ModelState.IsValid Then
+                objService = New clsUserService(New clsSettings)
+                objUserData = objService.Create(objCreateUser.Name, objCreateUser.EmailAddress, objCreateUser.Password)
+                Return View(objCreateUser)
+            Else
+                Return View(objCreateUser)
+            End If
         End Function
 
         Private Sub ValidateCreate(ByVal objCreateUser As clsCreateUserModel)
@@ -38,9 +48,9 @@ Namespace Controllers
         End Sub
 
         Private Function IsEmailAddressAvailable(ByVal strEmailAddress As String) As Boolean
-            Dim objUserService As tinyak.Interface.tinyak.clsUser
+            Dim objUserService As tinyak.Interface.tinyak.clsUserService
 
-            objUserService = New tinyak.Interface.tinyak.clsUser(New clsSettings)
+            objUserService = New tinyak.Interface.tinyak.clsUserService(New clsSettings)
             Return objUserService.IsEmailAddressAvailable(strEmailAddress)
         End Function
     End Class

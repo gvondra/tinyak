@@ -6,16 +6,26 @@
       <xsd:import schemaLocation="http://localhost:57284/User.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="User_IsEmailAddressAvailable_InputMessage">
+  <wsdl:message name="UserService_IsEmailAddressAvailable_InputMessage">
     <wsdl:part name="parameters" element="tns:IsEmailAddressAvailable" />
   </wsdl:message>
-  <wsdl:message name="User_IsEmailAddressAvailable_OutputMessage">
+  <wsdl:message name="UserService_IsEmailAddressAvailable_OutputMessage">
     <wsdl:part name="parameters" element="tns:IsEmailAddressAvailableResponse" />
   </wsdl:message>
-  <wsdl:portType name="User">
+  <wsdl:message name="UserService_CreateUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateUser" />
+  </wsdl:message>
+  <wsdl:message name="UserService_CreateUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateUserResponse" />
+  </wsdl:message>
+  <wsdl:portType name="UserService">
     <wsdl:operation name="IsEmailAddressAvailable">
-      <wsdl:input wsaw:Action="urn:service.tinyak.net/User/v1/User/IsEmailAddressAvailable" message="tns:User_IsEmailAddressAvailable_InputMessage" />
-      <wsdl:output wsaw:Action="urn:service.tinyak.net/User/v1/User/IsEmailAddressAvailableResponse" message="tns:User_IsEmailAddressAvailable_OutputMessage" />
+      <wsdl:input wsaw:Action="urn:service.tinyak.net/User/v1/UserService/IsEmailAddressAvailable" message="tns:UserService_IsEmailAddressAvailable_InputMessage" />
+      <wsdl:output wsaw:Action="urn:service.tinyak.net/User/v1/UserService/IsEmailAddressAvailableResponse" message="tns:UserService_IsEmailAddressAvailable_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateUser">
+      <wsdl:input wsaw:Action="urn:service.tinyak.net/User/v1/UserService/CreateUser" message="tns:UserService_CreateUser_InputMessage" />
+      <wsdl:output wsaw:Action="urn:service.tinyak.net/User/v1/UserService/CreateUserResponse" message="tns:UserService_CreateUser_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
 </wsdl:definitions>
