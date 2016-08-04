@@ -87,7 +87,7 @@ Namespace UserServiceReference
         Function IsEmailAddressAvailable(ByVal strEmailAddress As String) As Boolean
         
         <System.ServiceModel.OperationContractAttribute(Action:="urn:service.tinyak.net/User/v1/UserService/CreateUser", ReplyAction:="urn:service.tinyak.net/User/v1/UserService/CreateUserResponse")>  _
-        Function CreateUser(ByVal strName As String, ByVal strEmailAddress As String, ByVal strPassword As String) As UserServiceReference.User
+        Function CreateUser(ByVal objSessionId As System.Guid, ByVal strName As String, ByVal strEmailAddress As String, ByVal strPassword As String) As UserServiceReference.User
     End Interface
     
     <System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")>  _
@@ -125,8 +125,8 @@ Namespace UserServiceReference
             Return MyBase.Channel.IsEmailAddressAvailable(strEmailAddress)
         End Function
         
-        Public Function CreateUser(ByVal strName As String, ByVal strEmailAddress As String, ByVal strPassword As String) As UserServiceReference.User Implements UserServiceReference.UserService.CreateUser
-            Return MyBase.Channel.CreateUser(strName, strEmailAddress, strPassword)
+        Public Function CreateUser(ByVal objSessionId As System.Guid, ByVal strName As String, ByVal strEmailAddress As String, ByVal strPassword As String) As UserServiceReference.User Implements UserServiceReference.UserService.CreateUser
+            Return MyBase.Channel.CreateUser(objSessionId, strName, strEmailAddress, strPassword)
         End Function
     End Class
 End Namespace

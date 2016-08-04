@@ -7,6 +7,6 @@ Public Interface IUserService
     Function IsEmailAddressAvailable(ByVal strEmailAddress As String) As Boolean
 
     <OperationContract()>
-    Function CreateUser(ByVal strName As String, ByVal strEmailAddress As String, ByVal strPassword As String) As clsUser
+    Function CreateUser(ByVal objSessionId As Guid, ByVal strName As String, ByVal strEmailAddress As String, ByVal strPassword As String) As clsUser
 
 End Interface

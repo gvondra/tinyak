@@ -30,7 +30,7 @@ Namespace Controllers
             ValidateCreate(objCreateUser)
             If ModelState.IsValid Then
                 objService = New clsUserService(New clsSettings)
-                objUserData = objService.Create(objCreateUser.Name, objCreateUser.EmailAddress, objCreateUser.Password)
+                objUserData = objService.Create(Session.Id, objCreateUser.Name, objCreateUser.EmailAddress, objCreateUser.Password)
                 FormsAuthentication.SetAuthCookie(objUserData.EmailAddress, False)
                 Return RedirectToAction("Profile")
             Else

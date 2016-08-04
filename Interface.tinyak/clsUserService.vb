@@ -26,10 +26,10 @@
         Return m_objService.IsEmailAddressAvailable(strEmailAddress)
     End Function
 
-    Public Function Create(ByVal strUser As String, ByVal strEmailAddress As String, ByVal strPassword As String) As clsUser
+    Public Function Create(ByVal objSessionId As Guid, ByVal strUser As String, ByVal strEmailAddress As String, ByVal strPassword As String) As clsUser
         Dim objUser As UserServiceReference.User
 
-        objUser = m_objService.CreateUser(strUser, strEmailAddress, strPassword)
+        objUser = m_objService.CreateUser(objSessionId, strUser, strEmailAddress, strPassword)
         Return New clsUser(objUser)
     End Function
 End Class

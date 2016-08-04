@@ -4,12 +4,21 @@ Imports System.ServiceModel
 Public Class User
     Implements IUserService
 
-    Public Function CreateUser(strName As String, strEmailAddress As String, strPassword As String) As clsUser Implements IUserService.CreateUser
+    Public Function CreateUser(ByVal objSessionId As Guid, ByVal strName As String, strEmailAddress As String, strPassword As String) As clsUser Implements IUserService.CreateUser
         Dim objUser As tCore.clsUser
-        Dim objResult As clsUser
+        Dim objResult As clsUser = Nothing
+        Dim objSession As tCore.clsSession
+        Dim objSettings As clsSettings
         Try
-            objUser = tCore.clsUser.CreateNew(New clsSettings, strName, strEmailAddress, strPassword)
-            objResult = clsUser.Get(objUser)
+            objSettings = New clsSettings
+            objSession = tCore.clsSession.Get(objSettings, objSessionId)
+            If objSession IsNot Nothing Then
+                objUser = tCore.clsUser.CreateNew(objSettings, strName, strEmailAddress, strPassword)
+                objResult = clsUser.Get(objUser)
+
+                objSession.UserId = objUser.Id.Value
+                objSession.Save(objSettings)
+            End If
         Catch ex As Exception
             Throw New FaultException("Unexpected error has occured")
         End Try

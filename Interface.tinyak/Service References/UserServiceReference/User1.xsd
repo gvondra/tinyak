@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="urn:service.tinyak.net/User/v1" elementFormDefault="qualified" targetNamespace="urn:service.tinyak.net/User/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:57284/User.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
   <xs:element name="IsEmailAddressAvailable">
     <xs:complexType>
       <xs:sequence>
@@ -17,6 +18,7 @@
   <xs:element name="CreateUser">
     <xs:complexType>
       <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="objSessionId" type="q1:guid" />
         <xs:element minOccurs="0" name="strName" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="strEmailAddress" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="strPassword" nillable="true" type="xs:string" />
