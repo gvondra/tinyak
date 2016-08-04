@@ -28,7 +28,7 @@ Namespace SessionService
         Private extensionDataField As System.Runtime.Serialization.ExtensionDataObject
         
         <System.Runtime.Serialization.OptionalFieldAttribute()>  _
-        Private DataField As System.Collections.Specialized.NameValueCollection
+        Private DataField As System.Collections.Generic.Dictionary(Of String, String)
         
         <System.Runtime.Serialization.OptionalFieldAttribute()>  _
         Private ExpirationDateField As Date
@@ -50,7 +50,7 @@ Namespace SessionService
         End Property
         
         <System.Runtime.Serialization.DataMemberAttribute()>  _
-        Friend Property Data() As System.Collections.Specialized.NameValueCollection
+        Friend Property Data() As System.Collections.Generic.Dictionary(Of String, String)
             Get
                 Return Me.DataField
             End Get

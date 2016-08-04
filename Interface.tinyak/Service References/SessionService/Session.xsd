@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="urn:service.tinyak.net/Session/v1" elementFormDefault="qualified" targetNamespace="urn:service.tinyak.net/Session/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:57284/Session.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System.Collections.Specialized" />
+  <xs:import schemaLocation="http://localhost:57284/Session.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:import schemaLocation="http://localhost:57284/Session.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
   <xs:complexType name="Session">
     <xs:sequence>
-      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/System.Collections.Specialized" minOccurs="0" name="Data" nillable="true" type="q1:NameValueCollection" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Data" nillable="true" type="q1:ArrayOfKeyValueOfstringstring" />
       <xs:element minOccurs="0" name="ExpirationDate" type="xs:dateTime" />
       <xs:element minOccurs="0" name="Id" type="ser:guid" />
       <xs:element minOccurs="0" name="UserId" nillable="true" type="xs:int" />

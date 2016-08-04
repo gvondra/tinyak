@@ -5,6 +5,10 @@ Namespace Controllers
     Public Class UserController
         Inherits clsControllerBase
 
+        Public Sub New(ByVal objSettings As clsSettings, ByVal objSession As clsSession)
+            MyBase.New(objSettings, objSession)
+        End Sub
+
         Public Function Login() As ActionResult
             Return View()
         End Function
@@ -28,7 +32,7 @@ Namespace Controllers
                 objService = New clsUserService(New clsSettings)
                 objUserData = objService.Create(objCreateUser.Name, objCreateUser.EmailAddress, objCreateUser.Password)
                 FormsAuthentication.SetAuthCookie(objUserData.EmailAddress, False)
-                Return RedirectToAction("Index", "Home")
+                Return RedirectToAction("Profile")
             Else
                 Return View(objCreateUser)
             End If
@@ -53,6 +57,10 @@ Namespace Controllers
 
             objUserService = New tinyak.Interface.tinyak.clsUserService(New clsSettings)
             Return objUserService.IsEmailAddressAvailable(strEmailAddress)
+        End Function
+
+        Public Shadows Function Profile() As ActionResult
+            Return View()
         End Function
     End Class
 End Namespace

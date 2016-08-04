@@ -1,5 +1,4 @@
-﻿Imports System.Collections.Specialized
-Public Class clsSessionData
+﻿Public Class clsSessionData
 
     Private Const TABLE_NAME As String = "Session"
 
@@ -7,12 +6,12 @@ Public Class clsSessionData
     Private m_objId As Guid
     Private m_intUserId As Nullable(Of Integer)
     Private m_datExpiration As Nullable(Of Date)
-    Private m_objData As NameValueCollection
+    'Private m_objData As Dictionary(Of String, String)
 
     Public Sub New()
         m_objId = Guid.Empty
-        m_objData = New NameValueCollection
-        m_blnIsNew=True
+        Data = New Dictionary(Of String, String)
+        m_blnIsNew = True
     End Sub
 
     Public Property Id As Guid
@@ -24,11 +23,11 @@ Public Class clsSessionData
         End Set
     End Property
 
-    Public readonly property IsNew As Boolean 
-        Get 
+    Public ReadOnly Property IsNew As Boolean
+        Get
             Return m_blnIsNew
-        end get 
-    end property
+        End Get
+    End Property
 
     Public Property UserId As Nullable(Of Integer)
         Get
@@ -48,14 +47,7 @@ Public Class clsSessionData
         End Set
     End Property
 
-    Public Property Data As NameValueCollection
-        Get
-            Return m_objData
-        End Get
-        Set
-            m_objData = Value
-        End Set
-    End Property
+    Public Property Data As Dictionary(Of String, String)
 
     Private Shared Sub Initialize(ByVal objReader As IDataReader, ByVal objSession As clsSessionData)
         Dim bytValue() As Byte
@@ -101,7 +93,7 @@ Public Class clsSessionData
 
                 If objReader.NextResult Then
                     While objReader.Read
-                        objResult.Data.Add(objReader.GetString(objReader.GetOrdinal("Name")).trim, objReader.GetString(objReader.GetOrdinal("Value")))
+                        objResult.Data.Add(objReader.GetString(objReader.GetOrdinal("Name")).Trim, objReader.GetString(objReader.GetOrdinal("Value")))
                     End While
                 End If
             Else
@@ -117,7 +109,7 @@ Public Class clsSessionData
     Public Sub Save(ByVal objProcessingData As IProcessingData)
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
-        Dim i As Integer
+        Dim objEnumerator As Dictionary(Of String, String).Enumerator
 
         If objProcessingData.DatabaseConnection Is Nothing Then
             objProcessingData.DatabaseConnection = OpenConnection(objProcessingData)
@@ -165,7 +157,8 @@ Public Class clsSessionData
         objCommand.ExecuteNonQuery()
 
         If Data IsNot Nothing AndAlso Data.Count > 0 Then
-            For i = 0 To Data.Count - 1
+            objEnumerator = Data.GetEnumerator
+            While objEnumerator.MoveNext
                 objCommand = objProcessingData.DatabaseConnection.CreateCommand
                 objCommand.CommandType = CommandType.StoredProcedure
                 objCommand.Transaction = objProcessingData.DatabaseTransaction
@@ -176,16 +169,16 @@ Public Class clsSessionData
                 objCommand.Parameters.Add(objParameter)
 
                 objParameter = CreateParameter(objCommand, "name", DbType.String)
-                objParameter.Value = Data.Keys(i)
+                objParameter.Value = objEnumerator.Current.Key
                 objCommand.Parameters.Add(objParameter)
 
                 objParameter = CreateParameter(objCommand, "value", DbType.String)
-                objParameter.Value = Data(Data.Keys(i))
+                objParameter.Value = objEnumerator.Current.Value
                 objCommand.Parameters.Add(objParameter)
 
                 objCommand.ExecuteNonQuery()
 
-            Next i
+            End While
         End If
     End Sub
 End Class

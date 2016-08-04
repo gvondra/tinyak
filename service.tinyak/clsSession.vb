@@ -12,7 +12,7 @@ Public Class clsSession
     Public Property ExpirationDate As Date
 
     <DataMember>
-    Public Property Data As NameValueCollection
+    Public Property Data As Dictionary(Of String, String)
 
     Friend Shared Function [Get](ByVal objSession As tCore.clsSession) As clsSession
         Dim objResult As clsSession

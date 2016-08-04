@@ -1,5 +1,4 @@
-﻿Imports System.Collections.Specialized
-Imports tinyak.Data
+﻿Imports tinyak.Data
 Public Class clsSession
     Private m_objSessionData As clsSessionData
 
@@ -34,7 +33,7 @@ Public Class clsSession
         End Set
     End Property
 
-    Public Property Data As NameValueCollection
+    Public Property Data As Dictionary(Of String, String)
         Get
             Return m_objSessionData.Data
         End Get

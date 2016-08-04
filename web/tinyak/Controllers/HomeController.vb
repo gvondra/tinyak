@@ -1,19 +1,12 @@
 ﻿Public Class HomeController
     Inherits clsControllerBase
 
+    Public Sub New(ByVal objSettings As clsSettings, ByVal objSession As clsSession)
+        MyBase.New(objSettings, objSession)
+    End Sub
+
     Function Index() As ActionResult
         Return View()
     End Function
 
-    Function About() As ActionResult
-        ViewData("Message") = "Your application description page."
-
-        Return View()
-    End Function
-
-    Function Contact() As ActionResult
-        ViewData("Message") = "Your contact page."
-
-        Return View()
-    End Function
 End Class
