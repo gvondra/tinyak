@@ -64,10 +64,17 @@
     <Import Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsSession.vb" />
+    <Compile Include="clsSessionService.vb" />
     <Compile Include="clsUser.vb" />
     <Compile Include="clsUserService.vb" />
     <Compile Include="ISettings.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="Service References\SessionService\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\UserServiceReference\Reference.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -78,6 +85,22 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Service References\SessionService\Session.wsdl" />
+    <None Include="Service References\SessionService\Session.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SessionService\Session1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SessionService\Session2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SessionService\Session3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SessionService\tinyak.Interface.tinyak.SessionService.Session.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\UserServiceReference\tinyak.Interface.tinyak.UserServiceReference.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -91,6 +114,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Service References\SessionService\" />
     <WCFMetadataStorage Include="Service References\UserServiceReference\" />
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +128,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\UserServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SessionService\Session.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SessionService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SessionService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SessionService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
