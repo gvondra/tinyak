@@ -5,14 +5,21 @@ Public Class clsControllerFactory
     Public Overrides Function CreateController(requestContext As RequestContext, controllerName As String) As IController
         Dim objType As Type
         Dim objSettings As clsSettings
+        Dim objSession As clsSession
+        Dim objController As Controller
 
         objType = GetControllerType(requestContext, controllerName)
         If objType.IsSubclassOf(GetType(clsControllerBase)) Then
             objSettings = New clsSettings()
-            Return CType(Activator.CreateInstance(objType, New Object() {objSettings, GetSession(objSettings, requestContext)}), IController)
+            objSession = GetSession(objSettings, requestContext)
+            objController = CType(Activator.CreateInstance(objType, New Object() {objSettings, objSession}), Controller)
+            If objSession.UserId.HasValue Then
+                objController.ViewData.Add("UserId", objSession.UserId.Value)
+            End If
         Else
-            Return MyBase.CreateController(requestContext, controllerName)
+            objController = CType(MyBase.CreateController(requestContext, controllerName), Controller)
         End If
+        Return objController
     End Function
 
     Private Function GetSession(ByVal objSetings As clsSettings, ByVal requestContext As RequestContext) As clsSession

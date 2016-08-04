@@ -10,7 +10,7 @@
     <div>
         <div style="display: inline; float:right">
             @Code
-                If ViewData.ContainsKey("User") = False Then
+                If ViewData.ContainsKey("UserId") = False Then
                     @Html.Partial("LoginHeader")
                 Else
                     @Html.Partial("ProfileHeader", ViewData("User"))
