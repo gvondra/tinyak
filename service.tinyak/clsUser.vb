@@ -1,5 +1,5 @@
 ﻿Imports tCore = tinyak.Core
-Imports System.Runtime.Serialization
+
 <DataContract(Name:="User", [Namespace]:="urn:service.tinyak.net/User/v1")>
 Public Class clsUser
     <DataMember>

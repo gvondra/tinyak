@@ -78,6 +78,7 @@
     <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
     <Import Include="System.Collections.Specialized" />
+    <Import Include="System.Runtime.Serialization" />
     <Import Include="System.Text" />
     <Import Include="System.Text.RegularExpressions" />
     <Import Include="System.Web" />
@@ -91,14 +92,17 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Session.svc" />
     <Content Include="User.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsSession.vb" />
     <Compile Include="clsSettings.vb" />
     <Compile Include="clsUser.vb" />
+    <Compile Include="ISessionService.vb" />
     <Compile Include="IUserService.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -113,6 +117,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Session.svc.vb">
+      <DependentUpon>Session.svc</DependentUpon>
     </Compile>
     <Compile Include="User.svc.vb">
       <DependentUpon>User.svc</DependentUpon>
