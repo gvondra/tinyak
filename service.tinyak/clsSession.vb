@@ -22,6 +22,11 @@ Public Class clsSession
             .Data = objSession.Data
             .Id = objSession.Id
             .UserId = objSession.UserId
+            If objSession.ExpirationDate.HasValue Then
+                .ExpirationDate = objSession.ExpirationDate.Value
+            Else
+                .ExpirationDate = Date.MinValue
+            End If
         End With
         Return objResult
     End Function
@@ -30,6 +35,11 @@ Public Class clsSession
         With objSession
             Data = .Data
             UserId = .UserId
+            If .ExpirationDate.HasValue Then
+                ExpirationDate = .ExpirationDate.Value
+            Else
+                ExpirationDate = Nothing
+            End If
         End With
     End Sub
 End Class

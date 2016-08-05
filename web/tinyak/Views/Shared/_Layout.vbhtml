@@ -13,7 +13,7 @@
                 If ViewData.ContainsKey("UserId") = False Then
                     @Html.Partial("LoginHeader")
                 Else
-                    @Html.Partial("ProfileHeader", ViewData("User"))
+                    @Html.Partial("ProfileHeader")
                 End If
             End Code
         </div>

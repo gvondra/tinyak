@@ -13,7 +13,7 @@ Public Class clsControllerFactory
             objSettings = New clsSettings()
             objSession = GetSession(objSettings, requestContext)
             objController = CType(Activator.CreateInstance(objType, New Object() {objSettings, objSession}), Controller)
-            If objSession.UserId.HasValue Then
+            If objSession IsNot Nothing AndAlso objSession.UserId.HasValue Then
                 objController.ViewData.Add("UserId", objSession.UserId.Value)
             End If
         Else
@@ -27,17 +27,19 @@ Public Class clsControllerFactory
         Dim objSession As clsSession
         Dim objService As clsSessionService
 
+        objSession = Nothing
         objService = New clsSessionService(objSetings)
         objCookie = requestContext.HttpContext.Request.Cookies.Get("SID")
-        If objCookie Is Nothing Then
+        If objCookie IsNot Nothing Then
+            objSession = objService.Get(Guid.Parse(objCookie.Value))
+        End If
+        If objSession Is Nothing Then
             objSession = objService.Create
             objCookie = New HttpCookie("SID")
             objCookie.Value = objSession.Id.ToString("N")
-            objCookie.Expires = objSession.ExpirationDate
+            objCookie.Expires = Date.MinValue
             objCookie.HttpOnly = True
             requestContext.HttpContext.Response.Cookies.Add(objCookie)
-        Else
-            objSession = objService.Get(Guid.Parse(objCookie.Value))
         End If
         Return objSession
     End Function

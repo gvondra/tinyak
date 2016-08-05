@@ -26,7 +26,11 @@
         Dim objSession As SessionService.Session
 
         objSession = m_objService.Get(objId)
-        Return New clsSession(objSession)
+        If objSession IsNot Nothing Then
+            Return New clsSession(objSession)
+        Else
+            Return Nothing
+        End If
     End Function
 
     Public Function Create() As clsSession

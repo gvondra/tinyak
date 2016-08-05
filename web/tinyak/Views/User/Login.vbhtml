@@ -1,5 +1,5 @@
-﻿@Code
-    Layout = "~/Views/Shared/_Layout.vbhtml"
+﻿@ModelType tinyak.clsUserLoginModel
+@Code
     ViewData("Title") = "Login"
     Html.BeginForm()
 End Code
@@ -8,13 +8,14 @@ End Code
         <tr>
             <td>Email Address:</td>
             <td>
-                <input type="text" maxlength="250"/>
+                @Html.TextBox("EmailAddress", Model.EmailAddress, htmlAttributes:=New With {.maxLength = 240})
+                @Html.ValidationMessage("EmailAddress")
             </td>
         </tr>
         <tr>
             <td>Password:</td>
             <td>
-                <input type="password" maxlength="1000"/>
+                @Html.Password("Password", Model.EmailAddress, htmlAttributes:=New With {.maxLength = 1000})
             </td>
         </tr>
         <tr>

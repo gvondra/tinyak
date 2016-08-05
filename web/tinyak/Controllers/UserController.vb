@@ -10,12 +10,45 @@ Namespace Controllers
         End Sub
 
         Public Function Login() As ActionResult
-            Return View()
+            Return View(New clsUserLoginModel)
         End Function
 
         <HttpPost(), ValidateAntiForgeryToken()>
-        Public Function Login(ByVal emailAddress As String, ByVal password As String) As ActionResult
-            Return View()
+        Public Function Login(ByVal objModel As clsUserLoginModel) As ActionResult
+            Dim objService As clsUserService
+
+            ValidateLogin(objModel)
+            If ModelState.IsValid Then
+                objService = New clsUserService(Settings)
+                If objService.Login(Session.Id, objModel.EmailAddress, objModel.Password) Then
+                    FormsAuthentication.SetAuthCookie(objModel.EmailAddress, False)
+                    Return RedirectToAction("Index", "Home")
+                Else
+                    ModelState.AddModelError("EmailAddress", "Login failed")
+                    Return View(objModel)
+                End If
+            Else
+                Return View(objModel)
+            End If
+        End Function
+
+        Private Sub ValidateLogin(ByVal objModel As clsUserLoginModel)
+            If String.IsNullOrEmpty(objModel.EmailAddress) Then
+                ModelState.AddModelError("EmailAddress", "Email Address is required")
+            End If
+        End Sub
+
+        Public Function Logout() As ActionResult
+            Dim objCookie As HttpCookie
+
+            FormsAuthentication.SignOut()
+
+            objCookie = Response.Cookies("SID")
+            If objCookie IsNot Nothing Then
+                objCookie.Expires = #1/1/2000#
+            End If
+
+            Return RedirectToAction("Index", "Home")
         End Function
 
         Public Function Create() As ActionResult

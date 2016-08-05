@@ -6,6 +6,12 @@
       <xsd:import schemaLocation="http://localhost:57284/User.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="UserService_Login_InputMessage">
+    <wsdl:part name="parameters" element="tns:Login" />
+  </wsdl:message>
+  <wsdl:message name="UserService_Login_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoginResponse" />
+  </wsdl:message>
   <wsdl:message name="UserService_IsEmailAddressAvailable_InputMessage">
     <wsdl:part name="parameters" element="tns:IsEmailAddressAvailable" />
   </wsdl:message>
@@ -19,6 +25,10 @@
     <wsdl:part name="parameters" element="tns:CreateUserResponse" />
   </wsdl:message>
   <wsdl:portType name="UserService">
+    <wsdl:operation name="Login">
+      <wsdl:input wsaw:Action="urn:service.tinyak.net/User/v1/UserService/Login" message="tns:UserService_Login_InputMessage" />
+      <wsdl:output wsaw:Action="urn:service.tinyak.net/User/v1/UserService/LoginResponse" message="tns:UserService_Login_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="IsEmailAddressAvailable">
       <wsdl:input wsaw:Action="urn:service.tinyak.net/User/v1/UserService/IsEmailAddressAvailable" message="tns:UserService_IsEmailAddressAvailable_InputMessage" />
       <wsdl:output wsaw:Action="urn:service.tinyak.net/User/v1/UserService/IsEmailAddressAvailableResponse" message="tns:UserService_IsEmailAddressAvailable_OutputMessage" />

@@ -2,7 +2,7 @@
 	@userId int
 AS
 BEGIN
-	SELECT [UserId], [Name], [EmailAddress], [IsAdministrator], [Salt]
+	SELECT [UserId], [Name], [EmailAddress], [IsAdministrator]
 	FROM [tnyk].[User]
 	WHERE [UserId] = @userId
 END

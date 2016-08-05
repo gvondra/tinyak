@@ -186,6 +186,7 @@
     <Content Include="Views\Shared\ProfileHeader.vbhtml" />
     <Content Include="Views\User\Login.vbhtml" />
     <Content Include="Views\User\Create.vbhtml" />
+    <Content Include="Views\User\Profile.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

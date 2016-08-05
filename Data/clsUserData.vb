@@ -6,7 +6,6 @@
     Private m_strName As String
     Private m_strEmailAddress As String
     Private m_blnIsAdministrator As Boolean
-    Private m_lngSalt As Long
 
     Public Property Id As Nullable(Of Integer)
         Get
@@ -44,14 +43,49 @@
         End Set
     End Property
 
-    Public Property Salt As Long
-        Get
-            Return m_lngSalt
-        End Get
-        Set
-            m_lngSalt = Value
-        End Set
-    End Property
+    Private Shared Sub Initialize(ByVal objReader As IDataReader, ByVal objUser As clsUserData)
+        With objUser
+            .Id = objReader.GetInt32(objReader.GetOrdinal("UserId"))
+            .Name = objReader.GetString(objReader.GetOrdinal("Name")).Trim
+            .EmailAddress = objReader.GetString(objReader.GetOrdinal("EmailAddress")).Trim
+            .IsAdministrator = objReader.GetBoolean(objReader.GetOrdinal("IsAdministrator"))
+        End With
+    End Sub
+
+    Public Shared Function GetByEmailAddress(ByVal objProcessingData As IProcessingData, ByVal strEmailAddress As String, ByVal bytPasswordToken As Byte()) As clsUserData
+        Dim objConnection As IDbConnection
+        Dim objCommand As IDbCommand
+        Dim objParameter As IDataParameter
+        Dim objReader As IDataReader
+        Dim objResult As clsUserData
+
+        objConnection = OpenConnection(objProcessingData)
+        Try
+            objCommand = objConnection.CreateCommand
+            objCommand.CommandText = "tnyk.SSP_User_By_EmailAddress"
+            objCommand.CommandType = CommandType.StoredProcedure
+
+            objParameter = CreateParameter(objCommand, "emailAddress", DbType.String)
+            objParameter.Value = strEmailAddress
+            objCommand.Parameters.Add(objParameter)
+
+            objParameter = CreateParameter(objCommand, "passwordToken", DbType.Binary)
+            objParameter.Value = bytPasswordToken
+            objCommand.Parameters.Add(objParameter)
+
+            objReader = objCommand.ExecuteReader
+            If objReader.Read Then
+                objResult = New clsUserData
+                Initialize(objReader, objResult)
+            Else
+                objResult = Nothing
+            End If
+            objConnection.Close()
+        Finally
+            objConnection.Dispose()
+        End Try
+        Return objResult
+    End Function
 
     Public Shared Function IsEmailAddressAvailable(ByVal objProcessingData As IProcessingData, ByVal strEmailAddress As String) As Boolean
         Dim objConnection As IDbConnection
@@ -78,7 +112,7 @@
         Return (CType(objResult, Integer) = 0)
     End Function
 
-    Public Sub SaveNew(ByVal objSettings As IProcessingData, ByVal bytPasswordToken As Byte(), ByVal lngSalt As Long)
+    Public Sub SaveNew(ByVal objSettings As IProcessingData, ByVal bytPasswordToken As Byte())
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
         Dim objUserId As IDataParameter
@@ -112,10 +146,6 @@
 
         objParameter = CreateParameter(objCommand, "isAdministrator", DbType.Boolean)
         objParameter.Value = IsAdministrator
-        objCommand.Parameters.Add(objParameter)
-
-        objParameter = CreateParameter(objCommand, "salt", DbType.Int64)
-        objParameter.Value = lngSalt
         objCommand.Parameters.Add(objParameter)
 
         objCommand.ExecuteNonQuery()

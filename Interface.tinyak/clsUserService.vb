@@ -32,4 +32,8 @@
         objUser = m_objService.CreateUser(objSessionId, strUser, strEmailAddress, strPassword)
         Return New clsUser(objUser)
     End Function
+
+    Public Function Login(ByVal objSessionId As Guid, ByVal strEmailAddress As String, ByVal strPassword As String) As Boolean
+        Return m_objService.Login(objSessionId, strEmailAddress, strPassword)
+    End Function
 End Class

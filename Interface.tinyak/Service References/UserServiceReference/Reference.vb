@@ -83,6 +83,9 @@ Namespace UserServiceReference
      System.ServiceModel.ServiceContractAttribute([Namespace]:="urn:service.tinyak.net/User/v1", ConfigurationName:="UserServiceReference.UserService")>  _
     Friend Interface UserService
         
+        <System.ServiceModel.OperationContractAttribute(Action:="urn:service.tinyak.net/User/v1/UserService/Login", ReplyAction:="urn:service.tinyak.net/User/v1/UserService/LoginResponse")>  _
+        Function Login(ByVal objSessionId As System.Guid, ByVal strEmailAddress As String, ByVal strPassword As String) As Boolean
+        
         <System.ServiceModel.OperationContractAttribute(Action:="urn:service.tinyak.net/User/v1/UserService/IsEmailAddressAvailable", ReplyAction:="urn:service.tinyak.net/User/v1/UserService/IsEmailAddressAvailableResponse")>  _
         Function IsEmailAddressAvailable(ByVal strEmailAddress As String) As Boolean
         
@@ -120,6 +123,10 @@ Namespace UserServiceReference
         Public Sub New(ByVal binding As System.ServiceModel.Channels.Binding, ByVal remoteAddress As System.ServiceModel.EndpointAddress)
             MyBase.New(binding, remoteAddress)
         End Sub
+        
+        Public Function Login(ByVal objSessionId As System.Guid, ByVal strEmailAddress As String, ByVal strPassword As String) As Boolean Implements UserServiceReference.UserService.Login
+            Return MyBase.Channel.Login(objSessionId, strEmailAddress, strPassword)
+        End Function
         
         Public Function IsEmailAddressAvailable(ByVal strEmailAddress As String) As Boolean Implements UserServiceReference.UserService.IsEmailAddressAvailable
             Return MyBase.Channel.IsEmailAddressAvailable(strEmailAddress)

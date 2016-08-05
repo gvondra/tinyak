@@ -4,6 +4,9 @@
 Public Interface IUserService
 
     <OperationContract()>
+    Function Login(ByVal objSessionId As Guid, ByVal strEmailAddress As String, ByVal strPassword As String) As Boolean
+
+    <OperationContract()>
     Function IsEmailAddressAvailable(ByVal strEmailAddress As String) As Boolean
 
     <OperationContract()>

@@ -3,10 +3,8 @@ Imports System.Security.Cryptography
 Imports System.Text
 Public Class clsUser
     Private m_objUserData As clsUserData
-    Private m_objSettings As clsSettings
 
-    Private Sub New(ByVal objSettings As clsSettings, ByVal objUserData As clsUserData)
-        m_objSettings = objSettings
+    Private Sub New(ByVal objUserData As clsUserData)
         m_objUserData = objUserData
     End Sub
 
@@ -54,20 +52,20 @@ Public Class clsUser
         Dim objUser As clsUser
         Dim objUserData As clsUserData
         Dim objInnerSettings As clsSettings
-        Dim lngSalt As Long
+        Dim bytSalt As Byte()
 
         objInnerSettings = New clsSettings(objSettings)
         objUserData = New clsUserData
-        objUser = New clsUser(objInnerSettings, objUserData)
+        objUser = New clsUser(objUserData)
         With objUser
             .Name = strName
             .EmailAddress = strEmailAddress
         End With
 
-        lngSalt = GenerateSalt()
+        bytSalt = GenerateSalt(strEmailAddress)
 
         Try
-            objUserData.SaveNew(objInnerSettings, Tokenize(strPassword, lngSalt), lngSalt)
+            objUserData.SaveNew(objInnerSettings, Tokenize(strPassword, bytSalt))
             objInnerSettings.DatabaseTransaction.Commit()
         Catch
             If objInnerSettings.DatabaseTransaction IsNot Nothing Then
@@ -86,21 +84,20 @@ Public Class clsUser
         Return objUser
     End Function
 
-    Private Shared Function GenerateSalt() As Long
-        Dim objRandom As Random
-        Dim bytSeed(3) As Byte
-        Dim bytSalt(7) As Byte
+    Private Shared Function GenerateSalt(ByVal strEmailAddress As String) As Byte()
+        Dim bytSalt() As Byte
+        Dim strValue As String
+        Dim objHash As HashAlgorithm
 
-        Array.Copy(BitConverter.GetBytes(Date.Now.Ticks), 3, bytSeed, 0, 2)
-        Array.Copy(BitConverter.GetBytes(Date.Now.Millisecond), 0, bytSeed, 2, 2)
-        objRandom = New Random(BitConverter.ToInt32(bytSeed, 0))
+        strValue = "tinyak_" & strEmailAddress.ToLower
 
-        Array.Copy(BitConverter.GetBytes(objRandom.Next), 0, bytSalt, 0, 4)
-        Array.Copy(BitConverter.GetBytes(objRandom.Next), 0, bytSalt, 4, 4)
-        Return BitConverter.ToInt64(bytSalt, 0)
+        objHash = New SHA256Managed
+        bytSalt = objHash.ComputeHash(Encoding.UTF8.GetBytes(strValue))
+
+        Return bytSalt
     End Function
 
-    Private Shared Function Tokenize(ByVal strValue As String, ByVal lngSalt As Int64) As Byte()
+    Private Shared Function Tokenize(ByVal strValue As String, ByVal bytSalt As Byte()) As Byte()
         Dim objHash As HashAlgorithm
         Dim bytValue() As Byte
         Dim bytSaltedValue() As Byte
@@ -108,9 +105,9 @@ Public Class clsUser
 
         bytValue = Encoding.UTF8.GetBytes(strValue)
 
-        ReDim bytSaltedValue(bytValue.Length + 7)
-        Array.Copy(BitConverter.GetBytes(lngSalt), 0, bytSaltedValue, 0, 8)
-        Array.Copy(bytValue, 0, bytSaltedValue, 8, bytValue.Length)
+        ReDim bytSaltedValue(bytValue.Length + bytSalt.Length - 1)
+        Array.Copy(bytSalt, 0, bytSaltedValue, 0, bytSalt.Length)
+        Array.Copy(bytValue, 0, bytSaltedValue, bytSalt.Length, bytValue.Length)
         objHash = New SHA512Managed()
         Try
             bytToken = objHash.ComputeHash(bytSaltedValue)
@@ -118,5 +115,16 @@ Public Class clsUser
             objHash.Dispose()
         End Try
         Return bytToken
+    End Function
+
+    Public Shared Function GetByEmailAddress(ByVal objSettings As ISettings, ByVal strEmailAddress As String, ByVal strPassword As String) As clsUser
+        Dim objData As clsUserData
+
+        objData = clsUserData.GetByEmailAddress(New clsSettings(objSettings), strEmailAddress, Tokenize(strPassword, GenerateSalt(strEmailAddress)))
+        If objData IsNot Nothing Then
+            Return New clsUser(objData)
+        Else
+            Return Nothing
+        End If
     End Function
 End Class

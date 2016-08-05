@@ -1,1 +1,1 @@
-﻿profile
+﻿@Html.ActionLink("profile", "Profile", "User") / @Html.ActionLink("logout", "Logout", "User")
