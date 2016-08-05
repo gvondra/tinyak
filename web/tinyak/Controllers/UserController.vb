@@ -92,8 +92,65 @@ Namespace Controllers
             Return objUserService.IsEmailAddressAvailable(strEmailAddress)
         End Function
 
-        Public Shadows Function Profile() As ActionResult
-            Return View()
+        Public Shadows Function Profile(ByVal id As Nullable(Of Integer)) As ActionResult
+            Dim objUserData As tinyak.Interface.tinyak.clsUser
+            Dim objModel As clsUserModel
+
+            If id.HasValue = False Then
+                id = Session.UserId
+            End If
+            If id.HasValue Then
+                objUserData = GetUser(id.Value)
+                objModel = New clsUserModel
+                If objUserData IsNot Nothing Then
+                    objModel.EmailAddress = objUserData.EmailAddress
+                    objModel.Name = objUserData.Name
+                End If
+                Return View(objModel)
+            Else
+                Return New HttpStatusCodeResult(Net.HttpStatusCode.Forbidden)
+            End If
+        End Function
+
+        <HttpPost, ValidateAntiForgeryToken()>
+        Public Shadows Function Profile(ByVal id As Nullable(Of Integer), ByVal objModel As clsUserModel) As ActionResult
+            Dim objUserData As tinyak.Interface.tinyak.clsUser
+            Dim objService As clsUserService
+
+            ValidateUsesr(objModel)
+            If ModelState.IsValid Then
+                If id.HasValue = False Then
+                    id = Session.UserId
+                End If
+                If id.HasValue Then
+                    objService = New clsUserService(Settings)
+                    objUserData = New tinyak.Interface.tinyak.clsUser
+                    objUserData.Id = id.Value
+                    objUserData.EmailAddress = objModel.EmailAddress
+                    objUserData.Name = objModel.Name
+                    objUserData = objService.SaveUser(Session.Id, objUserData)
+                    If objUserData IsNot Nothing Then
+                        objModel.EmailAddress = objUserData.EmailAddress
+                        objModel.Name = objUserData.Name
+                    End If
+                    Return View(objModel)
+                Else
+                    Return New HttpStatusCodeResult(Net.HttpStatusCode.Forbidden)
+                End If
+            End If
+            Return View(objModel)
+        End Function
+
+        Private Sub ValidateUsesr(ByVal objModel As clsUserModel)
+            If String.IsNullOrEmpty(objModel.Name) Then
+                ModelState.AddModelError("Name", "Name is required")
+            End If
+        End Sub
+
+        Private Function GetUser(ByVal intId As Integer) As tinyak.Interface.tinyak.clsUser
+            Dim objService As clsUserService
+            objService = New clsUserService(Settings)
+            Return objService.GetUser(Session.Id, intId)
         End Function
     End Class
 End Namespace

@@ -12,4 +12,9 @@ Public Interface IUserService
     <OperationContract()>
     Function CreateUser(ByVal objSessionId As Guid, ByVal strName As String, ByVal strEmailAddress As String, ByVal strPassword As String) As clsUser
 
+    <OperationContract()>
+    Function GetUser(ByVal objSessionId As Guid, ByVal intUserId As Integer) As clsUser
+
+    <OperationContract()>
+    Function SaveUser(ByVal objSessionId As Guid, ByVal objUser As clsUser) As clsUser
 End Interface

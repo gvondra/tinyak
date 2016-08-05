@@ -91,4 +91,15 @@ Public Class clsSession
         End Try
 
     End Sub
+
+    Public Function GetUser(ByVal objSettings As ISettings) As clsUser
+        Dim objUser As clsUser
+
+        If UserId.HasValue Then
+            objUser = clsUser.Get(objSettings, UserId.Value)
+        Else
+            objUser = Nothing
+        End If
+        Return objUser
+    End Function
 End Class

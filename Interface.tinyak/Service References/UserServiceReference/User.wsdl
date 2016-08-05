@@ -24,6 +24,18 @@
   <wsdl:message name="UserService_CreateUser_OutputMessage">
     <wsdl:part name="parameters" element="tns:CreateUserResponse" />
   </wsdl:message>
+  <wsdl:message name="UserService_GetUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUser" />
+  </wsdl:message>
+  <wsdl:message name="UserService_GetUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="UserService_SaveUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveUser" />
+  </wsdl:message>
+  <wsdl:message name="UserService_SaveUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveUserResponse" />
+  </wsdl:message>
   <wsdl:portType name="UserService">
     <wsdl:operation name="Login">
       <wsdl:input wsaw:Action="urn:service.tinyak.net/User/v1/UserService/Login" message="tns:UserService_Login_InputMessage" />
@@ -36,6 +48,14 @@
     <wsdl:operation name="CreateUser">
       <wsdl:input wsaw:Action="urn:service.tinyak.net/User/v1/UserService/CreateUser" message="tns:UserService_CreateUser_InputMessage" />
       <wsdl:output wsaw:Action="urn:service.tinyak.net/User/v1/UserService/CreateUserResponse" message="tns:UserService_CreateUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUser">
+      <wsdl:input wsaw:Action="urn:service.tinyak.net/User/v1/UserService/GetUser" message="tns:UserService_GetUser_InputMessage" />
+      <wsdl:output wsaw:Action="urn:service.tinyak.net/User/v1/UserService/GetUserResponse" message="tns:UserService_GetUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveUser">
+      <wsdl:input wsaw:Action="urn:service.tinyak.net/User/v1/UserService/SaveUser" message="tns:UserService_SaveUser_InputMessage" />
+      <wsdl:output wsaw:Action="urn:service.tinyak.net/User/v1/UserService/SaveUserResponse" message="tns:UserService_SaveUser_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
 </wsdl:definitions>

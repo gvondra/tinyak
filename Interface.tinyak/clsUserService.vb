@@ -36,4 +36,26 @@
     Public Function Login(ByVal objSessionId As Guid, ByVal strEmailAddress As String, ByVal strPassword As String) As Boolean
         Return m_objService.Login(objSessionId, strEmailAddress, strPassword)
     End Function
+
+    Public Function GetUser(ByVal objSessionId As Guid, ByVal intId As Integer) As clsUser
+        Dim objUserData As UserServiceReference.User
+
+        objUserData = m_objService.GetUser(objSessionId, intId)
+        If objUserData IsNot Nothing Then
+            Return New clsUser(objUserData)
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Public Function SaveUser(ByVal objSessionId As Guid, ByVal objUser As clsUser) As clsUser
+        Dim objUserData As UserServiceReference.User
+
+        objUserData = m_objService.SaveUser(objSessionId, objUser.InnerUser)
+        If objUserData IsNot Nothing Then
+            Return New clsUser(objUserData)
+        Else
+            Return Nothing
+        End If
+    End Function
 End Class

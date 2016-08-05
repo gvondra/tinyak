@@ -31,6 +31,9 @@ Namespace UserServiceReference
         Private EmailAddressField As String
         
         <System.Runtime.Serialization.OptionalFieldAttribute()>  _
+        Private IdField As System.Nullable(Of Integer)
+        
+        <System.Runtime.Serialization.OptionalFieldAttribute()>  _
         Private NameField As String
         
         <Global.System.ComponentModel.BrowsableAttribute(false)>  _
@@ -52,6 +55,19 @@ Namespace UserServiceReference
                 If (Object.ReferenceEquals(Me.EmailAddressField, value) <> true) Then
                     Me.EmailAddressField = value
                     Me.RaisePropertyChanged("EmailAddress")
+                End If
+            End Set
+        End Property
+        
+        <System.Runtime.Serialization.DataMemberAttribute()>  _
+        Friend Property Id() As System.Nullable(Of Integer)
+            Get
+                Return Me.IdField
+            End Get
+            Set
+                If (Me.IdField.Equals(value) <> true) Then
+                    Me.IdField = value
+                    Me.RaisePropertyChanged("Id")
                 End If
             End Set
         End Property
@@ -91,6 +107,12 @@ Namespace UserServiceReference
         
         <System.ServiceModel.OperationContractAttribute(Action:="urn:service.tinyak.net/User/v1/UserService/CreateUser", ReplyAction:="urn:service.tinyak.net/User/v1/UserService/CreateUserResponse")>  _
         Function CreateUser(ByVal objSessionId As System.Guid, ByVal strName As String, ByVal strEmailAddress As String, ByVal strPassword As String) As UserServiceReference.User
+        
+        <System.ServiceModel.OperationContractAttribute(Action:="urn:service.tinyak.net/User/v1/UserService/GetUser", ReplyAction:="urn:service.tinyak.net/User/v1/UserService/GetUserResponse")>  _
+        Function GetUser(ByVal objSessionId As System.Guid, ByVal intUserId As Integer) As UserServiceReference.User
+        
+        <System.ServiceModel.OperationContractAttribute(Action:="urn:service.tinyak.net/User/v1/UserService/SaveUser", ReplyAction:="urn:service.tinyak.net/User/v1/UserService/SaveUserResponse")>  _
+        Function SaveUser(ByVal objSessionId As System.Guid, ByVal objUser As UserServiceReference.User) As UserServiceReference.User
     End Interface
     
     <System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")>  _
@@ -134,6 +156,14 @@ Namespace UserServiceReference
         
         Public Function CreateUser(ByVal objSessionId As System.Guid, ByVal strName As String, ByVal strEmailAddress As String, ByVal strPassword As String) As UserServiceReference.User Implements UserServiceReference.UserService.CreateUser
             Return MyBase.Channel.CreateUser(objSessionId, strName, strEmailAddress, strPassword)
+        End Function
+        
+        Public Function GetUser(ByVal objSessionId As System.Guid, ByVal intUserId As Integer) As UserServiceReference.User Implements UserServiceReference.UserService.GetUser
+            Return MyBase.Channel.GetUser(objSessionId, intUserId)
+        End Function
+        
+        Public Function SaveUser(ByVal objSessionId As System.Guid, ByVal objUser As UserServiceReference.User) As UserServiceReference.User Implements UserServiceReference.UserService.SaveUser
+            Return MyBase.Channel.SaveUser(objSessionId, objUser)
         End Function
     End Class
 End Namespace

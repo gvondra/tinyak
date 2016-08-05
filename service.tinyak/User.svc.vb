@@ -26,6 +26,34 @@ Public Class User
         Return objResult
     End Function
 
+    Public Function GetUser(objSessionId As Guid, intUserId As Int32) As clsUser Implements IUserService.GetUser
+        Dim objResult As clsUser
+        Dim objSession As tCore.clsSession
+        Dim objSettings As clsSettings
+        Dim objUser As tCore.clsUser
+        Try
+            objSettings = New clsSettings
+            objSession = tCore.clsSession.Get(objSettings, objSessionId)
+            If objSession.UserId.HasValue _
+                    AndAlso (objSession.UserId.Value = intUserId OrElse objSession.GetUser(objSettings).IsAdministrator) Then
+
+                objUser = tCore.clsUser.Get(objSettings, intUserId)
+                If objUser IsNot Nothing Then
+                    objResult = clsUser.Get(objUser)
+                Else
+                    objResult = Nothing
+                End If
+            Else
+                Throw New FaultException("Not authorized")
+            End If
+        Catch ex As FaultException
+            Throw
+        Catch ex As Exception
+            Throw New FaultException("Unexpected error has occured")
+        End Try
+        Return objResult
+    End Function
+
     Public Function IsEmailAddressAvailable(strEmailAddress As String) As Boolean Implements IUserService.IsEmailAddressAvailable
         Try
             strEmailAddress = strEmailAddress.Trim
@@ -63,5 +91,37 @@ Public Class User
             Throw New FaultException("Unexpected error has occured")
         End Try
         Return blnResult
+    End Function
+
+    Public Function SaveUser(objSessionId As Guid, objUser As clsUser) As clsUser Implements IUserService.SaveUser
+        Dim objResult As clsUser
+        Dim objSession As tCore.clsSession
+        Dim objSettings As clsSettings
+        Dim objInnerUser As tCore.clsUser
+        Try
+            objSettings = New clsSettings
+            objSession = tCore.clsSession.Get(objSettings, objSessionId)
+            If objSession.UserId.HasValue _
+                    AndAlso objUser.Id.HasValue _
+                    AndAlso (objSession.UserId.Value = objUser.Id.Value OrElse objSession.GetUser(objSettings).IsAdministrator) Then
+
+                objInnerUser = tCore.clsUser.Get(objSettings, objUser.Id.Value)
+                If objInnerUser IsNot Nothing Then
+                    objUser.Update(objInnerUser)
+                    objInnerUser.Update(objSettings)
+
+                    objResult = clsUser.Get(objInnerUser)
+                Else
+                    objResult = Nothing
+                End If
+            Else
+                Throw New FaultException("Not authorized")
+            End If
+        Catch ex As FaultException
+            Throw
+        Catch ex As Exception
+            Throw New FaultException("Unexpected error has occured")
+        End Try
+        Return objResult
     End Function
 End Class

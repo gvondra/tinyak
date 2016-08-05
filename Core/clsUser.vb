@@ -127,4 +127,37 @@ Public Class clsUser
             Return Nothing
         End If
     End Function
+
+    Public Shared Function [Get](ByVal objSettings As ISettings, ByVal intId As Integer) As clsUser
+        Dim objData As clsUserData
+
+        objData = clsUserData.Get(New clsSettings(objSettings), intId)
+        If objData IsNot Nothing Then
+            Return New clsUser(objData)
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Public Sub Update(ByVal objSettings As ISettings)
+        Dim objInnerSettings As clsSettings
+
+        objInnerSettings = New clsSettings(objSettings)
+        Try
+            m_objUserData.Update(objInnerSettings)
+            objInnerSettings.DatabaseTransaction.Commit()
+        Catch
+            If objInnerSettings.DatabaseTransaction IsNot Nothing Then
+                objInnerSettings.DatabaseTransaction.Rollback()
+                objInnerSettings.DatabaseTransaction.Dispose()
+                objInnerSettings.DatabaseTransaction = Nothing
+            End If
+        Finally
+            If objInnerSettings.DatabaseConnection IsNot Nothing Then
+                objInnerSettings.DatabaseConnection.Close()
+                objInnerSettings.DatabaseConnection.Dispose()
+                objInnerSettings.DatabaseConnection = Nothing
+            End If
+        End Try
+    End Sub
 End Class
