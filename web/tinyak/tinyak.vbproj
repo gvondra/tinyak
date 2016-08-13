@@ -150,10 +150,12 @@
     <Compile Include="clsControllerFactory.vb" />
     <Compile Include="clsSettings.vb" />
     <Compile Include="Controllers\ErrorController.vb" />
+    <Compile Include="Controllers\ProjectController.vb" />
     <Compile Include="Controllers\UserController.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProjectModels.vb" />
     <Compile Include="Models\UserModels.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -187,6 +189,8 @@
     <Content Include="Views\User\Login.vbhtml" />
     <Content Include="Views\User\Create.vbhtml" />
     <Content Include="Views\User\Profile.vbhtml" />
+    <Content Include="Views\Project\List.vbhtml" />
+    <Content Include="Views\Project\Create.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

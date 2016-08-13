@@ -19,6 +19,17 @@
         </div>
         <h1>@Html.ActionLink("tinyak", "Index", "Home", Nothing, New With {.Style = "text-decoration: none"})</h1>
     </div>
+    <div class="tabContainer">
+        <div style="display: inline-block; margin: 0px; vertical-align: middle;">
+            <nav class="tabRow">
+                <ul>
+                    <li>
+                        @Html.ActionLink("Projects", "List", "Project")
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
     <div>
         @RenderBody()
         <hr />

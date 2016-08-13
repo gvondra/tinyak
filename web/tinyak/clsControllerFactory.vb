@@ -9,7 +9,7 @@ Public Class clsControllerFactory
         Dim objController As Controller
 
         objType = GetControllerType(requestContext, controllerName)
-        If objType.IsSubclassOf(GetType(clsControllerBase)) Then
+        If objType IsNot Nothing AndAlso objType.IsSubclassOf(GetType(clsControllerBase)) Then
             objSettings = New clsSettings()
             objSession = GetSession(objSettings, requestContext)
             objController = CType(Activator.CreateInstance(objType, New Object() {objSettings, objSession}), Controller)

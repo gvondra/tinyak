@@ -28,3 +28,43 @@ select,
 textarea {
     max-width: 280px;
 }
+
+nav.tabRow ul
+{
+    display: table; 
+    clear: both; 
+    content: " "; 
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-size: larger;
+    background-color: black;
+}
+
+nav.tabRow ul li
+{
+    float: left;
+    border-left: thin solid silver;
+    border-right: thin solid silver;
+}
+
+nav.tabRow ul li a
+{
+    display: block;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+}
+
+nav.tabRow ul li a:hover
+{
+    text-decoration: none;
+}
+
+div.tabContainer
+{
+    padding-left: 50px;
+    border-top: 2px ridge silver;
+    border-bottom: 2px ridge silver;
+}
