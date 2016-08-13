@@ -22,19 +22,17 @@ Public Class clsControllerFactory
         Return objController
     End Function
 
-    Private Function GetSession(ByVal objSetings As clsSettings, ByVal requestContext As RequestContext) As clsSession
+    Private Function GetSession(ByVal objSettings As clsSettings, ByVal requestContext As RequestContext) As clsSession
         Dim objCookie As HttpCookie
         Dim objSession As clsSession
-        Dim objService As clsSessionService
 
         objSession = Nothing
-        objService = New clsSessionService(objSetings)
         objCookie = requestContext.HttpContext.Request.Cookies.Get("SID")
         If objCookie IsNot Nothing Then
-            objSession = objService.Get(Guid.Parse(objCookie.Value))
+            objSession = clsSession.Get(objSettings, Guid.Parse(objCookie.Value))
         End If
         If objSession Is Nothing Then
-            objSession = objService.Create
+            objSession = clsSession.CreateNew(objSettings)
             objCookie = New HttpCookie("SID")
             objCookie.Value = objSession.Id.ToString("N")
             objCookie.Expires = Date.MinValue

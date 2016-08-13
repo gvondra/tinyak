@@ -1,1 +1,0 @@
-﻿<%@ ServiceHost Language="VB" Debug="true" Service="service.tinyak.User" CodeBehind="User.svc.vb" %>

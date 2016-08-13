@@ -1,5 +1,4 @@
-﻿Imports tinyak.Interface.tinyak
-Imports System.Web.Mvc
+﻿Imports System.Web.Mvc
 
 Namespace Controllers
     Public Class UserController
@@ -15,13 +14,15 @@ Namespace Controllers
 
         <HttpPost(), ValidateAntiForgeryToken()>
         Public Function Login(ByVal objModel As clsUserLoginModel) As ActionResult
-            Dim objService As clsUserService
+            Dim objUser As clsUser
 
             ValidateLogin(objModel)
             If ModelState.IsValid Then
-                objService = New clsUserService(Settings)
-                If objService.Login(Session.Id, objModel.EmailAddress, objModel.Password) Then
-                    FormsAuthentication.SetAuthCookie(objModel.EmailAddress, False)
+                objUser = clsUser.GetByEmailAddress(Settings, objModel.EmailAddress, objModel.Password)
+                If objUser IsNot Nothing Then
+                    Session.UserId = objUser.Id.Value
+                    Session.Save(Settings)
+                    FormsAuthentication.SetAuthCookie(objUser.EmailAddress, False)
                     Return RedirectToAction("Index", "Home")
                 Else
                     ModelState.AddModelError("EmailAddress", "Login failed")
@@ -57,14 +58,12 @@ Namespace Controllers
 
         <HttpPost(), ValidateAntiForgeryToken()>
         Public Function Create(ByVal objCreateUser As clsCreateUserModel) As ActionResult
-            Dim objService As clsUserService
-            Dim objUserData As clsUser
+            Dim objUser As clsUser
 
             ValidateCreate(objCreateUser)
             If ModelState.IsValid Then
-                objService = New clsUserService(New clsSettings)
-                objUserData = objService.Create(Session.Id, objCreateUser.Name, objCreateUser.EmailAddress, objCreateUser.Password)
-                FormsAuthentication.SetAuthCookie(objUserData.EmailAddress, False)
+                objUser = clsUser.CreateNew(Settings, objCreateUser.Name, objCreateUser.EmailAddress, objCreateUser.Password)
+                FormsAuthentication.SetAuthCookie(objUser.EmailAddress, False)
                 Return RedirectToAction("Profile")
             Else
                 Return View(objCreateUser)
@@ -86,25 +85,23 @@ Namespace Controllers
         End Sub
 
         Private Function IsEmailAddressAvailable(ByVal strEmailAddress As String) As Boolean
-            Dim objUserService As tinyak.Interface.tinyak.clsUserService
-
-            objUserService = New tinyak.Interface.tinyak.clsUserService(New clsSettings)
-            Return objUserService.IsEmailAddressAvailable(strEmailAddress)
+            Return clsUser.IsEmailAddressAvailable(Settings, strEmailAddress)
         End Function
 
+        <Authorize>
         Public Shadows Function Profile(ByVal id As Nullable(Of Integer)) As ActionResult
-            Dim objUserData As tinyak.Interface.tinyak.clsUser
+            Dim objUser As clsUser
             Dim objModel As clsUserModel
 
             If id.HasValue = False Then
                 id = Session.UserId
             End If
             If id.HasValue Then
-                objUserData = GetUser(id.Value)
+                objUser = clsUser.Get(Settings, id.Value)
                 objModel = New clsUserModel
-                If objUserData IsNot Nothing Then
-                    objModel.EmailAddress = objUserData.EmailAddress
-                    objModel.Name = objUserData.Name
+                If objUser IsNot Nothing Then
+                    objModel.EmailAddress = objUser.EmailAddress
+                    objModel.Name = objUser.Name
                 End If
                 Return View(objModel)
             Else
@@ -112,10 +109,9 @@ Namespace Controllers
             End If
         End Function
 
-        <HttpPost, ValidateAntiForgeryToken()>
+        <Authorize, HttpPost, ValidateAntiForgeryToken()>
         Public Shadows Function Profile(ByVal id As Nullable(Of Integer), ByVal objModel As clsUserModel) As ActionResult
-            Dim objUserData As tinyak.Interface.tinyak.clsUser
-            Dim objService As clsUserService
+            Dim objUser As clsUser
 
             ValidateUsesr(objModel)
             If ModelState.IsValid Then
@@ -123,16 +119,14 @@ Namespace Controllers
                     id = Session.UserId
                 End If
                 If id.HasValue Then
-                    objService = New clsUserService(Settings)
-                    objUserData = New tinyak.Interface.tinyak.clsUser
-                    objUserData.Id = id.Value
-                    objUserData.EmailAddress = objModel.EmailAddress
-                    objUserData.Name = objModel.Name
-                    objUserData = objService.SaveUser(Session.Id, objUserData)
-                    If objUserData IsNot Nothing Then
-                        objModel.EmailAddress = objUserData.EmailAddress
-                        objModel.Name = objUserData.Name
-                    End If
+                    objUser = clsUser.Get(Settings, id.Value)
+                    objUser.Id = id.Value
+                    objUser.EmailAddress = objModel.EmailAddress
+                    objUser.Name = objModel.Name
+                    objUser.Update(Settings)
+                    objModel.EmailAddress = objUser.EmailAddress
+                    objModel.Name = objUser.Name
+
                     Return View(objModel)
                 Else
                     Return New HttpStatusCodeResult(Net.HttpStatusCode.Forbidden)
@@ -146,11 +140,5 @@ Namespace Controllers
                 ModelState.AddModelError("Name", "Name is required")
             End If
         End Sub
-
-        Private Function GetUser(ByVal intId As Integer) As tinyak.Interface.tinyak.clsUser
-            Dim objService As clsUserService
-            objService = New clsUserService(Settings)
-            Return objService.GetUser(Session.Id, intId)
-        End Function
     End Class
 End Namespace
