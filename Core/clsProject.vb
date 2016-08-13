@@ -72,4 +72,19 @@ Public Class clsProject
             End If
         End Try
     End Sub
+
+    Public Shared Function [Get](ByVal objSettings As ISettings, ByVal intId As Integer) As clsProject
+        Dim objData As clsProjectData
+
+        objData = clsProjectData.Get(New clsSettings(objSettings), intId)
+        If objData IsNot Nothing Then
+            Return New clsProject(objData)
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Public Function CanUserUpdate(ByVal objUser As clsUser) As Boolean
+        Return objUser.Id.Value = OwnerId
+    End Function
 End Class

@@ -43,6 +43,45 @@
         End Set
     End Property
 
+    Private Shared Sub Initialize(ByVal objReader As IDataReader, ByVal objProject As clsProjectData)
+        With objProject
+            .Id = objReader.GetInt32(objReader.GetOrdinal("ProjectId"))
+            .OwnerId = objReader.GetInt32(objReader.GetOrdinal("OwnerId"))
+            .Title = objReader.GetString(objReader.GetOrdinal("Title")).TrimEnd
+        End With
+    End Sub
+
+    Public Shared Function [Get](ByVal objProcessingData As IProcessingData, ByVal intId As Integer) As clsProjectData
+        Dim objConnection As IDbConnection
+        Dim objCommand As IDbCommand
+        Dim objParameter As IDataParameter
+        Dim objReader As IDataReader
+        Dim objResult As clsProjectData
+
+        objConnection = OpenConnection(objProcessingData)
+        Try
+            objCommand = objConnection.CreateCommand
+            objCommand.CommandText = "tnyk.SSP_Project"
+            objCommand.CommandType = CommandType.StoredProcedure
+
+            objParameter = CreateParameter(objCommand, "id", DbType.Int32)
+            objParameter.Value = intId
+            objCommand.Parameters.Add(objParameter)
+
+            objReader = objCommand.ExecuteReader
+            If objReader.Read Then
+                objResult = New clsProjectData
+                Initialize(objReader, objResult)
+            Else
+                objResult = Nothing
+            End If
+            objConnection.Close()
+        Finally
+            objConnection.Dispose()
+        End Try
+        Return objResult
+    End Function
+
     Public Sub Create(ByVal objSettings As IProcessingData)
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
@@ -59,9 +98,14 @@
         objCommand.CommandType = CommandType.StoredProcedure
         objCommand.Transaction = objSettings.DatabaseTransaction
 
-        objUserId = CreateParameter(objCommand, "userId", DbType.Int32)
+
+        objUserId = CreateParameter(objCommand, "id", DbType.Int32)
         objUserId.Direction = ParameterDirection.Output
         objCommand.Parameters.Add(objUserId)
+
+        objParameter = CreateParameter(objCommand, "ownerId", DbType.Int32)
+        objParameter.Value = OwnerId
+        objCommand.Parameters.Add(objParameter)
 
         objParameter = CreateParameter(objCommand, "title", DbType.String)
         objParameter.Value = Title

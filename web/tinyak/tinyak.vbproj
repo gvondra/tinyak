@@ -137,10 +137,12 @@
     <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
     <Import Include="System.Collections.Specialized" />
+    <Import Include="System.Net" />
     <Import Include="System.Text" />
     <Import Include="System.Text.RegularExpressions" />
     <Import Include="System.Web" />
     <Import Include="System.Web.Caching" />
+    <Import Include="System.Web.Http" />
     <Import Include="System.Web.Mvc" />
     <Import Include="System.Web.Mvc.Ajax" />
     <Import Include="System.Web.Mvc.Html" />
@@ -206,6 +208,7 @@
     <Content Include="Views\User\Profile.vbhtml" />
     <Content Include="Views\Project\List.vbhtml" />
     <Content Include="Views\Project\Create.vbhtml" />
+    <Content Include="Views\Project\Update.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

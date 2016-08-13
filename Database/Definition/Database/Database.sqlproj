@@ -89,5 +89,6 @@
     <Build Include="tnyk\Stored Procedures\SSP_User_EmailAddressCount.sql" />
     <Build Include="tnyk\Stored Procedures\ISP_Project.sql" />
     <Build Include="tnyk\Tables\ProjectMember.sql" />
+    <Build Include="tnyk\Stored Procedures\SSP_Project.sql" />
   </ItemGroup>
 </Project>
