@@ -34,7 +34,7 @@
         End Set
     End Property
 
-    Public Property TeamMembers As List(Of String)
+    Public Property ProjectMembers As List(Of String)
         Get
             Return m_colTeamMembers
         End Get
@@ -42,4 +42,33 @@
             m_colTeamMembers = Value
         End Set
     End Property
+
+    Public Sub Create(ByVal objSettings As IProcessingData)
+        Dim objCommand As IDbCommand
+        Dim objParameter As IDataParameter
+        Dim objUserId As IDataParameter
+
+        If objSettings.DatabaseConnection Is Nothing Then
+            objSettings.DatabaseConnection = OpenConnection(objSettings)
+        End If
+        If objSettings.DatabaseTransaction Is Nothing Then
+            objSettings.DatabaseTransaction = objSettings.DatabaseConnection.BeginTransaction
+        End If
+        objCommand = objSettings.DatabaseConnection.CreateCommand
+        objCommand.CommandText = "tnyk.ISP_Project"
+        objCommand.CommandType = CommandType.StoredProcedure
+        objCommand.Transaction = objSettings.DatabaseTransaction
+
+        objUserId = CreateParameter(objCommand, "userId", DbType.Int32)
+        objUserId.Direction = ParameterDirection.Output
+        objCommand.Parameters.Add(objUserId)
+
+        objParameter = CreateParameter(objCommand, "title", DbType.String)
+        objParameter.Value = Title
+        objCommand.Parameters.Add(objParameter)
+
+        objCommand.ExecuteNonQuery()
+
+        m_intId = CType(objUserId.Value, Int32)
+    End Sub
 End Class
