@@ -87,4 +87,17 @@ Public Class clsProject
     Public Function CanUserUpdate(ByVal objUser As clsUser) As Boolean
         Return objUser.Id.Value = OwnerId
     End Function
+
+    Public Shared Function GetByOwnerId(ByVal objSettings As ISettings, ByVal intOwnerId As Integer) As List(Of clsProject)
+        Dim colData As List(Of clsProjectData)
+        Dim objData As clsProjectData
+        Dim colResult As List(Of clsProject)
+
+        colData = clsProjectData.GetByOwner(New clsSettings(objSettings), intOwnerId)
+        colResult = New List(Of clsProject)
+        For Each objData In colData
+            colResult.Add(New clsProject(objData))
+        Next objData
+        Return colResult
+    End Function
 End Class

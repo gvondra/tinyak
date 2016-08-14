@@ -10,7 +10,24 @@ Namespace Controllers
         End Sub
 
         Public Function List() As ActionResult
-            Return View()
+            Dim objUser As clsUser
+            Dim colProject As List(Of clsProject)
+            Dim objProject As clsProject
+            Dim objModel As clsProjectListModel
+            Dim objItem As clsProjectListItemModel
+
+            objUser = Session.GetUser(Settings)
+            colProject = clsProject.GetByOwnerId(Settings, objUser.Id.Value)
+            objModel = New clsProjectListModel
+            objModel.Items = New List(Of clsProjectListItemModel)
+            For Each objProject In colProject
+                objItem = New clsProjectListItemModel
+                objItem.Id = objProject.Id.Value
+                objItem.Title = objProject.Title
+                objModel.Items.Add(objItem)
+            Next objProject
+
+            Return View(objModel)
         End Function
 
         Public Function Create() As ActionResult
