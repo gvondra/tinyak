@@ -7,5 +7,12 @@ BEGIN
 	INSERT INTO [tnyk].[Project] ([OwnerId], [Title])
 	VALUES (@ownerId, @title)
 	;
+	
 	SET @id = SCOPE_IDENTITY();
+
+	INSERT INTO [tnyk].[ProjectMember] ([ProjectId], [EmailAddress])
+	SELECT @id, [EmailAddress]
+	FROM [tnyk].[User]
+	WHERE [UserID] = @id
+	;
 END

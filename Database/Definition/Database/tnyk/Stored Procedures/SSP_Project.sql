@@ -6,4 +6,9 @@ BEGIN
 	FROM [tnyk].[Project]
 	WHERE [ProjectId] = @id
 	;
+
+	SELECT [ProjectMemberId], [ProjectId], [EmailAddress]
+	FROM [tnyk].[ProjectMember]
+	WHERE [ProjectId] = @id
+	;
 END

@@ -5,4 +5,10 @@ BEGIN
 	SELECT [ProjectId], [OwnerId], [Title]
 	FROM [tnyk].[Project]
 	WHERE [OwnerId] = @ownerId
+	;
+	
+	SELECT [ProjectMemberId], [ProjectId], [EmailAddress]
+	FROM [tnyk].[ProjectMember]
+	WHERE [ProjectId] IN (SELECT [ProjectId] FROM [tnyk].[Project] WHERE [OwnerId] = @ownerId)
+	;
 END
