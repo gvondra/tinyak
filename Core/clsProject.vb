@@ -73,6 +73,28 @@ Public Class clsProject
         End Try
     End Sub
 
+    Public Sub Update(ByVal objSettings As ISettings)
+        Dim objInnerSettings As clsSettings
+
+        objInnerSettings = New clsSettings(objSettings)
+        Try
+            m_objProjectData.Update(objInnerSettings)
+            objInnerSettings.DatabaseTransaction.Commit()
+        Catch
+            If objInnerSettings.DatabaseTransaction IsNot Nothing Then
+                objInnerSettings.DatabaseTransaction.Rollback()
+                objInnerSettings.DatabaseTransaction.Dispose()
+                objInnerSettings.DatabaseTransaction = Nothing
+            End If
+        Finally
+            If objInnerSettings.DatabaseConnection IsNot Nothing Then
+                objInnerSettings.DatabaseConnection.Close()
+                objInnerSettings.DatabaseConnection.Dispose()
+                objInnerSettings.DatabaseConnection = Nothing
+            End If
+        End Try
+    End Sub
+
     Public Shared Function [Get](ByVal objSettings As ISettings, ByVal intId As Integer) As clsProject
         Dim objData As clsProjectData
 
@@ -99,5 +121,49 @@ Public Class clsProject
             colResult.Add(New clsProject(objData))
         Next objData
         Return colResult
+    End Function
+
+    Public Sub AddMember(ByVal objSettings As ISettings, ByVal strEmailAddress As String)
+        Dim objInnerSettings As clsSettings
+
+        If Id.HasValue AndAlso IsProjectMember(strEmailAddress) = False Then
+            objInnerSettings = New clsSettings(objSettings)
+            Try
+                clsProjectMemberData.Create(objInnerSettings, Id.Value, strEmailAddress)
+                objInnerSettings.DatabaseTransaction.Commit()
+            Catch
+                If objInnerSettings.DatabaseTransaction IsNot Nothing Then
+                    objInnerSettings.DatabaseTransaction.Rollback()
+                    objInnerSettings.DatabaseTransaction.Dispose()
+                    objInnerSettings.DatabaseTransaction = Nothing
+                End If
+            Finally
+                If objInnerSettings.DatabaseConnection IsNot Nothing Then
+                    objInnerSettings.DatabaseConnection.Close()
+                    objInnerSettings.DatabaseConnection.Dispose()
+                    objInnerSettings.DatabaseConnection = Nothing
+                End If
+            End Try
+            If ProjectMembers Is Nothing Then
+                ProjectMembers = New List(Of String)
+            End If
+            ProjectMembers.Add(strEmailAddress)
+        End If
+    End Sub
+
+    Public Function IsProjectMember(ByVal strEmailAddress As String) As Boolean
+        Dim blnFound As Boolean
+        Dim objEnumerator As IEnumerator(Of String)
+
+        blnFound = False
+        If ProjectMembers IsNot Nothing Then
+            objEnumerator = ProjectMembers.GetEnumerator
+            While blnFound = False AndAlso objEnumerator.MoveNext
+                If String.Compare(strEmailAddress, objEnumerator.Current, True) = 0 Then
+                    blnFound = True
+                End If
+            End While
+        End If
+        Return blnFound
     End Function
 End Class

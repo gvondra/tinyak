@@ -12,6 +12,8 @@ Public Class clsProjectCreateModel
 End Class
 
 Public Class clsProjectUpdateModel
+    Public Property Id As Integer
     Public Property ProjectTitle As String
+    Public Property ProjectMembers As List(Of String)
 End Class
 

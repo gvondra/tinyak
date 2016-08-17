@@ -1,6 +1,6 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Layout.vbhtml"
-    ViewData("Title") = "Create Login"
+    ViewData("PageTitle") = "Create Login"
     Html.BeginForm()
 End Code
     @Html.AntiForgeryToken

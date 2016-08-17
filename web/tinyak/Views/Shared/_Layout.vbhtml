@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - tinyak</title>
+    <title>@ViewBag.PageTitle - tinyak</title>
     @Styles.Render("~/Content/css")
 </head>
 <body>

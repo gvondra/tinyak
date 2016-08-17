@@ -1,6 +1,6 @@
 ﻿@ModelType tinyak.clsProjectListModel
 @Code
-    ViewData("Title") = "Projects"
+    ViewData("PageTitle") = "Projects"
 End Code
 <div>
     <div style="display: inline-block; float: right">

@@ -1,6 +1,6 @@
 ﻿@ModelType tinyak.clsProjectCreateModel
 @Code
-    ViewData("Title") = "Create Project"
+    ViewData("PageTitle") = "Create Project"
 End Code
 
 <h2>Create Project</h2>

@@ -50,6 +50,12 @@ Namespace Controllers
             End If
         End Function
 
+        Private Sub Validate(ByVal objModel As clsProjectCreateModel)
+            If String.IsNullOrEmpty(objModel.ProjectTitle) Then
+                ModelState.AddModelError("ProjectTitle", "Title is required")
+            End If
+        End Sub
+
         Public Function Update(ByVal id As Integer) As ActionResult
             Dim objModel As clsProjectUpdateModel
             Dim objProject As clsProject
@@ -57,14 +63,60 @@ Namespace Controllers
             objProject = clsProject.Get(Settings, id)
             If objProject IsNot Nothing AndAlso objProject.CanUserUpdate(Session.GetUser(Settings)) Then
                 objModel = New clsProjectUpdateModel
+                objModel.Id = objProject.Id.Value
                 objModel.ProjectTitle = objProject.Title
+                objModel.ProjectMembers = objProject.ProjectMembers
+                Return View("Update", objModel)
+            Else
+                Return New HttpStatusCodeResult(HttpStatusCode.Unauthorized)
+            End If
+        End Function
+
+        <ValidateAntiForgeryToken, HttpPost>
+        Public Function Update(ByVal id As Integer, ByVal objModel As clsProjectUpdateModel) As ActionResult
+            Dim objProject As clsProject
+
+            objProject = clsProject.Get(Settings, id)
+            If objProject IsNot Nothing AndAlso objProject.CanUserUpdate(Session.GetUser(Settings)) Then
+                objModel.Id = objProject.Id.Value
+                objModel.ProjectMembers = objProject.ProjectMembers
+                Validate(objModel)
+                If ModelState.IsValid Then
+                    objProject.Title = objModel.ProjectTitle
+                    objProject.Update(Settings)
+                End If
                 Return View(objModel)
             Else
                 Return New HttpStatusCodeResult(HttpStatusCode.Unauthorized)
             End If
         End Function
 
-        Private Sub Validate(ByVal objModel As clsProjectCreateModel)
+        Public Function AddProjectMember(ByVal id As Integer) As ActionResult
+            Return Update(id)
+        End Function
+
+        <ValidateAntiForgeryToken, HttpPost>
+        Public Function AddProjectMember(ByVal id As Integer, ByVal AddEmailAddress As String) As ActionResult
+            Dim objProject As clsProject
+            Dim objModel As clsProjectUpdateModel
+
+            objProject = clsProject.Get(Settings, id)
+            If objProject IsNot Nothing AndAlso objProject.CanUserUpdate(Session.GetUser(Settings)) Then
+                If String.IsNullOrEmpty(AddEmailAddress) = False Then
+                    objProject.AddMember(Settings, AddEmailAddress)
+                End If
+
+                objModel = New clsProjectUpdateModel
+                objModel.Id = objProject.Id.Value
+                objModel.ProjectTitle = objProject.Title
+                objModel.ProjectMembers = objProject.ProjectMembers
+                Return View("Update", objModel)
+            Else
+                Return New HttpStatusCodeResult(HttpStatusCode.Unauthorized)
+            End If
+        End Function
+
+        Private Sub Validate(ByVal objModel As clsProjectUpdateModel)
             If String.IsNullOrEmpty(objModel.ProjectTitle) Then
                 ModelState.AddModelError("ProjectTitle", "Title is required")
             End If

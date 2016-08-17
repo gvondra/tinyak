@@ -201,6 +201,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Scripts\projectUpdate.js" />
     <Content Include="Views\Shared\LoginHeader.vbhtml" />
     <Content Include="Views\Shared\ProfileHeader.vbhtml" />
     <Content Include="Views\User\Login.vbhtml" />

@@ -67,6 +67,7 @@
     <Compile Include="clsExceptionData.vb" />
     <Compile Include="clsFeatureData.vb" />
     <Compile Include="clsProjectData.vb" />
+    <Compile Include="clsProjectMemberData.vb" />
     <Compile Include="clsServiceCallData.vb" />
     <Compile Include="clsSessionData.vb" />
     <Compile Include="clsTaskData.vb" />

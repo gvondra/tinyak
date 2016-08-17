@@ -2,46 +2,10 @@
 
     Friend Const TABLE_NAME As String = "Project"
 
-    Private m_intId As Nullable(Of Integer)
-    Private m_strTitle As String
-    Private m_intOwnerId As Integer
-    Private m_colTeamMembers As List(Of String)
-
     Public Property Id As Nullable(Of Integer)
-        Get
-            Return m_intId
-        End Get
-        Set
-            m_intId = Value
-        End Set
-    End Property
-
     Public Property Title As String
-        Get
-            Return m_strTitle
-        End Get
-        Set
-            m_strTitle = Value
-        End Set
-    End Property
-
     Public Property OwnerId As Integer
-        Get
-            Return m_intOwnerId
-        End Get
-        Set
-            m_intOwnerId = Value
-        End Set
-    End Property
-
     Public Property ProjectMembers As List(Of String)
-        Get
-            Return m_colTeamMembers
-        End Get
-        Set
-            m_colTeamMembers = Value
-        End Set
-    End Property
 
     Private Shared Sub Initialize(ByVal objReader As IDataReader, ByVal objProject As clsProjectData)
         With objProject
@@ -72,6 +36,13 @@
             If objReader.Read Then
                 objResult = New clsProjectData
                 Initialize(objReader, objResult)
+
+                If objReader.NextResult Then
+                    objResult.ProjectMembers = New List(Of String)
+                    While objReader.Read
+                        objResult.ProjectMembers.Add(objReader.GetString(objReader.GetOrdinal("EmailAddress")).TrimEnd)
+                    End While
+                End If
             Else
                 objResult = Nothing
             End If
@@ -89,6 +60,7 @@
         Dim objReader As IDataReader
         Dim colResult As List(Of clsProjectData)
         Dim objProject As clsProjectData
+        Dim objDictionary As Dictionary(Of Integer, clsProjectData)
 
         objConnection = OpenConnection(objProcessingData)
         Try
@@ -102,11 +74,25 @@
 
             objReader = objCommand.ExecuteReader
             colResult = New List(Of clsProjectData)
+            objDictionary = New Dictionary(Of Integer, clsProjectData)
             While objReader.Read
                 objProject = New clsProjectData
                 Initialize(objReader, objProject)
                 colResult.Add(objProject)
+                objDictionary.Add(objProject.Id.Value, objProject)
             End While
+
+            If objReader.NextResult Then
+                While objReader.Read
+                    objProject = objDictionary(objReader.GetInt32(objReader.GetOrdinal("ProjectId")))
+                    If objProject IsNot Nothing Then
+                        If objProject.ProjectMembers Is Nothing Then
+                            objProject.ProjectMembers = New List(Of String)
+                        End If
+                        objProject.ProjectMembers.Add(objReader.GetString(objReader.GetOrdinal("EmailAddress")).TrimEnd)
+                    End If
+                End While
+            End If
             objConnection.Close()
         Finally
             objConnection.Dispose()
@@ -117,7 +103,7 @@
     Public Sub Create(ByVal objSettings As IProcessingData)
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
-        Dim objUserId As IDataParameter
+        Dim objProjectId As IDataParameter
 
         If objSettings.DatabaseConnection Is Nothing Then
             objSettings.DatabaseConnection = OpenConnection(objSettings)
@@ -131,9 +117,9 @@
         objCommand.Transaction = objSettings.DatabaseTransaction
 
 
-        objUserId = CreateParameter(objCommand, "id", DbType.Int32)
-        objUserId.Direction = ParameterDirection.Output
-        objCommand.Parameters.Add(objUserId)
+        objProjectId = CreateParameter(objCommand, "id", DbType.Int32)
+        objProjectId.Direction = ParameterDirection.Output
+        objCommand.Parameters.Add(objProjectId)
 
         objParameter = CreateParameter(objCommand, "ownerId", DbType.Int32)
         objParameter.Value = OwnerId
@@ -145,6 +131,33 @@
 
         objCommand.ExecuteNonQuery()
 
-        m_intId = CType(objUserId.Value, Int32)
+        Id = CType(objProjectId.Value, Int32)
+    End Sub
+
+    Public Sub Update(ByVal objSettings As IProcessingData)
+        Dim objCommand As IDbCommand
+        Dim objParameter As IDataParameter
+
+        If objSettings.DatabaseConnection Is Nothing Then
+            objSettings.DatabaseConnection = OpenConnection(objSettings)
+        End If
+        If objSettings.DatabaseTransaction Is Nothing Then
+            objSettings.DatabaseTransaction = objSettings.DatabaseConnection.BeginTransaction
+        End If
+        objCommand = objSettings.DatabaseConnection.CreateCommand
+        objCommand.CommandText = "tnyk.USP_Project"
+        objCommand.CommandType = CommandType.StoredProcedure
+        objCommand.Transaction = objSettings.DatabaseTransaction
+
+
+        objParameter = CreateParameter(objCommand, "id", DbType.Int32)
+        objParameter.Value = Id.Value
+        objCommand.Parameters.Add(objParameter)
+
+        objParameter = CreateParameter(objCommand, "title", DbType.String)
+        objParameter.Value = Title
+        objCommand.Parameters.Add(objParameter)
+
+        objCommand.ExecuteNonQuery()
     End Sub
 End Class

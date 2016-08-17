@@ -1,6 +1,6 @@
 ﻿@ModelType tinyak.clsUserModel
 @Code
-    ViewData("Title") = "Profile"
+    ViewData("PageTitle") = "Profile"
     Html.BeginForm()
 End Code
 @Html.AntiForgeryToken()
