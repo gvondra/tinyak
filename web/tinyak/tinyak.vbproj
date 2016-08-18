@@ -248,6 +248,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\API.Shared\API.Shared.vbproj">
+      <Project>{0f7174d2-036a-4aff-a49b-e4bf50076893}</Project>
+      <Name>API.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Core.vbproj">
       <Project>{58b586de-decb-4cbb-aaf0-596e51a15afd}</Project>
       <Name>Core</Name>

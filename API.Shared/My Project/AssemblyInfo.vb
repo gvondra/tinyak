@@ -8,7 +8,7 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("tinyak Core")>
+<Assembly: AssemblyTitle("tinyak API Shared")>
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("")>
 <Assembly: AssemblyProduct("tinyak")>
@@ -18,7 +18,7 @@ Imports System.Runtime.InteropServices
 <Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("d2b5afc1-3660-43c8-a546-de79b28a1f4d")> 
+<Assembly: Guid("374ae624-c0c2-4faa-959c-855954ae3b16")> 
 
 ' Version information for an assembly consists of the following four values:
 '
