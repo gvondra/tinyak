@@ -23,37 +23,19 @@ End Code
 </table>
 @Code
     Html.EndForm
-
-    If Model.ProjectMembers IsNot Nothing AndAlso Model.ProjectMembers.Count > 0 Then
-End Code
-    <h3>Members</h3>
-    <table>
-        @Code
-            For Each strEmail As String In Model.ProjectMembers
-        End Code
-        <tr>
-            <td>@strEmail</td>
-            <td><a onclick="ProjectUpdate.HideRow(this);" href="#">Remove</a></td>
-        </tr>
-        @Code
-            Next strEmail
-        End Code
-    </table>
-@Code
-    End If
-End Code
-@Code
-    Html.BeginForm("AddProjectMember", "Project", routeValues:=New With {.id = Model.Id})
-End Code
-@Html.AntiForgeryToken
+End Code 
+<div id="pnlMember">
+    @Code
+        If Model.ProjectMembers IsNot Nothing AndAlso Model.ProjectMembers.Members IsNot Nothing AndAlso Model.ProjectMembers.Members.Count > 0 Then
+            Html.RenderPartial("ProjectMembers", Model.ProjectMembers)
+        End If
+    End Code
+</div>
 <h4>Add Member</h4>
 <table>
     <tr>
         <td>Email Address:</td>
-        <td>@Html.TextBox("AddEmailAddress", value:=Nothing, htmlAttributes:=New With {.maxLength = 250})</td>
-        <td><input type="submit" value="Add"/></td>
+        <td><input type="text" id="txtEmailAddress" maxlength="250"/></td>
+        <td><input type="button" value="Add" onclick="ProjectUpdate.AddMember(@Model.Id, $('#txtEmailAddress').val())"/><span id="lblAddMessage" style="margin-left: 5px;" /></td>
     </tr>
 </table>
-@Code
-    Html.EndForm
-End Code

@@ -65,7 +65,9 @@ Namespace Controllers
                 objModel = New clsProjectUpdateModel
                 objModel.Id = objProject.Id.Value
                 objModel.ProjectTitle = objProject.Title
-                objModel.ProjectMembers = objProject.ProjectMembers
+                objModel.ProjectMembers = New clsProjectMembersModel
+                objModel.ProjectMembers.ProjectId = id
+                objModel.ProjectMembers.Members = objProject.ProjectMembers
                 Return View("Update", objModel)
             Else
                 Return New HttpStatusCodeResult(HttpStatusCode.Unauthorized)
@@ -79,7 +81,9 @@ Namespace Controllers
             objProject = clsProject.Get(Settings, id)
             If objProject IsNot Nothing AndAlso objProject.CanUserUpdate(Session.GetUser(Settings)) Then
                 objModel.Id = objProject.Id.Value
-                objModel.ProjectMembers = objProject.ProjectMembers
+                objModel.ProjectMembers = New clsProjectMembersModel
+                objModel.ProjectMembers.ProjectId = id
+                objModel.ProjectMembers.Members = objProject.ProjectMembers
                 Validate(objModel)
                 If ModelState.IsValid Then
                     objProject.Title = objModel.ProjectTitle
@@ -95,31 +99,59 @@ Namespace Controllers
             Return Update(id)
         End Function
 
-        <ValidateAntiForgeryToken, HttpPost>
-        Public Function AddProjectMember(ByVal id As Integer, ByVal AddEmailAddress As String) As ActionResult
-            Dim objProject As clsProject
-            Dim objModel As clsProjectUpdateModel
-
-            objProject = clsProject.Get(Settings, id)
-            If objProject IsNot Nothing AndAlso objProject.CanUserUpdate(Session.GetUser(Settings)) Then
-                If String.IsNullOrEmpty(AddEmailAddress) = False Then
-                    objProject.AddMember(Settings, AddEmailAddress)
-                End If
-
-                objModel = New clsProjectUpdateModel
-                objModel.Id = objProject.Id.Value
-                objModel.ProjectTitle = objProject.Title
-                objModel.ProjectMembers = objProject.ProjectMembers
-                Return View("Update", objModel)
-            Else
-                Return New HttpStatusCodeResult(HttpStatusCode.Unauthorized)
-            End If
-        End Function
-
         Private Sub Validate(ByVal objModel As clsProjectUpdateModel)
             If String.IsNullOrEmpty(objModel.ProjectTitle) Then
                 ModelState.AddModelError("ProjectTitle", "Title is required")
             End If
         End Sub
+
+        <HttpPost, ActionName("ProjectMember")>
+        Public Function PostProjectMember(ByVal id As Integer, ByVal emailAddress As String) As ActionResult
+            Dim objProject As clsProject
+            Dim objModel As clsProjectCreateProjectMemberModel
+
+            objProject = clsProject.Get(Settings, id)
+            If objProject IsNot Nothing AndAlso objProject.CanUserUpdate(Session.GetUser(Settings)) Then
+                If String.IsNullOrEmpty(emailAddress) = False Then
+                    objProject.AddMember(Settings, emailAddress)
+                End If
+                objModel = New clsProjectCreateProjectMemberModel() With {.ProjectId = id, .EmailAddress = emailAddress}
+                Return New JsonResult() With {.Data = objModel}
+            Else
+                Return New HttpStatusCodeResult(HttpStatusCode.Unauthorized)
+            End If
+        End Function
+
+        <HttpDelete, ActionName("ProjectMember")>
+        Public Function DeleteProjectMember(ByVal id As Integer, ByVal emailAddress As String) As ActionResult
+            Dim objProject As clsProject
+
+            objProject = clsProject.Get(Settings, id)
+            If objProject IsNot Nothing AndAlso objProject.CanUserUpdate(Session.GetUser(Settings)) Then
+                If String.IsNullOrEmpty(emailAddress) = False Then
+                    objProject.RemoveMember(Settings, emailAddress)
+                End If
+                Return New ContentResult() With {.Content = "Gone"}
+            Else
+                Return New HttpStatusCodeResult(HttpStatusCode.Unauthorized)
+            End If
+        End Function
+
+        <HttpGet>
+        Public Function ProjectMembers(ByVal id As Integer) As ActionResult
+            Dim objProject As clsProject
+            Dim objModel As clsProjectMembersModel
+
+            objProject = clsProject.Get(Settings, id)
+            If objProject IsNot Nothing AndAlso objProject.CanUserUpdate(Session.GetUser(Settings)) Then
+                objModel = New clsProjectMembersModel
+                objModel.ProjectId = id
+                objModel.Members = objProject.ProjectMembers
+                Return View(objModel)
+            Else
+                Return New HttpStatusCodeResult(HttpStatusCode.Unauthorized)
+            End If
+
+        End Function
     End Class
 End Namespace

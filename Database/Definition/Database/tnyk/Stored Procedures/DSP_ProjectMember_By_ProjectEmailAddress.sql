@@ -6,4 +6,5 @@ BEGIN
 	DELETE FROM [tnyk].[ProjectMember]
 	WHERE [ProjectId] = @projectId
 		AND [EmailAddress] = @emailAddress
+	;
 END

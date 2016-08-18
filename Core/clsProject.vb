@@ -151,6 +151,35 @@ Public Class clsProject
         End If
     End Sub
 
+    Public Sub RemoveMember(ByVal objSettings As ISettings, ByVal strEmailAddress As String)
+        Dim objInnerSettings As clsSettings
+        Dim i As Integer
+        If Id.HasValue AndAlso IsProjectMember(strEmailAddress) Then
+            objInnerSettings = New clsSettings(objSettings)
+            Try
+                clsProjectMemberData.Remove(objInnerSettings, Id.Value, strEmailAddress)
+                objInnerSettings.DatabaseTransaction.Commit()
+            Catch
+                If objInnerSettings.DatabaseTransaction IsNot Nothing Then
+                    objInnerSettings.DatabaseTransaction.Rollback()
+                    objInnerSettings.DatabaseTransaction.Dispose()
+                    objInnerSettings.DatabaseTransaction = Nothing
+                End If
+            Finally
+                If objInnerSettings.DatabaseConnection IsNot Nothing Then
+                    objInnerSettings.DatabaseConnection.Close()
+                    objInnerSettings.DatabaseConnection.Dispose()
+                    objInnerSettings.DatabaseConnection = Nothing
+                End If
+            End Try
+            For i = ProjectMembers.Count - 1 To 0 Step -1
+                If String.Compare(strEmailAddress, ProjectMembers(i), True) = 0 Then
+                    ProjectMembers.RemoveAt(i)
+                End If
+            Next i
+        End If
+    End Sub
+
     Public Function IsProjectMember(ByVal strEmailAddress As String) As Boolean
         Dim blnFound As Boolean
         Dim objEnumerator As IEnumerator(Of String)

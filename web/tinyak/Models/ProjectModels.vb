@@ -14,6 +14,15 @@ End Class
 Public Class clsProjectUpdateModel
     Public Property Id As Integer
     Public Property ProjectTitle As String
-    Public Property ProjectMembers As List(Of String)
+    Public Property ProjectMembers As clsProjectMembersModel
 End Class
 
+Public Class clsProjectCreateProjectMemberModel
+    Public Property ProjectId As Integer
+    Public Property EmailAddress As String
+End Class
+
+Public Class clsProjectMembersModel
+    Public Property ProjectId As Integer
+    Public Property Members As List(Of String)
+End Class
