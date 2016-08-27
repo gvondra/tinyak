@@ -103,17 +103,21 @@ Public Class clsUser
         Dim bytSaltedValue() As Byte
         Dim bytToken() As Byte
 
-        bytValue = Encoding.UTF8.GetBytes(strValue)
+        If String.IsNullOrEmpty(strValue) = False Then
+            bytValue = Encoding.UTF8.GetBytes(strValue)
 
-        ReDim bytSaltedValue(bytValue.Length + bytSalt.Length - 1)
-        Array.Copy(bytSalt, 0, bytSaltedValue, 0, bytSalt.Length)
-        Array.Copy(bytValue, 0, bytSaltedValue, bytSalt.Length, bytValue.Length)
-        objHash = New SHA512Managed()
-        Try
-            bytToken = objHash.ComputeHash(bytSaltedValue)
-        Finally
-            objHash.Dispose()
-        End Try
+            ReDim bytSaltedValue(bytValue.Length + bytSalt.Length - 1)
+            Array.Copy(bytSalt, 0, bytSaltedValue, 0, bytSalt.Length)
+            Array.Copy(bytValue, 0, bytSaltedValue, bytSalt.Length, bytValue.Length)
+            objHash = New SHA512Managed()
+            Try
+                bytToken = objHash.ComputeHash(bytSaltedValue)
+            Finally
+                objHash.Dispose()
+            End Try
+        Else
+            bytToken = Nothing
+        End If
         Return bytToken
     End Function
 

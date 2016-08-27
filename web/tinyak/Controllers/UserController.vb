@@ -1,5 +1,5 @@
 ﻿Imports System.Web.Mvc
-
+Imports tinyak.Core
 Namespace Controllers
     Public Class UserController
         Inherits clsControllerBase

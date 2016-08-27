@@ -1,4 +1,5 @@
-﻿Public Class HomeController
+﻿Imports tinyak.Core
+Public Class HomeController
     Inherits clsControllerBase
 
     Public Sub New(ByVal objSettings As clsSettings, ByVal objSession As clsSession)

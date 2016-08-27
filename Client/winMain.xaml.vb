@@ -19,4 +19,9 @@
         objLoadSessionId = New Action(AddressOf LoadSessionId)
         objLoadSessionId.BeginInvoke(Nothing, objLoadSessionId)
     End Sub
+
+    Friend Sub OnLoggedOn(ByVal objSender As Control, ByVal objUser As clsUser)
+        lblUser.DataContext = New clsUserVM(objUser)
+        pnlControl.Children.Clear()
+    End Sub
 End Class

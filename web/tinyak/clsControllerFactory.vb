@@ -1,4 +1,4 @@
-﻿
+﻿Imports tinyak.Core
 Public Class clsControllerFactory
     Inherits DefaultControllerFactory
 

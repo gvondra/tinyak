@@ -20,5 +20,8 @@ ShutdownMode="OnMainWindowClose">
         <Style x:Key="Header" TargetType="TextBlock">
             <Setter Property="FontSize" Value="20"/>
         </Style>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="5,2,5,2"/>
+        </Style>
     </Application.Resources>
 </Application>

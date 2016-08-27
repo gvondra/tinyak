@@ -1,4 +1,5 @@
 ﻿Imports System.Configuration
+Imports tinyak.Core
 Public Class clsSettings
     Implements ISettings
 

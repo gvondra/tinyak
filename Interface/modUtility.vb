@@ -1,11 +1,19 @@
-﻿Friend Module modUtility
+﻿Imports System.Text
+Imports System.Web
+Friend Module modUtility
 
     Friend Function GetUri(ByVal objSettings As ISettings, ByVal strController As String) As Uri
+        Return GetUri(objSettings, strController, Nothing)
+    End Function
+
+    Friend Function GetUri(ByVal objSettings As ISettings, ByVal strController As String, ByVal objQuery As NameValueCollection) As Uri
         Dim objUriBuilder As UriBuilder
         Dim objRoot As Uri
         Dim colPath As List(Of String)
         Dim strSegment As String
         Dim i As Integer
+        Dim objEnumerator As IEnumerator
+        Dim sbQuery As StringBuilder
 
         objRoot = New Uri(objSettings.BaseUrl)
         objUriBuilder = New UriBuilder(objRoot.Scheme, objRoot.Host, objRoot.Port)
@@ -20,6 +28,18 @@
         End If
         colPath.Add(strController)
         objUriBuilder.Path = String.Join("/", colPath)
+
+        If objQuery IsNot Nothing AndAlso objQuery.Count > 0 Then
+            objEnumerator = objQuery.GetEnumerator
+            sbQuery = New StringBuilder
+            While objEnumerator.MoveNext
+                If sbQuery.Length > 0 Then
+                    sbQuery.Append("&")
+                End If
+                sbQuery.AppendFormat("{0}={1}", objEnumerator.Current, HttpUtility.UrlEncode(objQuery(DirectCast(objEnumerator.Current, String))))
+            End While
+            objUriBuilder.Query = sbQuery.ToString
+        End If
 
         Return objUriBuilder.Uri
     End Function

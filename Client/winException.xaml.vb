@@ -2,7 +2,7 @@
     Public Shared Sub BeginProcessException(ByVal objException As Exception, ByVal objDispatcher As System.Windows.Threading.Dispatcher)
         Dim objProcessException As ProcessExceptionDelegate
         objProcessException = New ProcessExceptionDelegate(AddressOf ProcessException)
-        objDispatcher.Invoke(objProcessException)
+        objDispatcher.Invoke(objProcessException, objException)
     End Sub
 
     Public Delegate Sub ProcessExceptionDelegate(ByVal objException As Exception)

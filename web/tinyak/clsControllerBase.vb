@@ -1,4 +1,5 @@
-﻿Public Class clsControllerBase
+﻿Imports tinyak.Core
+Public Class clsControllerBase
     Inherits Controller
 
     Private m_objSettings As clsSettings

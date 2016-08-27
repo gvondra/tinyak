@@ -1,4 +1,5 @@
 ﻿<Window x:Class="winMain"
+        xmlns:t="clr-namespace:tinyak.Client"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,16 +8,31 @@
         mc:Ignorable="d"
         Title="tinyak" Height="900" Width="1600" Style="{StaticResource WindowStyle}">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0">
+        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
             <MenuItem Header="Options">
                 <Separator/>
                 <MenuItem Header="Exit" Name="mnuExit"/>
             </MenuItem>
         </Menu>
-        <TextBlock Grid.Row="1">test</TextBlock>
+        <Grid Grid.Column="1" Grid.Row="1" Name="pnlControl">
+            <t:uctLogin x:Name="ctlLogin" LoggedIn="OnLoggedOn"/>
+        </Grid>
+        <StatusBar Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+            <StatusBarItem>
+                <TextBlock Name="lblStatus"/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <TextBlock Name="lblUser" Text="{Binding WelcomeMessage}"/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

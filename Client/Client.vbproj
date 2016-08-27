@@ -97,6 +97,10 @@
     </ApplicationDefinition>
     <Compile Include="Code\clsAppSettings.vb" />
     <Compile Include="Code\clsSettings.vb" />
+    <Compile Include="Code\clsUserVM.vb" />
+    <Compile Include="Control\uctLogin.xaml.vb">
+      <DependentUpon>uctLogin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="winException.xaml.vb">
       <DependentUpon>winException.xaml</DependentUpon>
     </Compile>
@@ -107,6 +111,10 @@
       <DependentUpon>Application.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Control\uctLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="winException.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -148,10 +156,6 @@
     <None Include="My Project\app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\API.Shared\API.Shared.vbproj">
-      <Project>{0f7174d2-036a-4aff-a49b-e4bf50076893}</Project>
-      <Name>API.Shared</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Interface\Interface.vbproj">
       <Project>{acc2f672-6172-4c33-9109-0bec9c52e933}</Project>
       <Name>Interface</Name>
