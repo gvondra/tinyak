@@ -5,8 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:tinyak.Client"
         mc:Ignorable="d"
-        Title="winMain" Height="300" Width="300">
+        Title="tinyak" Height="900" Width="1600" Style="{StaticResource WindowStyle}">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="Options">
+                <Separator/>
+                <MenuItem Header="Exit" Name="mnuExit"/>
+            </MenuItem>
+        </Menu>
+        <TextBlock Grid.Row="1">test</TextBlock>
     </Grid>
 </Window>

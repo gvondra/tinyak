@@ -69,7 +69,15 @@
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -87,6 +95,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Code\clsAppSettings.vb" />
+    <Compile Include="Code\clsSettings.vb" />
+    <Compile Include="winException.xaml.vb">
+      <DependentUpon>winException.xaml</DependentUpon>
+    </Compile>
     <Compile Include="winMain.xaml.vb">
       <DependentUpon>winMain.xaml</DependentUpon>
     </Compile>
@@ -94,6 +107,10 @@
       <DependentUpon>Application.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="winException.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="winMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -114,6 +131,7 @@
     <Import Include="System.Windows.Media" />
     <Import Include="System.Windows.Media.Imaging" />
     <Import Include="System.Windows.Navigation" />
+    <Import Include="tinyak.Interface" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="My Project\AssemblyInfo.vb">
@@ -127,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="My Project\app.manifest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\API.Shared\API.Shared.vbproj">

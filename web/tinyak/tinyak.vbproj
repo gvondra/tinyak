@@ -167,6 +167,7 @@
     <Compile Include="Controllers\ErrorController.vb" />
     <Compile Include="Controllers\ProjectApiController.vb" />
     <Compile Include="Controllers\ProjectController.vb" />
+    <Compile Include="Controllers\SessionApiController.vb" />
     <Compile Include="Controllers\UserApiController.vb" />
     <Compile Include="Controllers\UserController.vb" />
     <Compile Include="Global.asax.vb">

@@ -60,9 +60,21 @@
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
+    <Import Include="System.Net" />
+    <Import Include="System.Net.Http.Headers" />
+    <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsSession.vb" />
+    <Compile Include="ISettings.vb" />
+    <Compile Include="modUtility.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\API.Shared\API.Shared.vbproj">
+      <Project>{0f7174d2-036a-4aff-a49b-e4bf50076893}</Project>
+      <Name>API.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

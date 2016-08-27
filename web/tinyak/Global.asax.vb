@@ -7,7 +7,9 @@ Public Class MvcApplication
         ControllerBuilder.Current.SetControllerFactory(GetType(clsControllerFactory))
         AreaRegistration.RegisterAllAreas()
         FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters)
+        WebApiConfig.Register(GlobalConfiguration.Configuration)
         RouteConfig.RegisterRoutes(RouteTable.Routes)
         BundleConfig.RegisterBundles(BundleTable.Bundles)
+        GlobalConfiguration.Configuration.EnsureInitialized()
     End Sub
 End Class
