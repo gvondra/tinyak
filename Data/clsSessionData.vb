@@ -6,7 +6,6 @@
     Private m_objId As Guid
     Private m_intUserId As Nullable(Of Integer)
     Private m_datExpiration As Nullable(Of Date)
-    'Private m_objData As Dictionary(Of String, String)
 
     Public Sub New()
         m_objId = Guid.Empty
