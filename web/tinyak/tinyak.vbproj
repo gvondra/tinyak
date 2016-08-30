@@ -161,6 +161,7 @@
     <Compile Include="App_Start\FilterConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
     <Compile Include="App_Start\WebApiConfig.vb" />
+    <Compile Include="clsApiControllerBase.vb" />
     <Compile Include="clsControllerBase.vb" />
     <Compile Include="clsControllerFactory.vb" />
     <Compile Include="clsSettings.vb" />

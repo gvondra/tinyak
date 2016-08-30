@@ -101,6 +101,9 @@
     <Compile Include="Control\uctLogin.xaml.vb">
       <DependentUpon>uctLogin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Control\uctProjectList.xaml.vb">
+      <DependentUpon>uctProjectList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="winException.xaml.vb">
       <DependentUpon>winException.xaml</DependentUpon>
     </Compile>
@@ -112,6 +115,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Control\uctLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\uctProjectList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

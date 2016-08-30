@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsConstant.vb" />
+    <Compile Include="clsProject.vb" />
     <Compile Include="clsUser.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
   </ItemGroup>

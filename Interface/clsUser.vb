@@ -1,6 +1,4 @@
-﻿Imports System.IO
-Imports System.Runtime.Serialization
-Imports tas = tinyak.API.Shared
+﻿Imports tas = tinyak.API.Shared
 Public Class clsUser
     Private Property m_objInnerUser As tas.clsUser
 
@@ -26,11 +24,7 @@ Public Class clsUser
         objQuery.Add("emailAddress", strEmailAddress)
         objQuery.Add("password", strPassword)
         objUri = GetUri(objSettings, "User", objQuery)
-        objRequest = HttpWebRequest.CreateHttp(objUri)
-        objRequest.UseDefaultCredentials = True
-        objRequest.Headers.Add(tas.clsConstant.HEADER_SESSION_ID, objSession.ToString("N"))
-        objRequest.Accept = "application/xml"
-        objRequest.Method = "GET"
+        objRequest = CreateGetRequest(objSession, objUri)
 
         objResponse = DirectCast(objRequest.GetResponse, HttpWebResponse)
         objSerializer = New DataContractSerializer(GetType(tas.clsUser))

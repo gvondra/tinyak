@@ -65,9 +65,11 @@
     <Import Include="System.Diagnostics" />
     <Import Include="System.Net" />
     <Import Include="System.Net.Http.Headers" />
+    <Import Include="System.Runtime.Serialization" />
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsProject.vb" />
     <Compile Include="clsSession.vb" />
     <Compile Include="clsUser.vb" />
     <Compile Include="ISettings.vb" />

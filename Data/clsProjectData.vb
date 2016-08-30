@@ -100,6 +100,39 @@
         Return colResult
     End Function
 
+    Public Shared Function GetByEmailAddress(ByVal objProcessingData As IProcessingData, ByVal strEmailAddress As String) As List(Of clsProjectData)
+        Dim objConnection As IDbConnection
+        Dim objCommand As IDbCommand
+        Dim objParameter As IDataParameter
+        Dim objReader As IDataReader
+        Dim colResult As List(Of clsProjectData)
+        Dim objProject As clsProjectData
+
+        objConnection = OpenConnection(objProcessingData)
+        Try
+            objCommand = objConnection.CreateCommand
+            objCommand.CommandText = "tnyk.SSP_Project_By_EmailAddress"
+            objCommand.CommandType = CommandType.StoredProcedure
+
+            objParameter = CreateParameter(objCommand, "emailAddress", DbType.String)
+            objParameter.Value = strEmailAddress
+            objCommand.Parameters.Add(objParameter)
+
+            objReader = objCommand.ExecuteReader
+            colResult = New List(Of clsProjectData)
+            While objReader.Read
+                objProject = New clsProjectData
+                Initialize(objReader, objProject)
+                colResult.Add(objProject)
+            End While
+
+            objConnection.Close()
+        Finally
+            objConnection.Dispose()
+        End Try
+        Return colResult
+    End Function
+
     Public Sub Create(ByVal objSettings As IProcessingData)
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter

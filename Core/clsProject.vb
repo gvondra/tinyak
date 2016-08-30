@@ -195,4 +195,21 @@ Public Class clsProject
         End If
         Return blnFound
     End Function
+
+    Public Shared Function GetByEmailAddress(ByVal objSettings As ISettings, ByVal strEmailAddress As String) As List(Of clsProject)
+        Dim colData As List(Of clsProjectData)
+        Dim objData As clsProjectData
+        Dim colResult As List(Of clsProject)
+
+        colData = clsProjectData.GetByEmailAddress(New clsSettings(objSettings), strEmailAddress)
+        If colData IsNot Nothing Then
+            colResult = New List(Of clsProject)
+            For Each objData In colData
+                colResult.Add(New clsProject(objData))
+            Next objData
+        Else
+            colResult = Nothing
+        End If
+        Return colResult
+    End Function
 End Class

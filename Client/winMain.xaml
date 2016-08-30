@@ -23,6 +23,7 @@
                 <MenuItem Header="Exit" Name="mnuExit"/>
             </MenuItem>
         </Menu>
+        <t:uctProjectList Grid.Column="0" Grid.Row="1" x:Name="ctlProjectList" Visibility="Collapsed"/>
         <Grid Grid.Column="1" Grid.Row="1" Name="pnlControl">
             <t:uctLogin x:Name="ctlLogin" LoggedIn="OnLoggedOn"/>
         </Grid>

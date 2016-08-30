@@ -1,5 +1,6 @@
 ﻿Imports System.Text
 Imports System.Web
+Imports tas = tinyak.API.Shared
 Friend Module modUtility
 
     Friend Function GetUri(ByVal objSettings As ISettings, ByVal strController As String) As Uri
@@ -44,4 +45,13 @@ Friend Module modUtility
         Return objUriBuilder.Uri
     End Function
 
+    Public Function CreateGetRequest(ByVal objSession As Guid, ByVal objUri As Uri) As HttpWebRequest
+        Dim objRequest As HttpWebRequest
+        objRequest = HttpWebRequest.CreateHttp(objUri)
+        objRequest.UseDefaultCredentials = True
+        objRequest.Headers.Add(tas.clsConstant.HEADER_SESSION_ID, objSession.ToString("N"))
+        objRequest.Accept = "application/xml"
+        objRequest.Method = "GET"
+        Return objRequest
+    End Function
 End Module
