@@ -15,7 +15,7 @@
         End With
     End Sub
 
-    Public Shared Function [Get](ByVal objProcessingData As IProcessingData, ByVal intId As Integer) As clsProjectData
+    Public Shared Function [Get](ByVal objProcessingData As ISettings, ByVal intId As Integer) As clsProjectData
         Dim objConnection As IDbConnection
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
@@ -53,7 +53,7 @@
         Return objResult
     End Function
 
-    Public Shared Function GetByOwner(ByVal objProcessingData As IProcessingData, ByVal intOwnerId As Integer) As List(Of clsProjectData)
+    Public Shared Function GetByOwner(ByVal objProcessingData As ISettings, ByVal intOwnerId As Integer) As List(Of clsProjectData)
         Dim objConnection As IDbConnection
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
@@ -100,7 +100,7 @@
         Return colResult
     End Function
 
-    Public Shared Function GetByEmailAddress(ByVal objProcessingData As IProcessingData, ByVal strEmailAddress As String) As List(Of clsProjectData)
+    Public Shared Function GetByEmailAddress(ByVal objProcessingData As ISettings, ByVal strEmailAddress As String) As List(Of clsProjectData)
         Dim objConnection As IDbConnection
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
@@ -133,7 +133,7 @@
         Return colResult
     End Function
 
-    Public Sub Create(ByVal objSettings As IProcessingData)
+    Public Sub Create(ByVal objSettings As ISettings)
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
         Dim objProjectId As IDataParameter
@@ -167,7 +167,7 @@
         Id = CType(objProjectId.Value, Int32)
     End Sub
 
-    Public Sub Update(ByVal objSettings As IProcessingData)
+    Public Sub Update(ByVal objSettings As ISettings)
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
 

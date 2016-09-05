@@ -37,7 +37,7 @@ Friend Module modUtility
                 If sbQuery.Length > 0 Then
                     sbQuery.Append("&")
                 End If
-                sbQuery.AppendFormat("{0}={1}", objEnumerator.Current, HttpUtility.UrlEncode(objQuery(DirectCast(objEnumerator.Current, String))))
+                sbQuery.AppendFormat("{0}={1}", HttpUtility.UrlEncode(DirectCast(objEnumerator.Current, String)), HttpUtility.UrlEncode(objQuery(DirectCast(objEnumerator.Current, String))))
             End While
             objUriBuilder.Query = sbQuery.ToString
         End If
@@ -45,13 +45,29 @@ Friend Module modUtility
         Return objUriBuilder.Uri
     End Function
 
-    Public Function CreateGetRequest(ByVal objSession As Guid, ByVal objUri As Uri) As HttpWebRequest
+    Private Function CreateRequest(ByVal objSession As Guid, ByVal objUri As Uri) As HttpWebRequest
         Dim objRequest As HttpWebRequest
         objRequest = HttpWebRequest.CreateHttp(objUri)
         objRequest.UseDefaultCredentials = True
         objRequest.Headers.Add(tas.clsConstant.HEADER_SESSION_ID, objSession.ToString("N"))
         objRequest.Accept = "application/xml"
+        Return objRequest
+    End Function
+
+    Public Function CreateGetRequest(ByVal objSession As Guid, ByVal objUri As Uri) As HttpWebRequest
+        Dim objRequest As HttpWebRequest
+        objRequest = CreateRequest(objSession, objUri)
         objRequest.Method = "GET"
         Return objRequest
     End Function
+
+    Public Function CreatePostRequest(ByVal objSession As Guid, ByVal objUri As Uri) As HttpWebRequest
+        Dim objRequest As HttpWebRequest
+        objRequest = CreateRequest(objSession, objUri)
+        objRequest.Method = "POST"
+        'objRequest.ContentType = "application/x-www-form-urlencoded"
+        objRequest.ContentType = "application/xml"
+        Return objRequest
+    End Function
+
 End Module

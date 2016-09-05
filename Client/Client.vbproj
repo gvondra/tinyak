@@ -95,9 +95,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Code\clsAddFeatureVM.vb" />
     <Compile Include="Code\clsAppSettings.vb" />
+    <Compile Include="Code\clsFeatureListItemVM.vb" />
+    <Compile Include="Code\clsFeatureListVM.vb" />
+    <Compile Include="Code\clsFeaturesViewerVM.vb" />
     <Compile Include="Code\clsSettings.vb" />
     <Compile Include="Code\clsUserVM.vb" />
+    <Compile Include="Control\uctAddFeature.xaml.vb">
+      <DependentUpon>uctAddFeature.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\uctFeatureList.xaml.vb">
+      <DependentUpon>uctFeatureList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\uctFeatureListItem.xaml.vb">
+      <DependentUpon>uctFeatureListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\uctFeaturesViewer.xaml.vb">
+      <DependentUpon>uctFeaturesViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Control\uctLogin.xaml.vb">
       <DependentUpon>uctLogin.xaml</DependentUpon>
     </Compile>
@@ -114,6 +130,22 @@
       <DependentUpon>Application.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Control\uctAddFeature.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\uctFeatureList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\uctFeatureListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\uctFeaturesViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Control\uctLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

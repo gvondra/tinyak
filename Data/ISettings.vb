@@ -1,4 +1,4 @@
-﻿Public Interface IProcessingData
+﻿Public Interface ISettings
 
     ReadOnly Property ConnectionString() As String
     Property DatabaseConnection As IDbConnection

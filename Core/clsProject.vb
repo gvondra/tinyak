@@ -95,6 +95,18 @@ Public Class clsProject
         End Try
     End Sub
 
+    Public Function GetNewFeature() As clsFeature
+        Return clsFeature.GetNew(Me)
+    End Function
+
+    Public Function GetFeatures(ByVal objSettings As ISettings) As List(Of clsFeature)
+        If Id.HasValue Then
+            Return clsFeature.GetByProject(New clsSettings(objSettings), Me)
+        Else
+            Return Nothing
+        End If
+    End Function
+
     Public Shared Function [Get](ByVal objSettings As ISettings, ByVal intId As Integer) As clsProject
         Dim objData As clsProjectData
 
@@ -211,5 +223,21 @@ Public Class clsProject
             colResult = Nothing
         End If
         Return colResult
+    End Function
+
+    Public Function IncludesMember(ByVal strEmailAddress As String) As Boolean
+        Dim blnResult As Boolean
+        Dim objEnumerator As IEnumerator(Of String)
+
+        blnResult = False
+        If ProjectMembers IsNot Nothing Then
+            objEnumerator = ProjectMembers.GetEnumerator
+            While blnResult = False AndAlso objEnumerator.MoveNext
+                If String.Compare(objEnumerator.Current, strEmailAddress, True) = 0 Then
+                    blnResult = True
+                End If
+            End While
+        End If
+        Return blnResult
     End Function
 End Class

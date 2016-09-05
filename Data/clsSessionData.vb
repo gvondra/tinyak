@@ -67,7 +67,7 @@
         End With
     End Sub
 
-    Public Shared Function [Get](ByVal objProcessingData As IProcessingData, ByVal objId As Guid) As clsSessionData
+    Public Shared Function [Get](ByVal objProcessingData As ISettings, ByVal objId As Guid) As clsSessionData
         Dim objConnection As IDbConnection
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
@@ -105,7 +105,7 @@
         Return objResult
     End Function
 
-    Public Sub Save(ByVal objProcessingData As IProcessingData)
+    Public Sub Save(ByVal objProcessingData As ISettings)
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
         Dim objEnumerator As Dictionary(Of String, String).Enumerator

@@ -5,6 +5,12 @@ Public Class clsProject
         m_objInnerProject = objProject
     End Sub
 
+    Public ReadOnly Property Id As Integer
+        Get
+            Return m_objInnerProject.Id
+        End Get
+    End Property
+
     Public ReadOnly Property Title As String
         Get
             Return m_objInnerProject.Title

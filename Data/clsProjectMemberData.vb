@@ -2,7 +2,7 @@
     Private Sub New()
     End Sub
 
-    Public Shared Sub Create(ByVal objSettings As IProcessingData, ByVal intProjectId As Integer, ByVal strEmailAddress As String)
+    Public Shared Sub Create(ByVal objSettings As ISettings, ByVal intProjectId As Integer, ByVal strEmailAddress As String)
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
         Dim objId As IDataParameter
@@ -33,7 +33,7 @@
         objCommand.ExecuteNonQuery()
     End Sub
 
-    Public Shared Sub Remove(ByVal objSettings As IProcessingData, ByVal intProjectId As Integer, ByVal strEmailAddress As String)
+    Public Shared Sub Remove(ByVal objSettings As ISettings, ByVal intProjectId As Integer, ByVal strEmailAddress As String)
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
 

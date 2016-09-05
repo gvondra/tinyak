@@ -165,6 +165,8 @@
     <Compile Include="clsControllerBase.vb" />
     <Compile Include="clsControllerFactory.vb" />
     <Compile Include="clsSettings.vb" />
+    <Compile Include="Controllers\FeatureApiController.vb" />
+    <Compile Include="Controllers\FeaturesApiController.vb" />
     <Compile Include="Controllers\ErrorController.vb" />
     <Compile Include="Controllers\ProjectApiController.vb" />
     <Compile Include="Controllers\ProjectController.vb" />

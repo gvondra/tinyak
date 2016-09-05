@@ -52,7 +52,7 @@
         End With
     End Sub
 
-    Public Shared Function GetByEmailAddress(ByVal objProcessingData As IProcessingData, ByVal strEmailAddress As String, ByVal bytPasswordToken As Byte()) As clsUserData
+    Public Shared Function GetByEmailAddress(ByVal objProcessingData As ISettings, ByVal strEmailAddress As String, ByVal bytPasswordToken As Byte()) As clsUserData
         Dim objConnection As IDbConnection
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
@@ -87,7 +87,7 @@
         Return objResult
     End Function
 
-    Public Shared Function [Get](ByVal objProcessingData As IProcessingData, ByVal intId As Integer) As clsUserData
+    Public Shared Function [Get](ByVal objProcessingData As ISettings, ByVal intId As Integer) As clsUserData
         Dim objConnection As IDbConnection
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
@@ -118,7 +118,7 @@
         Return objResult
     End Function
 
-    Public Shared Function IsEmailAddressAvailable(ByVal objProcessingData As IProcessingData, ByVal strEmailAddress As String) As Boolean
+    Public Shared Function IsEmailAddressAvailable(ByVal objProcessingData As ISettings, ByVal strEmailAddress As String) As Boolean
         Dim objConnection As IDbConnection
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
@@ -143,7 +143,7 @@
         Return (CType(objResult, Integer) = 0)
     End Function
 
-    Public Sub SaveNew(ByVal objSettings As IProcessingData, ByVal bytPasswordToken As Byte())
+    Public Sub SaveNew(ByVal objSettings As ISettings, ByVal bytPasswordToken As Byte())
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
         Dim objUserId As IDataParameter
@@ -184,7 +184,7 @@
         m_intId = CType(objUserId.Value, Int32)
     End Sub
 
-    Public Sub Update(ByVal objSettings As IProcessingData)
+    Public Sub Update(ByVal objSettings As ISettings)
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
         Dim objUserId As IDataParameter

@@ -19,6 +19,7 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
             <MenuItem Header="Options">
+                <MenuItem Header="Add Feature" Name="mnuAddFeature"/>
                 <Separator/>
                 <MenuItem Header="Exit" Name="mnuExit"/>
             </MenuItem>

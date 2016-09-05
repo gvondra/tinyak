@@ -1,5 +1,5 @@
 ﻿Friend Module modDatabase
-    Public Function OpenConnection(ByVal objProcessingData As IProcessingData) As IDbConnection
+    Public Function OpenConnection(ByVal objProcessingData As ISettings) As IDbConnection
         Dim objConnection As SqlClient.SqlConnection
 
         objConnection = New SqlClient.SqlConnection(objProcessingData.ConnectionString)

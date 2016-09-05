@@ -1,6 +1,6 @@
 ﻿Imports tinyak.Data
 Friend Class clsSettings
-    Implements IProcessingData
+    Implements tinyak.Data.ISettings
 
     Private m_objInnerSettings As ISettings
     Private m_objDatabaseConnection As IDbConnection
@@ -10,13 +10,13 @@ Friend Class clsSettings
         m_objInnerSettings = objSettings
     End Sub
 
-    Public ReadOnly Property ConnectionString As String Implements IProcessingData.ConnectionString
+    Public ReadOnly Property ConnectionString As String Implements tinyak.Data.ISettings.ConnectionString
         Get
             Return m_objInnerSettings.ConnectionString
         End Get
     End Property
 
-    Public Property DatabaseConnection As IDbConnection Implements IProcessingData.DatabaseConnection
+    Public Property DatabaseConnection As IDbConnection Implements tinyak.Data.ISettings.DatabaseConnection
         Get
             Return m_objDatabaseConnection
         End Get
@@ -25,7 +25,7 @@ Friend Class clsSettings
         End Set
     End Property
 
-    Public Property DatabaseTransaction As IDbTransaction Implements IProcessingData.DatabaseTransaction
+    Public Property DatabaseTransaction As IDbTransaction Implements tinyak.Data.ISettings.DatabaseTransaction
         Get
             Return m_objDatabaseTransaction
         End Get

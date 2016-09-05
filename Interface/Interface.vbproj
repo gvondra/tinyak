@@ -69,6 +69,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsFeatureListItem.vb" />
     <Compile Include="clsProject.vb" />
     <Compile Include="clsSession.vb" />
     <Compile Include="clsUser.vb" />

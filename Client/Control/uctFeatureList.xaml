@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="uctProjectList"
+﻿<UserControl x:Class="uctFeatureList"
+             xmlns:t="clr-namespace:tinyak.Client"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,10 +8,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ItemsControl ItemsSource="{Binding Projects}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <t:uctAddFeature Grid.Row="0" OnHide="uctAddFeature_OnHide" AfterAddFeature="uctAddFeature_AfterAddFeature" DataContext="{Binding AddFeature}" Visibility="{Binding Visibility}" />
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding FeatureListItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock><Hyperlink Click="Hyperlink_Click"><TextBlock Text="{Binding Title}"/></Hyperlink></TextBlock>
+                    <t:uctFeatureListItem />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

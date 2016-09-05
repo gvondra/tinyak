@@ -73,7 +73,7 @@
     <Compile Include="clsTaskData.vb" />
     <Compile Include="clsUserData.vb" />
     <Compile Include="clsWorkItemData.vb" />
-    <Compile Include="IProcessingData.vb" />
+    <Compile Include="ISettings.vb" />
     <Compile Include="modDatabase.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
   </ItemGroup>
