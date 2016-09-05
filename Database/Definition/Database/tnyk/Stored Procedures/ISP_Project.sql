@@ -13,6 +13,6 @@ BEGIN
 	INSERT INTO [tnyk].[ProjectMember] ([ProjectId], [EmailAddress])
 	SELECT @id, [EmailAddress]
 	FROM [tnyk].[User]
-	WHERE [UserID] = @id
+	WHERE [UserID] = @ownerId
 	;
 END

@@ -95,5 +95,10 @@
     <Build Include="tnyk\Stored Procedures\DSP_ProjectMember_By_ProjectEmailAddress.sql" />
     <Build Include="tnyk\Stored Procedures\USP_Project.sql" />
     <Build Include="tnyk\Stored Procedures\SSP_Project_By_EmailAddress.sql" />
+    <Build Include="tnyk\Stored Procedures\DSP_Feature.sql" />
+    <Build Include="tnyk\Stored Procedures\ISP_Feature.sql" />
+    <Build Include="tnyk\Stored Procedures\SSP_Feature_By_Project.sql" />
+    <Build Include="tnyk\Stored Procedures\USP_Feature.sql" />
+    <Build Include="tnyk\Stored Procedures\SSP_Feature.sql" />
   </ItemGroup>
 </Project>
