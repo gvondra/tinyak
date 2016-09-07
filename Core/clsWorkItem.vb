@@ -183,4 +183,21 @@ Public Class clsWorkItem
             End If
         End Try
     End Sub
+
+    Friend Shared Function GetByFeature(ByVal objSettings As clsSettings, ByVal objFeature As clsFeature) As List(Of clsWorkItem)
+        Dim colData As List(Of clsWorkItemData)
+        Dim objData As clsWorkItemData
+        Dim colResult As List(Of clsWorkItem)
+
+        colData = clsWorkItemData.GetByFeatureId(objSettings, objFeature.Id.Value)
+        If colData IsNot Nothing Then
+            colResult = New List(Of clsWorkItem)
+            For Each objData In colData
+                colResult.Add(New clsWorkItem(objData, objFeature))
+            Next
+        Else
+            colResult = Nothing
+        End If
+        Return colResult
+    End Function
 End Class

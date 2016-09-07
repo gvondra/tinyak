@@ -151,4 +151,19 @@ Public Class clsFeature
             Return Nothing
         End If
     End Function
+
+    Public Function GetProject(ByVal objSettings As ISettings) As clsProject
+        If m_objProject Is Nothing AndAlso ProjectId.HasValue Then
+            m_objProject = clsProject.Get(objSettings, ProjectId.Value)
+        End If
+        Return m_objProject
+    End Function
+
+    Public Function GetWorkItems(ByVal objSettings As ISettings) As List(Of clsWorkItem)
+        If Id.HasValue Then
+            Return clsWorkItem.GetByFeature(New clsSettings(objSettings), Me)
+        Else
+            Return Nothing
+        End If
+    End Function
 End Class

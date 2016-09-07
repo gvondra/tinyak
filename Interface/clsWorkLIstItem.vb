@@ -1,6 +1,8 @@
 ﻿Imports System.IO
 Imports tas = tinyak.API.Shared
 Public Class clsWorkListItem
+    Implements IComparable(Of clsWorkListItem)
+
     Private m_objInnerWorkListItem As tas.clsWorkListItem
 
     Private Sub New(ByVal objWorkListItem As tas.clsWorkListItem)
@@ -85,5 +87,39 @@ Public Class clsWorkListItem
         Else
             Return Nothing
         End If
+    End Function
+
+    Public Shared Function GetByFeatureId(ByVal objSettings As ISettings, ByVal objSession As Guid, ByVal intFeatureId As Integer) As List(Of clsWorkListItem)
+        Dim objRequest As HttpWebRequest
+        Dim objResponse As HttpWebResponse
+        Dim objUri As Uri
+        Dim objQuery As NameValueCollection
+        Dim objSerializer As DataContractSerializer
+        Dim arrInner() As tas.clsWorkListItem
+        Dim colResult As List(Of clsWorkListItem)
+        Dim i As Integer
+
+        objQuery = New NameValueCollection
+        objQuery.Add("featureId", intFeatureId.ToString)
+        objUri = GetUri(objSettings, "WorkItems", objQuery)
+        objRequest = CreateGetRequest(objSession, objUri)
+
+        objResponse = DirectCast(objRequest.GetResponse, HttpWebResponse)
+        objSerializer = New DataContractSerializer(GetType(tas.clsWorkListItem()))
+        arrInner = CType(objSerializer.ReadObject(objResponse.GetResponseStream), tas.clsWorkListItem())
+        If arrInner IsNot Nothing Then
+            colResult = New List(Of clsWorkListItem)
+            For i = 0 To arrInner.Length - 1
+                colResult.Add(New clsWorkListItem(arrInner(i)))
+            Next i
+            colResult.Sort()
+        Else
+            colResult = Nothing
+        End If
+        Return colResult
+    End Function
+
+    Public Function CompareTo(other As clsWorkListItem) As Int32 Implements IComparable(Of clsWorkListItem).CompareTo
+        Return String.Compare(Title, other.Title, True)
     End Function
 End Class

@@ -16,8 +16,16 @@
         <Grid Grid.Row="1" Margin="15,0,0,15" Visibility="{Binding ContentVisibility}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <t:uctAddWorkItem x:Name="ctlAddWorkItem" DataContext="{Binding AddWorkItem}" Visibility="{Binding Visibility}"/>
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding WorkListItems}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <t:uctWorkListItem />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
     </Grid>
 </UserControl>

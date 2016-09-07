@@ -23,6 +23,16 @@ Public Class clsFeatureListItemVM
         m_intContentVisibility = Visibility.Collapsed
     End Sub
 
+    Public Property WorkListItems As ObservableCollection(Of clsWorkListItemVM)
+        Get
+            Return m_colWorkListItem
+        End Get
+        Set
+            m_colWorkListItem = Value
+            OnPropertyChanged()
+        End Set
+    End Property
+
     Public Property ContentVisibility As Visibility
         Get
             Return m_intContentVisibility
@@ -97,6 +107,15 @@ Public Class clsFeatureListItemVM
 
     Public Delegate Sub LoadWorkItemsDeleage(ByVal objSessionId As Guid)
     Public Sub LoadWorkItems(ByVal objSessionId As Guid)
+        Dim colWorkItem As List(Of clsWorkListItem)
+        Dim objWorkItem As clsWorkListItem
 
+        m_colWorkListItem.Clear()
+        colWorkItem = clsWorkListItem.GetByFeatureId(New clsSettings, objSessionId, m_objInnerFeatureListItem.Id)
+        If colWorkItem IsNot Nothing Then
+            For Each objWorkItem In colWorkItem
+                m_colWorkListItem.Add(New clsWorkListItemVM(objWorkItem))
+            Next objworkitem
+        End If
     End Sub
 End Class

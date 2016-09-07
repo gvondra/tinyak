@@ -18,13 +18,13 @@
                 .AssignedTo = Nothing
             End If
             .Description = objReader.GetString(objReader.GetOrdinal("Description"))
-            If objReader.IsDBNull(objReader.GetOrdinal("")) = False Then
+            If objReader.IsDBNull(objReader.GetOrdinal("Effort")) = False Then
                 .Effort = objReader.GetInt16(objReader.GetOrdinal("Effort"))
             Else
                 .Effort = Nothing
             End If
             .FeatureId = objReader.GetInt32(objReader.GetOrdinal("FeatureId"))
-            .Id = objReader.GetInt32(objReader.GetOrdinal("Id"))
+            .Id = objReader.GetInt32(objReader.GetOrdinal("WorkItemId"))
             .ProjectId = objReader.GetInt32(objReader.GetOrdinal("ProjectId"))
             .State = objReader.GetInt16(objReader.GetOrdinal("State"))
             .Title = objReader.GetString(objReader.GetOrdinal("Title")).TrimEnd
