@@ -12,6 +12,9 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "API.Shared", "API.Shared\API.Shared.vbproj", "{0F7174D2-036A-4AFF-A49B-E4BF50076893}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Interface", "Interface\Interface.vbproj", "{ACC2F672-6172-4C33-9109-0BEC9C52E933}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8542F93F-03B6-4B7C-8117-BE84F382F471} = {8542F93F-03B6-4B7C-8117-BE84F382F471}
+	EndProjectSection
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Client", "Client\Client.vbproj", "{F52E13FB-3178-44CD-AED4-C35119746CF1}"
 EndProject
