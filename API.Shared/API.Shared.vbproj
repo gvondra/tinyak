@@ -62,12 +62,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsConstant.vb" />
+    <Compile Include="clsCreateWorkItemRequest.vb" />
     <Compile Include="clsCreateFeatureRequest.vb" />
+    <Compile Include="clsCreateWorkItemResponse.vb" />
     <Compile Include="clsCreateFeatureResponse.vb" />
     <Compile Include="clsFeature.vb" />
     <Compile Include="clsFeatureListItem.vb" />
     <Compile Include="clsProject.vb" />
     <Compile Include="clsUser.vb" />
+    <Compile Include="clsWorkItem.vb" />
+    <Compile Include="clsWorkListItem.vb" />
+    <Compile Include="Constant.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

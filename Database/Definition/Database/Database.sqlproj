@@ -100,5 +100,7 @@
     <Build Include="tnyk\Stored Procedures\SSP_Feature_By_Project.sql" />
     <Build Include="tnyk\Stored Procedures\USP_Feature.sql" />
     <Build Include="tnyk\Stored Procedures\SSP_Feature.sql" />
+    <Build Include="tnyk\Stored Procedures\ISP_WorkItem.sql" />
+    <Build Include="tnyk\Stored Procedures\SSP_WorkItem_By_Feature.sql" />
   </ItemGroup>
 </Project>

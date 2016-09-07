@@ -1,5 +1,4 @@
 ﻿Imports System.IO
-Imports tinyak.Interface
 Imports tas = tinyak.API.Shared
 Public Class clsFeatureListItem
     Implements IComparable(Of clsFeatureListItem)

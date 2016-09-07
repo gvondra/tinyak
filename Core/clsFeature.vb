@@ -8,17 +8,21 @@ Public Class clsFeature
         m_objProject = objProject
     End Sub
 
+    Private Sub New(ByVal objFeatureData As clsFeatureData)
+        m_objFeatureData = objFeatureData
+    End Sub
+
     Public ReadOnly Property Id As Nullable(Of Integer)
         Get
             Return m_objFeatureData.Id
         End Get
     End Property
 
-    Private Property ProjectId As Nullable(Of Integer)
+    Friend Property ProjectId As Nullable(Of Integer)
         Get
             Return m_objFeatureData.ProjectId
         End Get
-        Set
+        Private Set
             m_objFeatureData.ProjectId = Value
         End Set
     End Property
@@ -39,6 +43,10 @@ Public Class clsFeature
         Return objFeature
     End Function
 
+    Public Function GetNewWorkItem() As clsWorkItem
+        Return clsWorkItem.GetNew(Me)
+    End Function
+
     Public Sub Create(ByVal objSettings As ISettings)
         Dim objInnerSettings As clsSettings
 
@@ -46,7 +54,7 @@ Public Class clsFeature
             If m_objProject IsNot Nothing AndAlso m_objProject.Id.HasValue Then
                 ProjectId = m_objProject.Id.Value
             Else
-                Throw New ApplicationException("Cannot create feature with project")
+                Throw New ApplicationException("Cannot create feature without project")
             End If
         End If
 
@@ -132,5 +140,15 @@ Public Class clsFeature
             End If
         End If
         Return colResult
+    End Function
+
+    Public Shared Function [Get](ByVal objSettings As ISettings, ByVal intFeatureId As Integer) As clsFeature
+        Dim objData As clsFeatureData
+        objData = clsFeatureData.Get(New clsSettings(objSettings), intFeatureId)
+        If objData IsNot Nothing Then
+            Return New clsFeature(objData)
+        Else
+            Return Nothing
+        End If
     End Function
 End Class

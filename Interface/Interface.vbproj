@@ -73,6 +73,8 @@
     <Compile Include="clsProject.vb" />
     <Compile Include="clsSession.vb" />
     <Compile Include="clsUser.vb" />
+    <Compile Include="clsWorkLIstItem.vb" />
+    <Compile Include="Constant.vb" />
     <Compile Include="ISettings.vb" />
     <Compile Include="modUtility.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

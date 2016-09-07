@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="uctFeatureListItem"
+             xmlns:t="clr-namespace:tinyak.Client"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,6 +8,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TextBlock Text="{Binding Title}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0"><Hyperlink TextDecorations="None" Click="Expand_Click"><TextBlock FontWeight="Bold" FontSize="16" Margin="0,0,5,0" Padding="0" VerticalAlignment="Center" Foreground="{StaticResource ForegroundColor}" Text="{Binding ExpandText}"/></Hyperlink><TextBlock Text="{Binding Title}"/><Hyperlink Click="Add_Click" TextDecorations="none" FontSize="11"><TextBlock Margin="15,0,0,0" Foreground="LightBlue">add</TextBlock></Hyperlink></TextBlock>
+        <Grid Grid.Row="1" Margin="15,0,0,15" Visibility="{Binding ContentVisibility}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <t:uctAddWorkItem x:Name="ctlAddWorkItem" DataContext="{Binding AddWorkItem}" Visibility="{Binding Visibility}"/>
+        </Grid>
     </Grid>
 </UserControl>

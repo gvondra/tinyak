@@ -59,13 +59,27 @@ Public Class clsFeatureListVM
     Public Sub LoadBacklog(ByVal objSessionId As Guid)
         Dim colFeature As List(Of clsFeatureListItem)
         Dim objFeature As clsFeatureListItem
+        Dim objVM As clsFeatureListItemVM
+        Dim objDelegate As clsFeatureListItemVM.LoadWorkItemsDeleage
 
         m_colFeatureListItem.Clear()
         colFeature = clsFeatureListItem.GetByProjectId(New clsSettings, objSessionId, m_objProject.Id)
         If colFeature IsNot Nothing Then
             For Each objFeature In colFeature
-                m_colFeatureListItem.Add(New clsFeatureListItemVM(objFeature))
+                objVM = New clsFeatureListItemVM(objFeature) With {.Project = Project}
+                m_colFeatureListItem.Add(objVM)
+
+                objDelegate = New clsFeatureListItemVM.LoadWorkItemsDeleage(AddressOf objVM.LoadWorkItems)
+                objDelegate.BeginInvoke(objSessionId, AddressOf LoadWorkItemsCallback, objDelegate)
             Next
         End If
+    End Sub
+
+    Private Sub LoadWorkItemsCallback(ByVal objResult As IAsyncResult)
+        Try
+            CType(objResult.AsyncState, clsFeatureListItemVM.LoadWorkItemsDeleage).EndInvoke(objResult)
+        Catch ex As Exception
+
+        End Try
     End Sub
 End Class
