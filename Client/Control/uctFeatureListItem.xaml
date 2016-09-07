@@ -18,11 +18,11 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <t:uctAddWorkItem x:Name="ctlAddWorkItem" DataContext="{Binding AddWorkItem}" Visibility="{Binding Visibility}"/>
+            <t:uctAddWorkItem x:Name="ctlAddWorkItem" AfterAddWorkItem="ctlAddWorkItem_AfterAddWorkItem" DataContext="{Binding AddWorkItem}" Visibility="{Binding Visibility}"/>
             <ItemsControl Grid.Row="1" ItemsSource="{Binding WorkListItems}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <t:uctWorkListItem />
+                        <t:uctWorkListItem  DeselectAllWorkItems="uctWorkListItem_DeselectAllWorkItems"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

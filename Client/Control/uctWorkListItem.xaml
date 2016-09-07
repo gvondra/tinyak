@@ -6,7 +6,15 @@
              xmlns:local="clr-namespace:tinyak.Client"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <TextBlock Text="{Binding Title}"/>
+    <Grid Background="{Binding Background}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="75"/>
+            <ColumnDefinition Width="75"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Name="lblTitle" Grid.Column="0" Text="{Binding Title}"/>
+        <TextBlock Grid.Column="2" Text="{Binding Effort}"/>
+        <TextBlock Grid.Column="3" Text="{Binding StatusDescription}"/>
     </Grid>
 </UserControl>

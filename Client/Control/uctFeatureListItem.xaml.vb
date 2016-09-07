@@ -10,4 +10,12 @@
     Private Sub ctlAddWorkItem_OnHide(objSender As Control) Handles ctlAddWorkItem.OnHide
         CType(DataContext, clsFeatureListItemVM).HideAddWorkItem()
     End Sub
+
+    Private Sub uctWorkListItem_DeselectAllWorkItems(objSender As Control)
+        CType(DataContext, clsFeatureListItemVM).DeleselectAllWorkItems()
+    End Sub
+
+    Private Sub ctlAddWorkItem_AfterAddWorkItem(objSender As Control, objWorkItem As clsWorkListItem)
+        CType(DataContext, clsFeatureListItemVM).WorkListItems.Add(New clsWorkListItemVM(objWorkItem))
+    End Sub
 End Class

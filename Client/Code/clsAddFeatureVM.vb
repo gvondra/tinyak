@@ -8,6 +8,10 @@ Public Class clsAddFeatureVM
 
     Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
 
+    Public Sub New()
+        m_intVisibility = Visibility.Collapsed
+    End Sub
+
     Public Property Project As clsProject
 
     Public Property Title As String

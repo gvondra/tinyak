@@ -118,4 +118,11 @@ Public Class clsFeatureListItemVM
             Next objworkitem
         End If
     End Sub
+
+    Public Sub DeleselectAllWorkItems()
+        Dim objWorkItem As clsWorkListItemVM
+        For Each objWorkItem In m_colWorkListItem
+            objWorkItem.Deselected()
+        Next objWorkItem
+    End Sub
 End Class
