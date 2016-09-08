@@ -1,6 +1,8 @@
 ﻿Public Class uctFeaturesViewer
     Private m_objFeatureViewer As clsFeaturesViewerVM
 
+    Public Event FeatureDoubleClick(ByVal objSender As Object, ByVal objFeature As clsFeatureListItemVM)
+
     Private Function SessionId() As Guid
         Return DirectCast(Window.GetWindow(Me), winMain).SessionId
     End Function
@@ -25,5 +27,9 @@
         Catch ex As Exception
             winException.BeginProcessException(ex, Dispatcher)
         End Try
+    End Sub
+
+    Private Sub uctFeatureList_FeatureDoubleClick(objSender As Object, objFeature As clsFeatureListItemVM)
+        RaiseEvent FeatureDoubleClick(objSender, objFeature)
     End Sub
 End Class

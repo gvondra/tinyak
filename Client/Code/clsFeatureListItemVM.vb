@@ -23,6 +23,12 @@ Public Class clsFeatureListItemVM
         m_intContentVisibility = Visibility.Collapsed
     End Sub
 
+    Public ReadOnly Property Id As Integer
+        Get
+            Return m_objInnerFeatureListItem.Id
+        End Get
+    End Property
+
     Public Property WorkListItems As ObservableCollection(Of clsWorkListItemVM)
         Get
             Return m_colWorkListItem

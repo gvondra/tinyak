@@ -16,6 +16,6 @@
             <TextBlock Margin="0,0,0,10"><Hyperlink Name="lnkBacklog"><TextBlock>Backlog</TextBlock></Hyperlink></TextBlock>
             <TextBlock TextDecorations="Underline">Itterations</TextBlock>
         </StackPanel>
-        <t:uctFeatureList Grid.Column="1" DataContext="{Binding FeatureList}" />
+        <t:uctFeatureList Grid.Column="1" DataContext="{Binding FeatureList}" FeatureDoubleClick="uctFeatureList_FeatureDoubleClick" />
     </Grid>
 </UserControl>

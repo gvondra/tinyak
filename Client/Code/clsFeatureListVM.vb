@@ -79,7 +79,7 @@ Public Class clsFeatureListVM
         Try
             CType(objResult.AsyncState, clsFeatureListItemVM.LoadWorkItemsDeleage).EndInvoke(objResult)
         Catch ex As Exception
-
+            'todo fix this
         End Try
     End Sub
 End Class

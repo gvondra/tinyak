@@ -98,9 +98,11 @@
     <Compile Include="Code\clsAddWorkItemVM.vb" />
     <Compile Include="Code\clsAddFeatureVM.vb" />
     <Compile Include="Code\clsAppSettings.vb" />
+    <Compile Include="Code\clsExceptionVM.vb" />
     <Compile Include="Code\clsFeatureListItemVM.vb" />
     <Compile Include="Code\clsFeatureListVM.vb" />
     <Compile Include="Code\clsFeaturesViewerVM.vb" />
+    <Compile Include="Code\clsFeatureVM.vb" />
     <Compile Include="Code\clsSettings.vb" />
     <Compile Include="Code\clsUserVM.vb" />
     <Compile Include="Code\clsWorkListItemVM.vb" />
@@ -130,6 +132,9 @@
     </Compile>
     <Compile Include="winException.xaml.vb">
       <DependentUpon>winException.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="winFeature.xaml.vb">
+      <DependentUpon>winFeature.xaml</DependentUpon>
     </Compile>
     <Compile Include="winMain.xaml.vb">
       <DependentUpon>winMain.xaml</DependentUpon>
@@ -171,6 +176,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="winException.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="winFeature.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

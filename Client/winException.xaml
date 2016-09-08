@@ -15,6 +15,11 @@
         </LinearGradientBrush>
     </Window.Resources>
     <Grid>
-        <TextBlock Style="{StaticResource Header}">Exception</TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Style="{StaticResource Header}">By Odin's beard this is failing</TextBlock>
+        <TextBox Grid.Row="1" Background="Transparent" BorderThickness="0" IsReadOnly="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto" BorderBrush="{x:Null}" Foreground="{StaticResource ForegroundColor}" FontFamily="Courier New" FontSize="12" TextWrapping="NoWrap" Text="{Binding Text, Mode=OneWay}"/>
     </Grid>
 </Window>
