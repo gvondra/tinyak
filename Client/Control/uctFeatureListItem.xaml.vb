@@ -5,7 +5,13 @@
     End Sub
 
     Private Sub Add_Click(sender As Object, e As RoutedEventArgs)
-        CType(DataContext, clsFeatureListItemVM).ShowAddWorkItem()
+        Dim objFeature As clsFeatureListItemVM
+
+        objFeature = CType(DataContext, clsFeatureListItemVM)
+        objFeature.ShowAddWorkItem()
+        If objFeature.IsExpanded = False Then
+            objFeature.ToggleIsExpanded()
+        End If
     End Sub
 
     Private Sub ctlAddWorkItem_OnHide(objSender As Control) Handles ctlAddWorkItem.OnHide

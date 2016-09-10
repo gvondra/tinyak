@@ -101,6 +101,12 @@ Public Class clsFeatureListItemVM
         m_blnIsExpanded = Not m_blnIsExpanded
     End Sub
 
+    Public ReadOnly Property IsExpanded As Boolean
+        Get
+            Return m_blnIsExpanded
+        End Get
+    End Property
+
     Private Sub OnPropertyChanged(<CallerMemberName> Optional ByVal strName As String = Nothing)
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(strName))
     End Sub

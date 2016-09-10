@@ -6,13 +6,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:tinyak.Client"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="400">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0"><Hyperlink TextDecorations="None" Click="Expand_Click"><TextBlock FontWeight="Bold" FontSize="16" Margin="0,0,5,0" Padding="0" VerticalAlignment="Center" Foreground="{StaticResource ForegroundColor}" Text="{Binding ExpandText}"/></Hyperlink><TextBlock Name="lblTitle" Text="{Binding Title}"/><Hyperlink Click="Add_Click" TextDecorations="none" FontSize="11"><TextBlock Margin="15,0,0,0" Foreground="LightBlue">add</TextBlock></Hyperlink></TextBlock>
+        <TextBlock Grid.Row="0">
+            <Hyperlink TextDecorations="None" Click="Expand_Click"><TextBlock FontWeight="Bold" FontSize="16" Margin="0,0,5,0" Padding="0" VerticalAlignment="Center" Foreground="{StaticResource ForegroundColor}" Text="{Binding ExpandText}"/></Hyperlink><TextBlock Name="lblTitle" Text="{Binding Title}"/>
+            <TextBlock.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="add" Click="Add_Click"/>
+                </ContextMenu>
+            </TextBlock.ContextMenu>
+        </TextBlock>
         <Grid Grid.Row="1" Margin="15,0,0,15" Visibility="{Binding ContentVisibility}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
