@@ -24,7 +24,7 @@
     End Property
 
     Private Function SessionId() As Guid
-        Return DirectCast(Window.GetWindow(Me), winMain).SessionId
+        Return winMain.SessionId
     End Function
 
     Private Sub btnAdd_Click(sender As Object, e As RoutedEventArgs) Handles btnAdd.Click

@@ -5,8 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:tinyak.Client"
         mc:Ignorable="d"
-        Title="tinyak" Height="600" Width="800" Style="{StaticResource WindowStyle}">
+        Title="{Binding Title}" Height="175" Width="800" Style="{StaticResource WindowStyle}">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" Grid.Row="0">Title:</TextBlock>
+        <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Vertical">
+            <TextBox Name="txtTitle" Text="{Binding Title, UpdateSourceTrigger=Explicit}"/>
+            <TextBlock Name="lblTitleMessage" Text="{Binding TitleMessage}" Visibility="{Binding TitleMessageVisiblity}"/>
+        </StackPanel>
+        <Button Grid.Column="2" Grid.Row="1" Name="btnSave">_Save</Button>
     </Grid>
 </Window>

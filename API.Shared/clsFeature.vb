@@ -1,7 +1,9 @@
 ﻿<DataContract(Name:="Feature", Namespace:="urn:tinyak.net/api/v1")>
 Public Class clsFeature
     <DataMember>
-    Property Id As Integer
+    Public Property Id As Integer
     <DataMember>
-    Property Title As String
+    Public Property ProjectId As Integer
+    <DataMember>
+    Public Property Title As String
 End Class

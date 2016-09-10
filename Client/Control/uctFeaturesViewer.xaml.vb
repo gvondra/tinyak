@@ -4,7 +4,7 @@
     Public Event FeatureDoubleClick(ByVal objSender As Object, ByVal objFeature As clsFeatureListItemVM)
 
     Private Function SessionId() As Guid
-        Return DirectCast(Window.GetWindow(Me), winMain).SessionId
+        Return winMain.SessionId
     End Function
 
     Public Sub LoadBacklog(ByVal objProject As clsProject)
@@ -13,7 +13,7 @@
     End Sub
 
     Private Sub LoadBacklog()
-        m_objFeatureViewer.FeatureList.LoadBacklog(SessionId)
+        m_objFeatureViewer.FeatureList.LoadBacklog(SessionId, Dispatcher)
     End Sub
 
     Private Sub uctFeaturesViewer_Initialized(sender As Object, e As EventArgs) Handles Me.Initialized

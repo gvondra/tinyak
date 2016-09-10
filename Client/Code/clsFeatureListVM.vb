@@ -56,23 +56,43 @@ Public Class clsFeatureListVM
         m_objAddFeature.Visibility = Visibility.Collapsed
     End Sub
 
-    Public Sub LoadBacklog(ByVal objSessionId As Guid)
+    Public Sub LoadBacklog(ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher)
+        Dim objGet As GetByProjectIdDelegate
+
+        m_colFeatureListItem.Clear()
+        objGet = New GetByProjectIdDelegate(AddressOf GetByProjectId)
+        objGet.BeginInvoke(objSessionId, objDispatcher, Nothing, objGet)
+    End Sub
+
+    Private Delegate Sub GetByProjectIdDelegate(ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher)
+    Private Sub GetByProjectId(ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher)
         Dim colFeature As List(Of clsFeatureListItem)
+        Dim objLoad As LoadFeaturesDelegate
+
+        Try
+            colFeature = clsFeatureListItem.GetByProjectId(New clsSettings, objSessionId, m_objProject.Id)
+            If colFeature IsNot Nothing Then
+                objLoad = New LoadFeaturesDelegate(AddressOf LoadFeatures)
+                objDispatcher.Invoke(objLoad, colFeature, objSessionId, objDispatcher)
+            End If
+        Catch ex As Exception
+            winException.BeginProcessException(ex, objDispatcher)
+        End Try
+    End Sub
+
+    Private Delegate Sub LoadFeaturesDelegate(ByVal colFeature As List(Of clsFeatureListItem), ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher)
+    Private Sub LoadFeatures(ByVal colFeature As List(Of clsFeatureListItem), ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher)
         Dim objFeature As clsFeatureListItem
         Dim objVM As clsFeatureListItemVM
         Dim objDelegate As clsFeatureListItemVM.LoadWorkItemsDeleage
 
-        m_colFeatureListItem.Clear()
-        colFeature = clsFeatureListItem.GetByProjectId(New clsSettings, objSessionId, m_objProject.Id)
-        If colFeature IsNot Nothing Then
-            For Each objFeature In colFeature
-                objVM = New clsFeatureListItemVM(objFeature) With {.Project = Project}
-                m_colFeatureListItem.Add(objVM)
+        For Each objFeature In colFeature
+            objVM = New clsFeatureListItemVM(objFeature) With {.Project = Project}
+            m_colFeatureListItem.Add(objVM)
 
-                objDelegate = New clsFeatureListItemVM.LoadWorkItemsDeleage(AddressOf objVM.LoadWorkItems)
-                objDelegate.BeginInvoke(objSessionId, AddressOf LoadWorkItemsCallback, objDelegate)
-            Next
-        End If
+            objDelegate = New clsFeatureListItemVM.LoadWorkItemsDeleage(AddressOf objVM.LoadWorkItems)
+            objDelegate.BeginInvoke(objSessionId, AddressOf LoadWorkItemsCallback, objDelegate)
+        Next
     End Sub
 
     Private Sub LoadWorkItemsCallback(ByVal objResult As IAsyncResult)

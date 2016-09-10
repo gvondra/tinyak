@@ -6,7 +6,7 @@ Public Class winMain
     Private m_objCurrentProject As clsProject
     Private m_objFeatureWindows As Dictionary(Of Integer, winFeature)
 
-    Public Property SessionId As Guid
+    Public Shared Property SessionId As Guid
     Public Property Projects As ObservableCollection(Of clsProject)
 
 
@@ -98,15 +98,22 @@ Public Class winMain
     Private Sub GetFeatureCallback(ByVal objResult As IAsyncResult)
         Dim objFeature As clsFeature
         Dim objWindow As winFeature
+        Dim objSetDataContext As SetDataContextDelegate
         Try
             objFeature = CType(objResult.AsyncState, GetFeatureDelegate).EndInvoke(objResult)
             If m_objFeatureWindows.ContainsKey(objFeature.Id) Then
                 objWindow = m_objFeatureWindows(objFeature.Id)
-                objWindow.DataContext = New clsFeatureVM(objFeature)
+                objSetDataContext = New SetDataContextDelegate(AddressOf SetDataContext)
+                Dispatcher.Invoke(objSetDataContext, objWindow, New clsFeatureVM(objFeature))
             End If
         Catch ex As Exception
             winException.BeginProcessException(ex, Dispatcher)
         End Try
+    End Sub
+
+    Private Delegate Sub SetDataContextDelegate(ByVal objWindow As Window, ByVal obj As Object)
+    Private Sub SetDataContext(ByVal objWindow As Window, ByVal obj As Object)
+        objWindow.DataContext = obj
     End Sub
 
     Private Sub OnFeatureWindowClosing(ByVal objSender As Object, ByVal e As System.ComponentModel.CancelEventArgs)

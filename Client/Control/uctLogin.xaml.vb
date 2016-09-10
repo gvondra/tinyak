@@ -2,7 +2,7 @@
     Public Event LoggedIn(ByVal objSender As Control, ByVal objUser As clsUser)
 
     Private Function SessionId() As Guid
-        Return DirectCast(Window.GetWindow(Me), winMain).SessionId
+        Return winMain.SessionId
     End Function
 
     Private Sub btnLogin_Click(sender As Object, e As RoutedEventArgs) Handles btnLogin.Click

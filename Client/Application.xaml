@@ -22,6 +22,7 @@ ShutdownMode="OnMainWindowClose">
         </Style>
         <Style TargetType="Button">
             <Setter Property="Padding" Value="5,2,5,2"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
     </Application.Resources>
 </Application>

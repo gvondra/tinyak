@@ -70,4 +70,13 @@ Friend Module modUtility
         Return objRequest
     End Function
 
+    Public Function CreatePutRequest(ByVal objSession As Guid, ByVal objUri As Uri) As HttpWebRequest
+        Dim objRequest As HttpWebRequest
+        objRequest = CreateRequest(objSession, objUri)
+        objRequest.Method = "PUT"
+        'objRequest.ContentType = "application/x-www-form-urlencoded"
+        objRequest.ContentType = "application/xml"
+        Return objRequest
+    End Function
+
 End Module
