@@ -5,6 +5,7 @@ Public Class winMain
     Private WithEvents m_objFeatureViewer As uctFeaturesViewer
     Private m_objCurrentProject As clsProject
     Private m_objFeatureWindows As Dictionary(Of Integer, winFeature)
+    Private m_objWorkItemWindows As Dictionary(Of Integer, winWorkItem)
 
     Public Shared Property SessionId As Guid
     Public Property Projects As ObservableCollection(Of clsProject)
@@ -29,6 +30,7 @@ Public Class winMain
 
         Projects = New ObservableCollection(Of clsProject)
         m_objFeatureWindows = New Dictionary(Of Integer, winFeature)
+        m_objWorkItemWindows = New Dictionary(Of Integer, winWorkItem)
         ctlProjectList.DataContext = Me
         objLoadSessionId = New Action(AddressOf LoadSessionId)
         objLoadSessionId.BeginInvoke(Nothing, objLoadSessionId)
@@ -144,5 +146,70 @@ Public Class winMain
 
     Private Sub winMain_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
         ctlLogin.Focus()
+    End Sub
+
+    Private Sub m_objFeatureViewer_WorkItemDoubleClick(objSender As Object, objWorkItem As clsWorkListItemVM) Handles m_objFeatureViewer.WorkItemDoubleClick
+        Dim objWindow As winWorkItem
+        Dim objShowWorkItem As ShowWorkItemDelegate
+
+        Try
+            If m_objWorkItemWindows.ContainsKey(objWorkItem.Id) Then
+                objWindow = m_objWorkItemWindows(objWorkItem.Id)
+            Else
+                objWindow = New winWorkItem
+                objWindow.Show()
+                AddHandler objWindow.Closing, AddressOf OnWorkItemWindowClosing
+                m_objWorkItemWindows(objWorkItem.Id) = objWindow
+
+                objShowWorkItem = New ShowWorkItemDelegate(AddressOf ShowWorkItem)
+                objShowWorkItem.BeginInvoke(New clsSettings, SessionId, objWorkItem, Nothing, objShowWorkItem)
+            End If
+            objWindow.Activate()
+        Catch ex As Exception
+            winException.BeginProcessException(ex, Dispatcher)
+        End Try
+    End Sub
+
+    Private Delegate Sub ShowWorkItemDelegate(ByVal objSettings As ISettings, ByVal objSessionId As Guid, ByVal objWorkItem As clsWorkListItemVM)
+    Private Sub ShowWorkItem(ByVal objSettings As ISettings, ByVal objSessionId As Guid, ByVal objListItem As clsWorkListItemVM)
+        Dim objWorkItem As clsWorkItem
+        Dim objWindow As winWorkItem
+        Dim objSetDataContext As SetDataContextDelegate
+        Dim objVm As clsWorkItemVM
+        Try
+            objWorkItem = clsWorkItem.Get(objSettings, objSessionId, objListItem.Id)
+            If objWorkItem IsNot Nothing AndAlso m_objWorkItemWindows.ContainsKey(objWorkItem.Id.Value) Then
+                objVm = New clsWorkItemVM(objWorkItem)
+                objWindow = m_objWorkItemWindows(objWorkItem.Id.Value)
+                objSetDataContext = New SetDataContextDelegate(AddressOf SetDataContext)
+                Dispatcher.Invoke(objSetDataContext, objWindow, objVm)
+                objVm.RegisterObserver(objListItem)
+            End If
+        Catch ex As Exception
+            winException.BeginProcessException(ex, Dispatcher)
+        End Try
+    End Sub
+
+    Private Sub OnWorkItemWindowClosing(ByVal objSender As Object, ByVal e As System.ComponentModel.CancelEventArgs)
+        Dim objEnumerator As Dictionary(Of Integer, winWorkItem).Enumerator
+        Dim intWorkItemId As Nullable(Of Integer)
+
+        If objSender.GetType.Equals(GetType(winWorkItem)) Then
+            intWorkItemId = Nothing
+            If DirectCast(objSender, winWorkItem).DataContext IsNot Nothing Then
+                intWorkItemId = DirectCast(DirectCast(objSender, winWorkItem).DataContext, clsWorkItemVM).Id
+            Else
+                objEnumerator = m_objWorkItemWindows.GetEnumerator
+                While intWorkItemId.HasValue = False AndAlso objEnumerator.MoveNext
+                    If objEnumerator.Current.Value Is objSender Then
+                        intWorkItemId = objEnumerator.Current.Key
+                    End If
+                End While
+            End If
+
+            If intWorkItemId.HasValue AndAlso m_objWorkItemWindows.ContainsKey(intWorkItemId.Value) Then
+                m_objWorkItemWindows.Remove(intWorkItemId.Value)
+            End If
+        End If
     End Sub
 End Class

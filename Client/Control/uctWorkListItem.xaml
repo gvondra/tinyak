@@ -11,10 +11,11 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="75"/>
-            <ColumnDefinition Width="75"/>
+            <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
         <TextBlock Name="lblTitle" Grid.Column="0" Text="{Binding Title}"/>
-        <TextBlock Grid.Column="2" Text="{Binding Effort}"/>
+        <TextBlock Grid.Column="1" Text="{Binding AssignedTo}"/>
+        <TextBlock Grid.Column="2" Text="{Binding Effort}" Padding="5,0,5,0"/>
         <TextBlock Grid.Column="3" Text="{Binding StatusDescription}"/>
     </Grid>
 </UserControl>

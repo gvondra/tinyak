@@ -29,7 +29,7 @@
             <ItemsControl Grid.Row="1" ItemsSource="{Binding WorkListItems}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <t:uctWorkListItem  DeselectAllWorkItems="uctWorkListItem_DeselectAllWorkItems"/>
+                        <t:uctWorkListItem  DeselectAllWorkItems="uctWorkListItem_DeselectAllWorkItems" WorkItemDoubleClick="uctWorkListItem_WorkItemDoubleClick"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

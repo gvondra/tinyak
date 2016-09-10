@@ -18,8 +18,8 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Column="0" Grid.Row="0">Title:</TextBlock>
         <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Vertical">
-            <TextBox Name="txtTitle" Text="{Binding Title, UpdateSourceTrigger=Explicit}"/>
-            <TextBlock Name="lblTitleMessage" Text="{Binding TitleMessage}" Visibility="{Binding TitleMessageVisiblity}"/>
+            <TextBox Name="txtTitle" Text="{Binding Title, UpdateSourceTrigger=Explicit}" MaxLength="500"/>
+            <TextBlock Name="lblTitleMessage" Text="{Binding TitleMessage}" Style="{StaticResource ValidationText}" Visibility="{Binding TitleMessageVisiblity}" />
         </StackPanel>
         <Button Grid.Column="2" Grid.Row="1" Name="btnSave">_Save</Button>
     </Grid>

@@ -1,5 +1,6 @@
 ﻿Public Class uctFeatureList
     Public Event FeatureDoubleClick(ByVal objSender As Object, ByVal objFeature As clsFeatureListItemVM)
+    Public Event WorkItemDoubleClick(ByVal objSender As Object, ByVal objWorkItem As clsWorkListItemVM)
 
     Private Sub uctAddFeature_OnHide(objSender As Control)
         DirectCast(DataContext, clsFeatureListVM).HideAddFeature()
@@ -15,5 +16,9 @@
 
     Private Sub uctFeatureListItem_FeatureDoubleClick(objSender As Object, objFeature As clsFeatureListItemVM)
         RaiseEvent FeatureDoubleClick(objSender, objFeature)
+    End Sub
+
+    Private Sub uctFeatureListItem_WorkItemDoubleClick(objSender As Object, objWorkItem As clsWorkListItemVM)
+        RaiseEvent WorkItemDoubleClick(objSender, objWorkItem)
     End Sub
 End Class

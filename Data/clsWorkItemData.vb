@@ -4,7 +4,7 @@
     Public Property FeatureId As Nullable(Of Integer)
     Public Property Title As String
     Public Property State As Int16
-    Public Property AssignedTo As Nullable(Of Integer)
+    Public Property AssignedTo As String
     Public Property Effort As Nullable(Of Int16)
     Public Property Description As String
     Public Property AcceptanceCriteria As String
@@ -12,11 +12,7 @@
     Private Shared Sub Initialize(ByVal objReader As IDataReader, ByVal objWorkItem As clsWorkItemData)
         With objWorkItem
             .AcceptanceCriteria = objReader.GetString(objReader.GetOrdinal("AcceptanceCriteria"))
-            If objReader.IsDBNull(objReader.GetOrdinal("AssignedTo")) = False Then
-                .AssignedTo = objReader.GetInt32(objReader.GetOrdinal("AssignedTo"))
-            Else
-                .AssignedTo = Nothing
-            End If
+            .AssignedTo = objReader.GetString(objReader.GetOrdinal("AssignedTo")).Trim
             .Description = objReader.GetString(objReader.GetOrdinal("Description"))
             If objReader.IsDBNull(objReader.GetOrdinal("Effort")) = False Then
                 .Effort = objReader.GetInt16(objReader.GetOrdinal("Effort"))
@@ -30,6 +26,38 @@
             .Title = objReader.GetString(objReader.GetOrdinal("Title")).TrimEnd
         End With
     End Sub
+
+    Public Shared Function [Get](ByVal objSettings As ISettings, ByVal intId As Integer) As clsWorkItemData
+        Dim objConnection As IDbConnection
+        Dim objCommand As IDbCommand
+        Dim objParameter As IDataParameter
+        Dim objReader As IDataReader
+        Dim objResult As clsWorkItemData
+
+        objConnection = OpenConnection(objSettings)
+        Try
+            objCommand = objConnection.CreateCommand()
+            objCommand.CommandText = "tnyk.SSP_WorkItem"
+            objCommand.CommandType = CommandType.StoredProcedure
+
+            objParameter = CreateParameter(objCommand, "id", DbType.Int32)
+            objParameter.Value = intId
+            objCommand.Parameters.Add(objParameter)
+
+            objReader = objCommand.ExecuteReader
+            If objReader.Read Then
+                objResult = New clsWorkItemData
+                Initialize(objReader, objResult)
+            Else
+                objResult = Nothing
+            End If
+
+            objConnection.Close()
+        Finally
+            objConnection.Dispose()
+        End Try
+        Return objResult
+    End Function
 
     Public Shared Function GetByFeatureId(ByVal objSettings As ISettings, ByVal intFeatureId As Integer) As List(Of clsWorkItemData)
         Dim objConnection As IDbConnection
@@ -100,12 +128,8 @@
         objParameter.Value = State
         objCommand.Parameters.Add(objParameter)
 
-        objParameter = CreateParameter(objCommand, "assignedTo", DbType.Int32)
-        If AssignedTo.HasValue Then
-            objParameter.Value = AssignedTo.Value
-        Else
-            objParameter.Value = DBNull.Value
-        End If
+        objParameter = CreateParameter(objCommand, "assignedTo", DbType.String)
+        objParameter.Value = AssignedTo
         objCommand.Parameters.Add(objParameter)
 
         objParameter = CreateParameter(objCommand, "effort", DbType.Int16)
@@ -145,7 +169,7 @@
         objCommand.Transaction = objSettings.DatabaseTransaction
 
         objParameter = CreateParameter(objCommand, "id", DbType.Int32)
-        objParameter.Direction = ParameterDirection.Output
+        objParameter.Value = Id.Value
         objCommand.Parameters.Add(objParameter)
 
         objParameter = CreateParameter(objCommand, "featureId", DbType.Int32)
@@ -160,12 +184,8 @@
         objParameter.Value = State
         objCommand.Parameters.Add(objParameter)
 
-        objParameter = CreateParameter(objCommand, "assignedTo", DbType.Int32)
-        If AssignedTo.HasValue Then
-            objParameter.Value = AssignedTo.Value
-        Else
-            objParameter.Value = DBNull.Value
-        End If
+        objParameter = CreateParameter(objCommand, "assignedTo", DbType.String)
+        objParameter.Value = AssignedTo
         objCommand.Parameters.Add(objParameter)
 
         objParameter = CreateParameter(objCommand, "effort", DbType.Int16)

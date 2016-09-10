@@ -91,15 +91,7 @@ Public Class clsFeatureListVM
             m_colFeatureListItem.Add(objVM)
 
             objDelegate = New clsFeatureListItemVM.LoadWorkItemsDeleage(AddressOf objVM.LoadWorkItems)
-            objDelegate.BeginInvoke(objSessionId, AddressOf LoadWorkItemsCallback, objDelegate)
+            objDelegate.BeginInvoke(objSessionId, objDispatcher, Nothing, objDelegate)
         Next
-    End Sub
-
-    Private Sub LoadWorkItemsCallback(ByVal objResult As IAsyncResult)
-        Try
-            CType(objResult.AsyncState, clsFeatureListItemVM.LoadWorkItemsDeleage).EndInvoke(objResult)
-        Catch ex As Exception
-            'todo fix this
-        End Try
     End Sub
 End Class

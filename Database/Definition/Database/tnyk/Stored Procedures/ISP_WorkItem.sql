@@ -4,7 +4,7 @@
 	@featureId int,
 	@title NVARCHAR(500),
 	@state SMALLINT,
-	@assignedTo INT,
+	@assignedTo NVARCHAR(250),
 	@effort SMALLINT,
 	@description NTEXT,
 	@acceptanceCriteria NTEXT

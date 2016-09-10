@@ -98,6 +98,7 @@
     <Compile Include="Code\clsAddWorkItemVM.vb" />
     <Compile Include="Code\clsAddFeatureVM.vb" />
     <Compile Include="Code\clsAppSettings.vb" />
+    <Compile Include="Code\clsComboBoxItem.vb" />
     <Compile Include="Code\clsExceptionVM.vb" />
     <Compile Include="Code\clsFeatureListItemVM.vb" />
     <Compile Include="Code\clsFeatureListVM.vb" />
@@ -105,8 +106,10 @@
     <Compile Include="Code\clsFeatureVM.vb" />
     <Compile Include="Code\clsSettings.vb" />
     <Compile Include="Code\clsUserVM.vb" />
+    <Compile Include="Code\clsWorkItemVM.vb" />
     <Compile Include="Code\clsWorkListItemVM.vb" />
     <Compile Include="Code\IFeatureObserver.vb" />
+    <Compile Include="Code\IWorkItemObserver.vb" />
     <Compile Include="Control\uctAddFeature.xaml.vb">
       <DependentUpon>uctAddFeature.xaml</DependentUpon>
     </Compile>
@@ -143,6 +146,9 @@
     <Compile Include="Application.xaml.vb">
       <DependentUpon>Application.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="winWorkItem.xaml.vb">
+      <DependentUpon>winWorkItem.xaml</DependentUpon>
     </Compile>
     <Page Include="Control\uctAddFeature.xaml">
       <SubType>Designer</SubType>
@@ -185,6 +191,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="winMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="winWorkItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

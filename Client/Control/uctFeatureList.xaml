@@ -16,7 +16,7 @@
         <ItemsControl Grid.Row="1" ItemsSource="{Binding FeatureListItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <t:uctFeatureListItem FeatureDoubleClick="uctFeatureListItem_FeatureDoubleClick" />
+                    <t:uctFeatureListItem FeatureDoubleClick="uctFeatureListItem_FeatureDoubleClick" WorkItemDoubleClick="uctFeatureListItem_WorkItemDoubleClick" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

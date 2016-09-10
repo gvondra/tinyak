@@ -11,10 +11,15 @@ Public Class clsWorkItem
 
     Private m_objWorkItemData As clsWorkItemData
     Private m_objFeature As clsFeature
+    Private m_objProject As clsProject
 
     Private Sub New(ByVal objWorkItemData As clsWorkItemData, ByVal objFeature As clsFeature)
         m_objWorkItemData = objWorkItemData
         m_objFeature = objFeature
+    End Sub
+
+    Private Sub New(ByVal objWorkItemData As clsWorkItemData)
+        m_objWorkItemData = objWorkItemData
     End Sub
 
     Public ReadOnly Property Id As Nullable(Of Integer)
@@ -59,7 +64,7 @@ Public Class clsWorkItem
         End Set
     End Property
 
-    Public Property AssignedTo As Nullable(Of Integer)
+    Public Property AssignedTo As String
         Get
             Return m_objWorkItemData.AssignedTo
         End Get
@@ -96,7 +101,7 @@ Public Class clsWorkItem
     End Property
 
     Friend Shared Function GetNew(ByVal objFeature As clsFeature) As clsWorkItem
-        Return New clsWorkItem(New clsWorkItemData, objFeature) With {.AcceptanceCriteria = String.Empty, .Description = String.Empty}
+        Return New clsWorkItem(New clsWorkItemData, objFeature) With {.AcceptanceCriteria = String.Empty, .Description = String.Empty, .AssignedTo = String.Empty}
     End Function
 
     Public Sub Create(ByVal objSettings As ISettings)
@@ -199,5 +204,22 @@ Public Class clsWorkItem
             colResult = Nothing
         End If
         Return colResult
+    End Function
+
+    Public Shared Function [Get](ByVal objSettings As ISettings, ByVal intWorkItemId As Integer) As clsWorkItem
+        Dim objData As clsWorkItemData
+        objData = clsWorkItemData.Get(New clsSettings(objSettings), intWorkItemId)
+        If objData IsNot Nothing Then
+            Return New clsWorkItem(objData)
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Public Function GetProject(ByVal objSettings As ISettings) As clsProject
+        If m_objProject Is Nothing AndAlso ProjectId.HasValue Then
+            m_objProject = clsProject.Get(objSettings, ProjectId.Value)
+        End If
+        Return m_objProject
     End Function
 End Class

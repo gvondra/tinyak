@@ -7,7 +7,7 @@ Public Class clsWorkListItem
     <DataMember>
     Public Property State As enumWorkItemState
     <DataMember>
-    Public Property AssignedTo As Nullable(Of Integer)
+    Public Property AssignedTo As String
     <DataMember>
     Public Property Effort As Nullable(Of Int16)
 End Class

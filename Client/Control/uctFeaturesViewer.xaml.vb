@@ -2,6 +2,7 @@
     Private m_objFeatureViewer As clsFeaturesViewerVM
 
     Public Event FeatureDoubleClick(ByVal objSender As Object, ByVal objFeature As clsFeatureListItemVM)
+    Public Event WorkItemDoubleClick(ByVal objSender As Object, ByVal objWorkItem As clsWorkListItemVM)
 
     Private Function SessionId() As Guid
         Return winMain.SessionId
@@ -31,5 +32,9 @@
 
     Private Sub uctFeatureList_FeatureDoubleClick(objSender As Object, objFeature As clsFeatureListItemVM)
         RaiseEvent FeatureDoubleClick(objSender, objFeature)
+    End Sub
+
+    Private Sub uctFeatureList_WorkItemDoubleClick(objSender As Object, objWorkItem As clsWorkListItemVM)
+        RaiseEvent WorkItemDoubleClick(objSender, objWorkItem)
     End Sub
 End Class

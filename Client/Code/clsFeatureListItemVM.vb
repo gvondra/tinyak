@@ -119,18 +119,33 @@ Public Class clsFeatureListItemVM
         m_objAddWorkItem.Visibility = Visibility.Collapsed
     End Sub
 
-    Public Delegate Sub LoadWorkItemsDeleage(ByVal objSessionId As Guid)
-    Public Sub LoadWorkItems(ByVal objSessionId As Guid)
+    Public Delegate Sub LoadWorkItemsDeleage(ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher)
+    Public Sub LoadWorkItems(ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher)
         Dim colWorkItem As List(Of clsWorkListItem)
+        Dim objLoad As LoadWorkItemsDelegate
+        Try
+            colWorkItem = clsWorkListItem.GetByFeatureId(New clsSettings, objSessionId, m_objInnerFeatureListItem.Id)
+            If colWorkItem IsNot Nothing Then
+                objLoad = New LoadWorkItemsDelegate(AddressOf LoadWorkItems)
+                objDispatcher.Invoke(objLoad, colWorkItem, objDispatcher)
+            End If
+        Catch ex As Exception
+            winException.BeginProcessException(ex, objDispatcher)
+        End Try
+    End Sub
+
+    Private Delegate Sub LoadWorkItemsDelegate(ByVal colWorkItem As List(Of clsWorkListItem), ByVal objDispatcher As System.Windows.Threading.Dispatcher)
+    Private Sub LoadWorkItems(ByVal colWorkItem As List(Of clsWorkListItem), ByVal objDispatcher As System.Windows.Threading.Dispatcher)
         Dim objWorkItem As clsWorkListItem
 
-        m_colWorkListItem.Clear()
-        colWorkItem = clsWorkListItem.GetByFeatureId(New clsSettings, objSessionId, m_objInnerFeatureListItem.Id)
-        If colWorkItem IsNot Nothing Then
+        Try
+            m_colWorkListItem.Clear()
             For Each objWorkItem In colWorkItem
                 m_colWorkListItem.Add(New clsWorkListItemVM(objWorkItem))
             Next objWorkItem
-        End If
+        Catch ex As Exception
+            winException.BeginProcessException(ex, objDispatcher)
+        End Try
     End Sub
 
     Public Sub DeleselectAllWorkItems()

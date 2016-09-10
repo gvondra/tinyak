@@ -33,12 +33,12 @@ Public Class clsWorkListItem
         End Set
     End Property
 
-    Public Property AssignedTo As Nullable(Of Integer)
+    Public Property AssignedTo As String
         Get
             Return m_objInnerWorkListItem.AssignedTo
         End Get
-        Set(value As Nullable(Of Integer))
-            m_objInnerWorkListItem.AssignedTo = value
+        Set
+            m_objInnerWorkListItem.AssignedTo = Value
         End Set
     End Property
 

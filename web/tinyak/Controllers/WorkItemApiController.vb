@@ -6,6 +6,45 @@ Namespace Controllers.Api
     Public Class WorkItemController
         Inherits clsApiControllerBase
 
+        <HttpGet>
+        Public Function [Get](ByVal id As Integer) As HttpResponseMessage
+            Dim objSettings As clsSettings
+            Dim objSession As tc.clsSession
+            Dim objInnerUser As tc.clsUser
+            Dim objWorkItem As tc.clsWorkItem
+            Dim objProject As tc.clsProject
+            Dim objResponse As tas.clsWorkItem
+
+            objSettings = New clsSettings
+            objSession = GetSession(objSettings)
+            If objSession IsNot Nothing Then
+                objInnerUser = objSession.GetUser(objSettings)
+                objWorkItem = tc.clsWorkItem.Get(objSettings, id)
+                If objWorkItem IsNot Nothing Then
+                    objProject = objWorkItem.GetProject(objSettings)
+                Else
+                    objProject = Nothing
+                End If
+                If objInnerUser IsNot Nothing AndAlso objProject IsNot Nothing AndAlso objProject.IncludesMember(objInnerUser.EmailAddress) AndAlso objWorkItem IsNot Nothing Then
+                    objResponse = New tas.clsWorkItem
+                    With objResponse
+                        .AcceptanceCriteria = objWorkItem.AcceptanceCriteria
+                        .AssignedTo = objWorkItem.AssignedTo
+                        .Description = objWorkItem.Description
+                        .Effort = objWorkItem.Effort
+                        .Id = objWorkItem.Id
+                        .State = CType(CType(objWorkItem.State, Int16), tas.enumWorkItemState)
+                        .Title = objWorkItem.Title
+                    End With
+                    Return Request.CreateResponse(HttpStatusCode.OK, objResponse)
+                Else
+                    Return Request.CreateResponse(HttpStatusCode.Unauthorized)
+                End If
+            Else
+                Return Request.CreateResponse(HttpStatusCode.Unauthorized)
+            End If
+        End Function
+
         <HttpPost>
         Public Function Create(ByVal projectId As Integer, ByVal objRequest As tas.clsCreateWorkItemRequest) As HttpResponseMessage
             Dim objSettings As clsSettings
@@ -45,6 +84,57 @@ Namespace Controllers.Api
                     Else
                         objResponse.ErrorMessage = "Feature not found for id " & objRequest.FeatureId.ToString
                         Return Request.CreateResponse(HttpStatusCode.BadRequest, objResponse)
+                    End If
+                Else
+                    Return Request.CreateResponse(HttpStatusCode.Unauthorized)
+                End If
+            Else
+                Return Request.CreateResponse(HttpStatusCode.Unauthorized)
+            End If
+        End Function
+
+        <HttpPut>
+        Public Function Update(ByVal id As Integer, ByVal objRequest As tas.clsWorkItem) As HttpResponseMessage
+            Dim objSettings As clsSettings
+            Dim objSession As tc.clsSession
+            Dim objProject As tc.clsProject
+            Dim objInnerUser As tc.clsUser
+            Dim objWorkItem As tc.clsWorkItem
+            Dim objResponse As tas.clsWorkItem
+
+            objSettings = New clsSettings
+            objSession = GetSession(objSettings)
+            If objSession IsNot Nothing AndAlso objRequest IsNot Nothing Then
+                objInnerUser = objSession.GetUser(objSettings)
+                objWorkItem = tc.clsWorkItem.Get(objSettings, id)
+                If objWorkItem IsNot Nothing Then
+                    objProject = objWorkItem.GetProject(objSettings)
+                Else
+                    objProject = Nothing
+                End If
+                If objInnerUser IsNot Nothing AndAlso objProject IsNot Nothing AndAlso objProject.IncludesMember(objInnerUser.EmailAddress) AndAlso objWorkItem IsNot Nothing Then
+                    If String.IsNullOrEmpty(objRequest.Title) = False Then
+                        With objRequest
+                            objWorkItem.AcceptanceCriteria = .AcceptanceCriteria
+                            objWorkItem.AssignedTo = .AssignedTo
+                            objWorkItem.Description = .Description
+                            objWorkItem.Effort = .Effort
+                            objWorkItem.State = CType(CType(.State, Int16), tc.clsWorkItem.enumState)
+                            objWorkItem.Title = .Title
+                        End With
+                        objWorkItem.Update(objSettings)
+                        objResponse = New tas.clsWorkItem
+                        With objResponse
+                            .AcceptanceCriteria = objWorkItem.AcceptanceCriteria
+                            .AssignedTo = objWorkItem.AssignedTo
+                            .Description = objWorkItem.Description
+                            .Effort = objWorkItem.Effort
+                            .State = CType(CType(objWorkItem.State, Int16), tas.enumWorkItemState)
+                            .Title = objWorkItem.Title
+                        End With
+                        Return Request.CreateResponse(HttpStatusCode.OK, objResponse)
+                    Else
+                        Return Request.CreateResponse(HttpStatusCode.BadRequest, "Title is required")
                     End If
                 Else
                     Return Request.CreateResponse(HttpStatusCode.Unauthorized)

@@ -1,8 +1,10 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
+
 Public Class clsWorkListItemVM
     Implements INotifyPropertyChanged
+    Implements IWorkItemObserver
 
     Private m_objInnerWorkListItem As clsWorkListItem
     Private m_objBackground As Brush
@@ -13,6 +15,12 @@ Public Class clsWorkListItemVM
         m_objInnerWorkListItem = objWorkListItem
         m_objBackground = Brushes.Black
     End Sub
+
+    Public ReadOnly Property Id As Integer
+        Get
+            Return m_objInnerWorkListItem.Id.Value
+        End Get
+    End Property
 
     Public Property Title As String
         Get
@@ -30,6 +38,17 @@ Public Class clsWorkListItemVM
         End Get
         Set(value As Nullable(Of Int16))
             m_objInnerWorkListItem.Effort = value
+            OnPropertyChanged()
+        End Set
+    End Property
+
+    Public Property AssignedTo As String
+        Get
+            Return m_objInnerWorkListItem.AssignedTo
+        End Get
+        Set(value As String)
+            m_objInnerWorkListItem.AssignedTo = value
+            OnPropertyChanged()
         End Set
     End Property
 
@@ -40,6 +59,17 @@ Public Class clsWorkListItemVM
         Set(value As Brush)
             m_objBackground = value
             OnPropertyChanged()
+        End Set
+    End Property
+
+    Public Property State As enumWorkItemState
+        Get
+            Return m_objInnerWorkListItem.State
+        End Get
+        Set(value As enumWorkItemState)
+            m_objInnerWorkListItem.State = value
+            OnPropertyChanged()
+            OnPropertyChanged("StatusDescription")
         End Set
     End Property
 
@@ -72,5 +102,12 @@ Public Class clsWorkListItemVM
 
     Public Sub Deselected()
         Background = Brushes.Black
+    End Sub
+
+    Public Sub OnSave(objWorkItem As clsWorkItemVM) Implements IWorkItemObserver.OnSave
+        Me.AssignedTo = objWorkItem.AssignedTo
+        Me.Effort = objWorkItem.Effort
+        Me.State = objWorkItem.State
+        Me.Title = objWorkItem.Title
     End Sub
 End Class

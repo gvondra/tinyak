@@ -5,7 +5,7 @@
 	[FeatureId] INT NOT NULL, 
     [Title] NVARCHAR(500) NOT NULL, 
     [State] SMALLINT NOT NULL, 
-    [AssignedTo] INT NULL, 
+    [AssignedTo] NVARCHAR(250) NOT NULL, 
     [Effort] SMALLINT NULL, 
     [Description] NTEXT NOT NULL, 
     [AcceptanceCriteria] NTEXT NOT NULL, 
