@@ -74,7 +74,7 @@ Public Class winMain
 
     Private Sub m_objFeatureViewer_FeatureDoubleClick(objSender As Object, objFeature As clsFeatureListItemVM) Handles m_objFeatureViewer.FeatureDoubleClick
         Dim objWindow As winFeature
-        Dim objGetFeature As GetFeatureDelegate
+        Dim objShowFeature As ShowFeatureDelegate
 
         Try
             If m_objFeatureWindows.ContainsKey(objFeature.Id) Then
@@ -85,8 +85,8 @@ Public Class winMain
                 AddHandler objWindow.Closing, AddressOf OnFeatureWindowClosing
                 m_objFeatureWindows(objFeature.Id) = objWindow
 
-                objGetFeature = New GetFeatureDelegate(AddressOf clsFeature.Get)
-                objGetFeature.BeginInvoke(New clsSettings, SessionId, objFeature.Id, AddressOf GetFeatureCallback, objGetFeature)
+                objShowFeature = New ShowFeatureDelegate(AddressOf ShowFeature)
+                objShowFeature.BeginInvoke(New clsSettings, SessionId, objFeature.Id, objFeature, Nothing, objShowFeature)
             End If
             objWindow.Activate()
         Catch ex As Exception
@@ -94,17 +94,20 @@ Public Class winMain
         End Try
     End Sub
 
-    Private Delegate Function GetFeatureDelegate(ByVal objSettings As ISettings, ByVal objSessionId As Guid, ByVal intFeatureId As Integer) As clsFeature
-    Private Sub GetFeatureCallback(ByVal objResult As IAsyncResult)
+    Private Delegate Sub ShowFeatureDelegate(ByVal objSettings As ISettings, ByVal objSessionId As Guid, ByVal intFeatureId As Integer, ByVal objListItem As clsFeatureListItemVM)
+    Private Sub ShowFeature(ByVal objSettings As ISettings, ByVal objSessionId As Guid, ByVal intFeatureId As Integer, ByVal objListItem As clsFeatureListItemVM)
         Dim objFeature As clsFeature
         Dim objWindow As winFeature
         Dim objSetDataContext As SetDataContextDelegate
+        Dim objVm As clsFeatureVM
         Try
-            objFeature = CType(objResult.AsyncState, GetFeatureDelegate).EndInvoke(objResult)
+            objFeature = clsFeature.Get(objSettings, objSessionId, intFeatureId)
             If m_objFeatureWindows.ContainsKey(objFeature.Id) Then
+                objVm = New clsFeatureVM(objFeature)
                 objWindow = m_objFeatureWindows(objFeature.Id)
                 objSetDataContext = New SetDataContextDelegate(AddressOf SetDataContext)
-                Dispatcher.Invoke(objSetDataContext, objWindow, New clsFeatureVM(objFeature))
+                Dispatcher.Invoke(objSetDataContext, objWindow, objVm)
+                objVm.RegisterObserver(objListItem)
             End If
         Catch ex As Exception
             winException.BeginProcessException(ex, Dispatcher)

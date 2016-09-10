@@ -6,6 +6,7 @@ Public Class clsFeatureVM
     Private m_objInnerFeature As clsFeature
     Private m_strTitleMessage As String
     Private m_intTitleMessageVisibility As Visibility
+    Private m_colObjserver As List(Of IFeatureObserver)
 
     Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
 
@@ -13,6 +14,7 @@ Public Class clsFeatureVM
         m_objInnerFeature = objInnerFeature
         m_strTitleMessage = String.Empty
         m_intTitleMessageVisibility = Visibility.Collapsed
+        m_colObjserver = New List(Of IFeatureObserver)
     End Sub
 
     Public ReadOnly Property Id As Integer
@@ -56,7 +58,19 @@ Public Class clsFeatureVM
     End Sub
 
     Public Sub Save(ByVal objSessionId As Guid)
+        Dim i As Integer
+
         m_objInnerFeature.Update(New clsSettings, objSessionId)
         OnPropertyChanged("Title")
+
+        For i = 0 To m_colObjserver.Count - 1
+            m_colObjserver(i).OnSaveFeature(Me)
+        Next
+    End Sub
+
+    Public Sub RegisterObserver(ByVal objObserver As IFeatureObserver)
+        If m_colObjserver.Contains(objObserver) = False Then
+            m_colObjserver.Add(objObserver)
+        End If
     End Sub
 End Class

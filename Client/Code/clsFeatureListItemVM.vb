@@ -1,8 +1,10 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
+
 Public Class clsFeatureListItemVM
     Implements INotifyPropertyChanged
+    Implements IFeatureObserver
 
     Private m_objInnerFeatureListItem As clsFeatureListItem
     Private m_objAddWorkItem As clsAddWorkItemVM
@@ -121,7 +123,7 @@ Public Class clsFeatureListItemVM
         If colWorkItem IsNot Nothing Then
             For Each objWorkItem In colWorkItem
                 m_colWorkListItem.Add(New clsWorkListItemVM(objWorkItem))
-            Next objworkitem
+            Next objWorkItem
         End If
     End Sub
 
@@ -130,5 +132,9 @@ Public Class clsFeatureListItemVM
         For Each objWorkItem In m_colWorkListItem
             objWorkItem.Deselected()
         Next objWorkItem
+    End Sub
+
+    Public Sub OnSaveFeature(objFeature As clsFeatureVM) Implements IFeatureObserver.OnSaveFeature
+        Title = objFeature.Title
     End Sub
 End Class

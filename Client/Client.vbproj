@@ -106,6 +106,7 @@
     <Compile Include="Code\clsSettings.vb" />
     <Compile Include="Code\clsUserVM.vb" />
     <Compile Include="Code\clsWorkListItemVM.vb" />
+    <Compile Include="Code\IFeatureObserver.vb" />
     <Compile Include="Control\uctAddFeature.xaml.vb">
       <DependentUpon>uctAddFeature.xaml</DependentUpon>
     </Compile>
