@@ -14,4 +14,8 @@
             winException.BeginProcessException(ex, Dispatcher)
         End Try
     End Sub
+
+    Private Sub uctLogin_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
+        txtEmailAddress.Focus()
+    End Sub
 End Class

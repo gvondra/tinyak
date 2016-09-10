@@ -141,4 +141,8 @@ Public Class winMain
             End If
         End If
     End Sub
+
+    Private Sub winMain_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
+        ctlLogin.Focus()
+    End Sub
 End Class

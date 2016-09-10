@@ -28,6 +28,7 @@
                 objFeature = clsFeatureListItem.Create(New clsSettings, SessionId, ProjectId, Title)
                 RaiseEvent AfterAddFeature(Me, objFeature)
                 Title = String.Empty
+                txtTitle.Focus()
             End If
         Catch ex As Exception
             winException.BeginProcessException(ex, Dispatcher)

@@ -34,6 +34,7 @@
                 objWorkItem = clsWorkListItem.Create(New clsSettings, SessionId, ProjectId, Feature.Id, Title)
                 RaiseEvent AfterAddWorkItem(Me, objWorkItem)
                 Title = String.Empty
+                txtTitle.Focus()
             End If
         Catch ex As Exception
             winException.BeginProcessException(ex, Dispatcher)

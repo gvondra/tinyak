@@ -6,6 +6,10 @@
     End Sub
 
     Private Sub uctAddFeature_AfterAddFeature(objSender As Control, objFeature As clsFeatureListItem)
+        Dim objVm As clsFeatureListItemVM
+
+        objVm = New clsFeatureListItemVM(objFeature)
+        objVm.Project = DirectCast(DataContext, clsFeatureListVM).Project
         DirectCast(DataContext, clsFeatureListVM).FeatureListItems.Add(New clsFeatureListItemVM(objFeature))
     End Sub
 

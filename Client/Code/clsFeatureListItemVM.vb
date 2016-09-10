@@ -20,9 +20,9 @@ Public Class clsFeatureListItemVM
         m_colWorkListItem = New ObservableCollection(Of clsWorkListItemVM)
         m_objAddWorkItem = New clsAddWorkItemVM(objFeatureListItem)
         m_objInnerFeatureListItem = objFeatureListItem
-        m_blnIsExpanded = False
-        m_strExpandText = "+"
-        m_intContentVisibility = Visibility.Collapsed
+        m_blnIsExpanded = True
+        m_strExpandText = "-"
+        m_intContentVisibility = Visibility.Visible
     End Sub
 
     Public ReadOnly Property Id As Integer
