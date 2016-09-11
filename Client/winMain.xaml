@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:tinyak.Client"
         mc:Ignorable="d"
-        Title="tinyak" Height="900" Width="1600" Style="{StaticResource WindowStyle}">
+        Title="tinyak" Height="900" Width="1600" Style="{StaticResource WindowStyle}" Top="100" Left="100">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
