@@ -240,4 +240,16 @@ Public Class clsProject
         End If
         Return blnResult
     End Function
+
+    Public Function GetItterations(ByVal objSettings As ISettings) As List(Of clsItteration)
+        If Id.HasValue Then
+            Return clsItteration.GetByProject(New clsSettings(objSettings), Me)
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Public Function GetNewItteration() As clsItteration
+        Return clsItteration.GetNew(Me)
+    End Function
 End Class

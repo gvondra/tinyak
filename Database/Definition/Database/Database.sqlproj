@@ -104,5 +104,11 @@
     <Build Include="tnyk\Stored Procedures\SSP_WorkItem_By_Feature.sql" />
     <Build Include="tnyk\Stored Procedures\SSP_WorkItem.sql" />
     <Build Include="tnyk\Stored Procedures\USP_WorkItem.sql" />
+    <Build Include="tnyk\Tables\Itteration.sql" />
+    <Build Include="tnyk\Stored Procedures\DSP_Itteration.sql" />
+    <Build Include="tnyk\Stored Procedures\ISP_Itteration.sql" />
+    <Build Include="tnyk\Stored Procedures\SSP_Itteration_By_Project.sql" />
+    <Build Include="tnyk\Stored Procedures\SSP_Itteration.sql" />
+    <Build Include="tnyk\Stored Procedures\USP_Itteration.sql" />
   </ItemGroup>
 </Project>

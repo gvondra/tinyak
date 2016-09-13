@@ -168,6 +168,7 @@
     <Compile Include="Controllers\FeatureApiController.vb" />
     <Compile Include="Controllers\FeaturesApiController.vb" />
     <Compile Include="Controllers\ErrorController.vb" />
+    <Compile Include="Controllers\ItterationController.vb" />
     <Compile Include="Controllers\ProjectApiController.vb" />
     <Compile Include="Controllers\ProjectController.vb" />
     <Compile Include="Controllers\SessionApiController.vb" />
@@ -178,6 +179,7 @@
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ItterationModels.vb" />
     <Compile Include="Models\ProjectModels.vb" />
     <Compile Include="Models\UserModels.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -204,6 +206,7 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\itteration.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
@@ -217,6 +220,8 @@
     <Content Include="Views\Project\Create.vbhtml" />
     <Content Include="Views\Project\Update.vbhtml" />
     <Content Include="Views\Project\ProjectMembers.vbhtml" />
+    <Content Include="Views\Itteration\List.vbhtml" />
+    <Content Include="Views\Itteration\GetItteration.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

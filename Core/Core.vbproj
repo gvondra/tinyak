@@ -66,6 +66,7 @@
     <Compile Include="clsError.vb" />
     <Compile Include="clsException.vb" />
     <Compile Include="clsFeature.vb" />
+    <Compile Include="clsItteration.vb" />
     <Compile Include="clsProject.vb" />
     <Compile Include="clsServiceCall.vb" />
     <Compile Include="clsSession.vb" />

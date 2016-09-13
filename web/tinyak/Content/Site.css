@@ -68,3 +68,14 @@ div.tabContainer
     border-top: 2px ridge silver;
     border-bottom: 2px ridge silver;
 }
+
+table.dataTable
+{
+    empty-cells: show;
+    border-collapse: collapse;
+    border: thin solid silver;
+}
+table.dataTable tr th, table.dataTable tr td
+{
+    border: thin solid silver;
+}

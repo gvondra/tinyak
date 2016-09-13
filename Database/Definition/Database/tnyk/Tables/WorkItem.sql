@@ -9,6 +9,7 @@
     [Effort] SMALLINT NULL, 
     [Description] NTEXT NOT NULL, 
     [AcceptanceCriteria] NTEXT NOT NULL, 
+    [ItterationId] INT NULL, 
     CONSTRAINT [FK_WorkItem_To_Feature] FOREIGN KEY ([FeatureId]) REFERENCES [tnyk].[Feature]([FeatureId]), 
     CONSTRAINT [FK_WorkItem_To_Project] FOREIGN KEY ([ProjectId]) REFERENCES [tnyk].[Project]([ProjectId])
 )

@@ -1,49 +1,41 @@
-﻿Public Class clsWorkItemData
+﻿Public Class clsItterationData
     Public Property Id As Nullable(Of Integer)
     Public Property ProjectId As Nullable(Of Integer)
-    Public Property FeatureId As Nullable(Of Integer)
-    Public Property Title As String
-    Public Property State As Int16
-    Public Property AssignedTo As String
-    Public Property Effort As Nullable(Of Int16)
-    Public Property Description As String
-    Public Property AcceptanceCriteria As String
-    Public Property ItterationId As Nullable(Of Integer)
+    Public Property Name As String
+    Public Property StartDate As Nullable(Of Date)
+    Public Property EndDate As Nullable(Of Date)
+    Public Property IsActive As Boolean
 
-    Private Shared Sub Initialize(ByVal objReader As IDataReader, ByVal objWorkItem As clsWorkItemData)
-        With objWorkItem
-            .AcceptanceCriteria = objReader.GetString(objReader.GetOrdinal("AcceptanceCriteria"))
-            .AssignedTo = objReader.GetString(objReader.GetOrdinal("AssignedTo")).Trim
-            .Description = objReader.GetString(objReader.GetOrdinal("Description"))
-            If objReader.IsDBNull(objReader.GetOrdinal("Effort")) = False Then
-                .Effort = objReader.GetInt16(objReader.GetOrdinal("Effort"))
+    Private Shared Sub Initialize(ByVal objReader As IDataReader, ByVal objItteration As clsItterationData)
+        With objItteration
+            If objReader.IsDBNull(objReader.GetOrdinal("EndDate")) = False Then
+                .EndDate = objReader.GetDateTime(objReader.GetOrdinal("EndDate"))
             Else
-                .Effort = Nothing
+                .EndDate = Nothing
             End If
-            .FeatureId = objReader.GetInt32(objReader.GetOrdinal("FeatureId"))
-            .Id = objReader.GetInt32(objReader.GetOrdinal("WorkItemId"))
+            .Id = objReader.GetInt32(objReader.GetOrdinal("ItterationId"))
+            .IsActive = objReader.GetBoolean(objReader.GetOrdinal("IsActive"))
+            .Name = objReader.GetString(objReader.GetOrdinal("Name")).Trim
             .ProjectId = objReader.GetInt32(objReader.GetOrdinal("ProjectId"))
-            .State = objReader.GetInt16(objReader.GetOrdinal("State"))
-            .Title = objReader.GetString(objReader.GetOrdinal("Title")).TrimEnd
-            If objReader.IsDBNull(objReader.GetOrdinal("ItterationId")) = False Then
-                .ItterationId = objReader.GetInt32(objReader.GetOrdinal("ItterationId"))
+            If objReader.IsDBNull(objReader.GetOrdinal("StartDate")) = False Then
+                .StartDate = objReader.GetDateTime(objReader.GetOrdinal("StartDate"))
             Else
-                .ItterationId = Nothing
+                .StartDate = Nothing
             End If
         End With
     End Sub
 
-    Public Shared Function [Get](ByVal objSettings As ISettings, ByVal intId As Integer) As clsWorkItemData
+    Public Shared Function [Get](ByVal objSettings As ISettings, ByVal intId As Integer) As clsItterationData
         Dim objConnection As IDbConnection
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
         Dim objReader As IDataReader
-        Dim objResult As clsWorkItemData
+        Dim objResult As clsItterationData
 
         objConnection = OpenConnection(objSettings)
         Try
             objCommand = objConnection.CreateCommand()
-            objCommand.CommandText = "tnyk.SSP_WorkItem"
+            objCommand.CommandText = "tnyk.SSP_Itteration"
             objCommand.CommandType = CommandType.StoredProcedure
 
             objParameter = CreateParameter(objCommand, "id", DbType.Int32)
@@ -52,7 +44,7 @@
 
             objReader = objCommand.ExecuteReader
             If objReader.Read Then
-                objResult = New clsWorkItemData
+                objResult = New clsItterationData
                 Initialize(objReader, objResult)
             Else
                 objResult = Nothing
@@ -65,28 +57,28 @@
         Return objResult
     End Function
 
-    Public Shared Function GetByFeatureId(ByVal objSettings As ISettings, ByVal intFeatureId As Integer) As List(Of clsWorkItemData)
+    Public Shared Function GetByProjectId(ByVal objSettings As ISettings, ByVal intProjectId As Integer) As List(Of clsItterationData)
         Dim objConnection As IDbConnection
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter
         Dim objReader As IDataReader
-        Dim colResult As List(Of clsWorkItemData)
-        Dim objWorkItem As clsWorkItemData
+        Dim colResult As List(Of clsItterationData)
+        Dim objWorkItem As clsItterationData
 
         objConnection = OpenConnection(objSettings)
         Try
             objCommand = objConnection.CreateCommand()
-            objCommand.CommandText = "tnyk.SSP_WorkItem_By_Feature"
+            objCommand.CommandText = "tnyk.SSP_Itteration_By_Project"
             objCommand.CommandType = CommandType.StoredProcedure
 
-            objParameter = CreateParameter(objCommand, "featureId", DbType.Int32)
-            objParameter.Value = intFeatureId
+            objParameter = CreateParameter(objCommand, "projectId", DbType.Int32)
+            objParameter.Value = intProjectId
             objCommand.Parameters.Add(objParameter)
 
             objReader = objCommand.ExecuteReader
-            colResult = New List(Of clsWorkItemData)
+            colResult = New List(Of clsItterationData)
             While objReader.Read
-                objWorkItem = New clsWorkItemData
+                objWorkItem = New clsItterationData
                 Initialize(objReader, objWorkItem)
                 colResult.Add(objWorkItem)
             End While
@@ -110,7 +102,7 @@
             objSettings.DatabaseTransaction = objSettings.DatabaseConnection.BeginTransaction
         End If
         objCommand = objSettings.DatabaseConnection.CreateCommand
-        objCommand.CommandText = "tnyk.ISP_WorkItem"
+        objCommand.CommandText = "tnyk.ISP_Itteration"
         objCommand.CommandType = CommandType.StoredProcedure
         objCommand.Transaction = objSettings.DatabaseTransaction
 
@@ -122,36 +114,28 @@
         objParameter.Value = ProjectId.Value
         objCommand.Parameters.Add(objParameter)
 
-        objParameter = CreateParameter(objCommand, "featureId", DbType.Int32)
-        objParameter.Value = FeatureId.Value
+        objParameter = CreateParameter(objCommand, "name", DbType.String)
+        objParameter.Value = Name
         objCommand.Parameters.Add(objParameter)
 
-        objParameter = CreateParameter(objCommand, "title", DbType.String)
-        objParameter.Value = Title
-        objCommand.Parameters.Add(objParameter)
-
-        objParameter = CreateParameter(objCommand, "state", DbType.Int16)
-        objParameter.Value = State
-        objCommand.Parameters.Add(objParameter)
-
-        objParameter = CreateParameter(objCommand, "assignedTo", DbType.String)
-        objParameter.Value = AssignedTo
-        objCommand.Parameters.Add(objParameter)
-
-        objParameter = CreateParameter(objCommand, "effort", DbType.Int16)
-        If Effort.HasValue Then
-            objParameter.Value = Effort.Value
+        objParameter = CreateParameter(objCommand, "startDate", DbType.Date)
+        If StartDate.HasValue Then
+            objParameter.Value = StartDate.Value
         Else
             objParameter.Value = DBNull.Value
         End If
         objCommand.Parameters.Add(objParameter)
 
-        objParameter = CreateParameter(objCommand, "description", DbType.String)
-        objParameter.Value = Description
+        objParameter = CreateParameter(objCommand, "endDate", DbType.Date)
+        If EndDate.HasValue Then
+            objParameter.Value = EndDate.Value
+        Else
+            objParameter.Value = DBNull.Value
+        End If
         objCommand.Parameters.Add(objParameter)
 
-        objParameter = CreateParameter(objCommand, "acceptanceCriteria", DbType.String)
-        objParameter.Value = AcceptanceCriteria
+        objParameter = CreateParameter(objCommand, "isActive", DbType.Boolean)
+        objParameter.Value = IsActive
         objCommand.Parameters.Add(objParameter)
 
         objCommand.ExecuteNonQuery()
@@ -170,7 +154,7 @@
             objSettings.DatabaseTransaction = objSettings.DatabaseConnection.BeginTransaction
         End If
         objCommand = objSettings.DatabaseConnection.CreateCommand
-        objCommand.CommandText = "tnyk.USP_WorkItem"
+        objCommand.CommandText = "tnyk.USP_Itteration"
         objCommand.CommandType = CommandType.StoredProcedure
         objCommand.Transaction = objSettings.DatabaseTransaction
 
@@ -178,36 +162,28 @@
         objParameter.Value = Id.Value
         objCommand.Parameters.Add(objParameter)
 
-        objParameter = CreateParameter(objCommand, "featureId", DbType.Int32)
-        objParameter.Value = FeatureId.Value
+        objParameter = CreateParameter(objCommand, "name", DbType.String)
+        objParameter.Value = Name
         objCommand.Parameters.Add(objParameter)
 
-        objParameter = CreateParameter(objCommand, "title", DbType.String)
-        objParameter.Value = Title
-        objCommand.Parameters.Add(objParameter)
-
-        objParameter = CreateParameter(objCommand, "state", DbType.Int16)
-        objParameter.Value = State
-        objCommand.Parameters.Add(objParameter)
-
-        objParameter = CreateParameter(objCommand, "assignedTo", DbType.String)
-        objParameter.Value = AssignedTo
-        objCommand.Parameters.Add(objParameter)
-
-        objParameter = CreateParameter(objCommand, "effort", DbType.Int16)
-        If Effort.HasValue Then
-            objParameter.Value = Effort.Value
+        objParameter = CreateParameter(objCommand, "startDate", DbType.Date)
+        If StartDate.HasValue Then
+            objParameter.Value = StartDate.Value
         Else
             objParameter.Value = DBNull.Value
         End If
         objCommand.Parameters.Add(objParameter)
 
-        objParameter = CreateParameter(objCommand, "description", DbType.String)
-        objParameter.Value = Description
+        objParameter = CreateParameter(objCommand, "endDate", DbType.Date)
+        If EndDate.HasValue Then
+            objParameter.Value = EndDate.Value
+        Else
+            objParameter.Value = DBNull.Value
+        End If
         objCommand.Parameters.Add(objParameter)
 
-        objParameter = CreateParameter(objCommand, "acceptanceCriteria", DbType.String)
-        objParameter.Value = AcceptanceCriteria
+        objParameter = CreateParameter(objCommand, "isActive", DbType.Boolean)
+        objParameter.Value = IsActive
         objCommand.Parameters.Add(objParameter)
 
         objCommand.ExecuteNonQuery()
@@ -224,7 +200,7 @@
             objSettings.DatabaseTransaction = objSettings.DatabaseConnection.BeginTransaction
         End If
         objCommand = objSettings.DatabaseConnection.CreateCommand
-        objCommand.CommandText = "tnyk.DSP_WorkItem"
+        objCommand.CommandText = "tnyk.DSP_Itteration"
         objCommand.CommandType = CommandType.StoredProcedure
         objCommand.Transaction = objSettings.DatabaseTransaction
 

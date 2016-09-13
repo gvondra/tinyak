@@ -7,6 +7,9 @@ End Code
 End Section
 
 <h2>Update Project</h2>
+<p>
+    @Html.ActionLink("Itterations", "List", "Itteration", New With {.projectId = Model.Id}, Nothing)
+</p>
 @Code
     Html.BeginForm("Update", "Project", routeValues:=New With {.id = Model.Id})
 End Code

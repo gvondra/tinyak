@@ -2,7 +2,7 @@
 	@id int
 AS
 BEGIN
-	SELECT [WorkItemId], [ProjectId], [FeatureId], [Title], [State], [AssignedTo], [Effort], [Description], [AcceptanceCriteria]
+	SELECT [WorkItemId], [ProjectId], [FeatureId], [Title], [State], [AssignedTo], [Effort], [Description], [AcceptanceCriteria], [ItterationId]
 	FROM [tnyk].[WorkItem]
 	WHERE [WorkItemId] = @id
 	;
