@@ -13,8 +13,20 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Margin="0,0,10,0">
-            <TextBlock Margin="0,0,0,10"><Hyperlink Name="lnkBacklog"><TextBlock>Backlog</TextBlock></Hyperlink></TextBlock>
-            <TextBlock TextDecorations="Underline">Itterations</TextBlock>
+            <TextBlock Margin="0,0,0,10"><Hyperlink Foreground="{StaticResource ForegroundColor}" TextDecorations="None" Name="lnkBacklog"><TextBlock>Backlog</TextBlock></Hyperlink></TextBlock>
+            <TextBlock Margin="0,0,0,5" TextDecorations="Underline">Itterations</TextBlock>
+            <ItemsControl ItemsSource="{Binding Itterations}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock><Hyperlink Foreground="{StaticResource ForegroundColor}" TextDecorations="None" Click="Hyperlink_Click"><TextBlock FontWeight="{Binding FontWeight}" Text="{Binding Name}" /></Hyperlink></TextBlock>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </StackPanel>
         <t:uctFeatureList Grid.Column="1" DataContext="{Binding FeatureList}" FeatureDoubleClick="uctFeatureList_FeatureDoubleClick" WorkItemDoubleClick="uctFeatureList_WorkItemDoubleClick" />
     </Grid>

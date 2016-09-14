@@ -104,6 +104,7 @@
     <Compile Include="Code\clsFeatureListVM.vb" />
     <Compile Include="Code\clsFeaturesViewerVM.vb" />
     <Compile Include="Code\clsFeatureVM.vb" />
+    <Compile Include="Code\clsItterationVM.vb" />
     <Compile Include="Code\clsSettings.vb" />
     <Compile Include="Code\clsUserVM.vb" />
     <Compile Include="Code\clsWorkItemVM.vb" />

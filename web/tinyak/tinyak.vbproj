@@ -169,6 +169,7 @@
     <Compile Include="Controllers\FeaturesApiController.vb" />
     <Compile Include="Controllers\ErrorController.vb" />
     <Compile Include="Controllers\ItterationController.vb" />
+    <Compile Include="Controllers\ItterationsApiController.vb" />
     <Compile Include="Controllers\ProjectApiController.vb" />
     <Compile Include="Controllers\ProjectController.vb" />
     <Compile Include="Controllers\SessionApiController.vb" />
