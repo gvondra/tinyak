@@ -119,13 +119,21 @@ Public Class clsFeatureListItemVM
         m_objAddWorkItem.Visibility = Visibility.Collapsed
     End Sub
 
-    Public Delegate Sub LoadWorkItemsDeleage(ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher)
-    Public Sub LoadWorkItems(ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher)
+    Public Delegate Sub LoadWorkItemsDeleage(ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher, ByVal intItterationId As Nullable(Of Integer))
+    Public Sub LoadWorkItems(ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher, ByVal intItterationId As Nullable(Of Integer))
         Dim colWorkItem As List(Of clsWorkListItem)
         Dim objLoad As LoadWorkItemsDelegate
+        Dim i As Integer
         Try
             colWorkItem = clsWorkListItem.GetByFeatureId(New clsSettings, objSessionId, m_objInnerFeatureListItem.Id)
             If colWorkItem IsNot Nothing Then
+                If intItterationId.HasValue Then
+                    For i = colWorkItem.Count - 1 To 0 Step -1
+                        If colWorkItem(i).Itteration Is Nothing OrElse colWorkItem(i).Itteration.Id.Value <> intItterationId.Value Then
+                            colWorkItem.RemoveAt(i)
+                        End If
+                    Next
+                End If
                 objLoad = New LoadWorkItemsDelegate(AddressOf LoadWorkItems)
                 objDispatcher.Invoke(objLoad, colWorkItem, objDispatcher)
             End If

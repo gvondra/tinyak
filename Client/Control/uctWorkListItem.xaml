@@ -8,14 +8,16 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Background="{Binding Background}">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="75"/>
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Name="lblTitle" Grid.Column="0" Text="{Binding Title}"/>
-        <TextBlock Grid.Column="1" Text="{Binding AssignedTo}"/>
-        <TextBlock Grid.Column="2" Text="{Binding Effort}" Padding="5,0,5,0"/>
-        <TextBlock Grid.Column="3" Text="{Binding StatusDescription}"/>
+        <TextBlock Name="lblTitle" Grid.Column="0" Text="{Binding Title}" TextWrapping="Wrap"/>
+        <TextBlock Grid.Column="1" Text="{Binding Itteration}" Padding="0,0,5,0"/>
+        <TextBlock Grid.Column="2" Text="{Binding AssignedTo}" Padding="0,0,5,0"/>
+        <TextBlock Grid.Column="3" Text="{Binding Effort}" Padding="0,0,5,0"/>
+        <TextBlock Grid.Column="4" Text="{Binding StatusDescription}"/>
     </Grid>
 </UserControl>

@@ -56,16 +56,20 @@ Public Class clsFeatureListVM
         m_objAddFeature.Visibility = Visibility.Collapsed
     End Sub
 
-    Public Sub LoadBacklog(ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher)
+    Public Overloads Sub LoadBacklog(ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher)
+        LoadBacklog(objSessionId, objDispatcher, Nothing)
+    End Sub
+
+    Public Overloads Sub LoadBacklog(ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher, ByVal intItterationId As Nullable(Of Integer))
         Dim objGet As GetByProjectIdDelegate
 
         m_colFeatureListItem.Clear()
         objGet = New GetByProjectIdDelegate(AddressOf GetByProjectId)
-        objGet.BeginInvoke(objSessionId, objDispatcher, Nothing, objGet)
+        objGet.BeginInvoke(objSessionId, objDispatcher, intItterationId, Nothing, objGet)
     End Sub
 
-    Private Delegate Sub GetByProjectIdDelegate(ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher)
-    Private Sub GetByProjectId(ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher)
+    Private Delegate Sub GetByProjectIdDelegate(ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher, ByVal intItterationId As Nullable(Of Integer))
+    Private Sub GetByProjectId(ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher, ByVal intItterationId As Nullable(Of Integer))
         Dim colFeature As List(Of clsFeatureListItem)
         Dim objLoad As LoadFeaturesDelegate
 
@@ -73,15 +77,15 @@ Public Class clsFeatureListVM
             colFeature = clsFeatureListItem.GetByProjectId(New clsSettings, objSessionId, m_objProject.Id)
             If colFeature IsNot Nothing Then
                 objLoad = New LoadFeaturesDelegate(AddressOf LoadFeatures)
-                objDispatcher.Invoke(objLoad, colFeature, objSessionId, objDispatcher)
+                objDispatcher.Invoke(objLoad, colFeature, objSessionId, objDispatcher, intItterationId)
             End If
         Catch ex As Exception
             winException.BeginProcessException(ex, objDispatcher)
         End Try
     End Sub
 
-    Private Delegate Sub LoadFeaturesDelegate(ByVal colFeature As List(Of clsFeatureListItem), ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher)
-    Private Sub LoadFeatures(ByVal colFeature As List(Of clsFeatureListItem), ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher)
+    Private Delegate Sub LoadFeaturesDelegate(ByVal colFeature As List(Of clsFeatureListItem), ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher, ByVal intItterationId As Nullable(Of Integer))
+    Private Sub LoadFeatures(ByVal colFeature As List(Of clsFeatureListItem), ByVal objSessionId As Guid, ByVal objDispatcher As System.Windows.Threading.Dispatcher, ByVal intItterationId As Nullable(Of Integer))
         Dim objFeature As clsFeatureListItem
         Dim objVM As clsFeatureListItemVM
         Dim objDelegate As clsFeatureListItemVM.LoadWorkItemsDeleage
@@ -91,7 +95,7 @@ Public Class clsFeatureListVM
             m_colFeatureListItem.Add(objVM)
 
             objDelegate = New clsFeatureListItemVM.LoadWorkItemsDeleage(AddressOf objVM.LoadWorkItems)
-            objDelegate.BeginInvoke(objSessionId, objDispatcher, Nothing, objDelegate)
+            objDelegate.BeginInvoke(objSessionId, objDispatcher, intItterationId, Nothing, objDelegate)
         Next
     End Sub
 End Class

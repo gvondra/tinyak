@@ -6,7 +6,8 @@
 	@assignedTo NVARCHAR(250),
 	@effort SMALLINT,
 	@description NTEXT,
-	@acceptanceCriteria NTEXT
+	@acceptanceCriteria NTEXT,
+	@itterationId INT
 AS
 BEGIN
 	UPDATE [tnyk].[WorkItem]
@@ -16,7 +17,8 @@ BEGIN
 		[AssignedTo] = @assignedTo, 
 		[Effort] = @effort, 
 		[Description] = @description, 
-		[AcceptanceCriteria] = @acceptanceCriteria
+		[AcceptanceCriteria] = @acceptanceCriteria,
+		[ItterationId] = @itterationId
 	WHERE [WorkItemId] = @id
 	;
 END

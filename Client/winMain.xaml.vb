@@ -180,6 +180,7 @@ Public Class winMain
             objWorkItem = clsWorkItem.Get(objSettings, objSessionId, objListItem.Id)
             If objWorkItem IsNot Nothing AndAlso m_objWorkItemWindows.ContainsKey(objWorkItem.Id.Value) Then
                 objVm = New clsWorkItemVM(objWorkItem)
+                objVm.LoadItterations(m_objCurrentProject.Id)
                 objWindow = m_objWorkItemWindows(objWorkItem.Id.Value)
                 objSetDataContext = New SetDataContextDelegate(AddressOf SetDataContext)
                 Dispatcher.Invoke(objSetDataContext, objWindow, objVm)

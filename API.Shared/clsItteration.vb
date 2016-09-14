@@ -1,7 +1,7 @@
 ﻿<DataContract(Name:="Itteration", Namespace:="urn:tinyak.net/api/v1")>
 Public Class clsItteration
     <DataMember>
-    Public Property Id As Integer
+    Public Property Id As Nullable(Of Integer)
     <DataMember>
     Public Property Name As String
     <DataMember>

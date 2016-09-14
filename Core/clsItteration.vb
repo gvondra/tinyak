@@ -78,6 +78,19 @@ Public Class clsItteration
         Return colResult
     End Function
 
+    Friend Shared Function GetItterationDictionary(ByVal colItteration As List(Of clsItteration)) As SortedDictionary(Of Integer, clsItteration)
+        Dim objItteration As clsItteration
+        Dim objDictionary As SortedDictionary(Of Integer, clsItteration)
+
+        objDictionary = New SortedDictionary(Of Integer, clsItteration)
+        If colItteration IsNot Nothing Then
+            For Each objItteration In colItteration
+                objDictionary.Add(objItteration.Id.Value, objItteration)
+            Next
+        End If
+        Return objDictionary
+    End Function
+
     Friend Shared Function GetNew(ByVal objProject As clsProject) As clsItteration
         Dim objItteration As clsItteration
         objItteration = New clsItteration(New clsItterationData)
@@ -177,5 +190,9 @@ Public Class clsItteration
             m_objProject = clsProject.Get(objSettings, ProjectId.Value)
         End If
         Return m_objProject
+    End Function
+
+    Friend Function IsSameProject(ByVal intProjectId As Integer) As Boolean
+        Return ProjectId.HasValue AndAlso intProjectId = ProjectId.Value
     End Function
 End Class

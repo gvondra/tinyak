@@ -14,4 +14,6 @@ Public Class clsWorkItem
     Public Property Description As String
     <DataMember>
     Public Property AcceptanceCriteria As String
+    <DataMember>
+    Public Property Itteration As clsItteration
 End Class

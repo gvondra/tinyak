@@ -7,12 +7,18 @@ Public Class clsWorkListItemVM
     Implements IWorkItemObserver
 
     Private m_objInnerWorkListItem As clsWorkListItem
+    Private m_strItteration As String
     Private m_objBackground As Brush
 
     Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
 
     Public Sub New(ByVal objWorkListItem As clsWorkListItem)
         m_objInnerWorkListItem = objWorkListItem
+        If objWorkListItem.Itteration IsNot Nothing Then
+            m_strItteration = objWorkListItem.Itteration.Name
+        Else
+            m_strItteration = String.Empty
+        End If
         m_objBackground = Brushes.Black
     End Sub
 
@@ -48,6 +54,16 @@ Public Class clsWorkListItemVM
         End Get
         Set(value As String)
             m_objInnerWorkListItem.AssignedTo = value
+            OnPropertyChanged()
+        End Set
+    End Property
+
+    Public Property Itteration As String
+        Get
+            Return m_strItteration
+        End Get
+        Set(value As String)
+            m_strItteration = value
             OnPropertyChanged()
         End Set
     End Property
@@ -109,5 +125,6 @@ Public Class clsWorkListItemVM
         Me.Effort = objWorkItem.Effort
         Me.State = objWorkItem.State
         Me.Title = objWorkItem.Title
+        Me.Itteration = objWorkItem.ItterationName
     End Sub
 End Class

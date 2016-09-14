@@ -6,11 +6,11 @@ Public Class clsItteration
 
     Private m_objInnerItteration As tas.clsItteration
 
-    Private Sub New(ByVal objItteration As tas.clsItteration)
+    Friend Sub New(ByVal objItteration As tas.clsItteration)
         m_objInnerItteration = objItteration
     End Sub
 
-    Public ReadOnly Property Id As Integer
+    Public ReadOnly Property Id As Nullable(Of Integer)
         Get
             Return m_objInnerItteration.Id
         End Get
@@ -118,4 +118,12 @@ Public Class clsItteration
 
         Return intResult
     End Function
+
+    Public Shared Function GetNew() As clsItteration
+        Return New clsItteration(New tas.clsItteration)
+    End Function
+
+    Friend Sub Update(ByVal objWorkItem As tas.clsWorkItem)
+        objWorkItem.Itteration = m_objInnerItteration
+    End Sub
 End Class

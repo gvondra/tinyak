@@ -76,8 +76,10 @@
     End Sub
 
     Private Sub Hyperlink_Click(sender As Object, e As RoutedEventArgs)
+        Dim objItteration As clsItterationVM
         Try
-
+            objItteration = DirectCast(CType(sender, Hyperlink).DataContext, clsItterationVM)
+            m_objFeatureViewer.FeatureList.LoadBacklog(SessionId, Dispatcher, objItteration.Id.Value)
         Catch ex As Exception
             winException.ProcessException(ex)
         End Try

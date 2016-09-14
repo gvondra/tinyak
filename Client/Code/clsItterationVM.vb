@@ -28,7 +28,7 @@ Public Class clsItterationVM
 
     End Sub
 
-    Public ReadOnly Property Id As Integer
+    Public ReadOnly Property Id As Integer?
         Get
             Return m_objInnerItteration.Id
         End Get

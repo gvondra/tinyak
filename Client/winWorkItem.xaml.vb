@@ -14,6 +14,7 @@
                 txtDescription.GetBindingExpression(TextBox.TextProperty).UpdateSource()
                 txtAcceptanceCriteria.GetBindingExpression(TextBox.TextProperty).UpdateSource()
                 cboState.GetBindingExpression(ComboBox.SelectedValueProperty).UpdateSource()
+                cboItteration.GetBindingExpression(ComboBox.SelectedItemProperty).UpdateSource()
                 WorkItem.Update(New clsSettings, winMain.SessionId)
             End If
         Catch ex As Exception

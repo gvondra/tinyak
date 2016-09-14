@@ -14,6 +14,7 @@ Namespace Controllers.Api
             Dim objWorkItem As tc.clsWorkItem
             Dim objProject As tc.clsProject
             Dim objResponse As tas.clsWorkItem
+            Dim objItteration As tc.clsItteration
 
             objSettings = New clsSettings
             objSession = GetSession(objSettings)
@@ -26,6 +27,7 @@ Namespace Controllers.Api
                     objProject = Nothing
                 End If
                 If objInnerUser IsNot Nothing AndAlso objProject IsNot Nothing AndAlso objProject.IncludesMember(objInnerUser.EmailAddress) AndAlso objWorkItem IsNot Nothing Then
+                    objItteration = objWorkItem.GetItteration(objSettings)
                     objResponse = New tas.clsWorkItem
                     With objResponse
                         .AcceptanceCriteria = objWorkItem.AcceptanceCriteria
@@ -36,6 +38,11 @@ Namespace Controllers.Api
                         .State = CType(CType(objWorkItem.State, Int16), tas.enumWorkItemState)
                         .Title = objWorkItem.Title
                     End With
+                    If objItteration IsNot Nothing Then
+                        objResponse.Itteration = New tas.clsItteration With {.EndDate = objItteration.EndDate, .Id = objItteration.Id.Value, .IsActive = objItteration.IsActive, .Name = objItteration.Name, .StartDate = objItteration.StartDate}
+                    Else
+                        objResponse.Itteration = Nothing
+                    End If
                     Return Request.CreateResponse(HttpStatusCode.OK, objResponse)
                 Else
                     Return Request.CreateResponse(HttpStatusCode.Unauthorized)
@@ -101,6 +108,7 @@ Namespace Controllers.Api
             Dim objInnerUser As tc.clsUser
             Dim objWorkItem As tc.clsWorkItem
             Dim objResponse As tas.clsWorkItem
+            Dim objItteration As tc.clsItteration
 
             objSettings = New clsSettings
             objSession = GetSession(objSettings)
@@ -122,6 +130,14 @@ Namespace Controllers.Api
                             objWorkItem.State = CType(CType(.State, Int16), tc.clsWorkItem.enumState)
                             objWorkItem.Title = .Title
                         End With
+
+                        If objRequest.Itteration IsNot Nothing AndAlso objRequest.Itteration.Id.HasValue Then
+                            objItteration = tc.clsItteration.Get(objSettings, objRequest.Itteration.Id.Value)
+                        Else
+                            objItteration = Nothing
+                        End If
+                        objWorkItem.SetItteration(objItteration)
+
                         objWorkItem.Update(objSettings)
                         objResponse = New tas.clsWorkItem
                         With objResponse

@@ -252,4 +252,16 @@ Public Class clsProject
     Public Function GetNewItteration() As clsItteration
         Return clsItteration.GetNew(Me)
     End Function
+
+    Public Sub LoadWorkItemItteration(ByVal objSettings As ISettings, ByVal colWorkItem As List(Of clsWorkItem))
+        Dim objItterations As SortedDictionary(Of Integer, clsItteration)
+        Dim objWorkItem As clsWorkItem
+
+        If colWorkItem IsNot Nothing AndAlso colWorkItem.Count > 0 Then
+            objItterations = clsItteration.GetItterationDictionary(clsItteration.GetByProject(New clsSettings(objSettings), Me))
+            For Each objWorkItem In colWorkItem
+                objWorkItem.SetItteration(objItterations)
+            Next
+        End If
+    End Sub
 End Class

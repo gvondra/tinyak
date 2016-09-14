@@ -2,9 +2,14 @@
 Imports tas = tinyak.API.Shared
 Public Class clsWorkItem
     Private m_objInnerWorkItem As tas.clsWorkItem
-
+    Private m_objItteration As clsItteration
     Private Sub New(ByVal objWorkItem As tas.clsWorkItem)
         m_objInnerWorkItem = objWorkItem
+        If objWorkItem.Itteration IsNot Nothing Then
+            m_objItteration = New clsItteration(objWorkItem.Itteration)
+        Else
+            m_objItteration = Nothing
+        End If
     End Sub
 
     Public ReadOnly Property Id As Nullable(Of Integer)
@@ -19,6 +24,15 @@ Public Class clsWorkItem
         End Get
         Set(value As String)
             m_objInnerWorkItem.Title = value
+        End Set
+    End Property
+
+    Public Property Itteration As clsItteration
+        Get
+            Return m_objItteration
+        End Get
+        Set(value As clsItteration)
+            m_objItteration = value
         End Set
     End Property
 
@@ -96,6 +110,12 @@ Public Class clsWorkItem
         Dim objSerializer As DataContractSerializer
         Dim objInner As tas.clsWorkItem
         Dim objStream As Stream
+
+        If m_objItteration Is Nothing Then
+            m_objInnerWorkItem.Itteration = Nothing
+        Else
+            m_objItteration.Update(m_objInnerWorkItem)
+        End If
 
         objUri = GetUri(objSettings, String.Format("WorkItem/{0}", Id))
         objRequest = CreatePutRequest(objSessionId, objUri)

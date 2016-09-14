@@ -10,4 +10,6 @@ Public Class clsWorkListItem
     Public Property AssignedTo As String
     <DataMember>
     Public Property Effort As Nullable(Of Int16)
+    <DataMember>
+    Public Property Itteration As clsItteration
 End Class

@@ -4,9 +4,15 @@ Public Class clsWorkListItem
     Implements IComparable(Of clsWorkListItem)
 
     Private m_objInnerWorkListItem As tas.clsWorkListItem
+    Private m_objItteration As clsItteration
 
     Private Sub New(ByVal objWorkListItem As tas.clsWorkListItem)
         m_objInnerWorkListItem = objWorkListItem
+        If objWorkListItem.Itteration IsNot Nothing Then
+            m_objItteration = New clsItteration(objWorkListItem.Itteration)
+        Else
+            m_objItteration = Nothing
+        End If
     End Sub
 
     Public ReadOnly Property Id As Nullable(Of Integer)
@@ -22,6 +28,12 @@ Public Class clsWorkListItem
         Set(value As String)
             m_objInnerWorkListItem.Title = value
         End Set
+    End Property
+
+    Public ReadOnly Property Itteration As clsItteration
+        Get
+            Return m_objItteration
+        End Get
     End Property
 
     Public Property State As enumWorkItemState

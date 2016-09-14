@@ -210,6 +210,14 @@
         objParameter.Value = AcceptanceCriteria
         objCommand.Parameters.Add(objParameter)
 
+        objParameter = CreateParameter(objCommand, "itterationId", DbType.Int32)
+        If ItterationId.HasValue Then
+            objParameter.Value = ItterationId.Value
+        Else
+            objParameter.Value = DBNull.Value
+        End If
+        objCommand.Parameters.Add(objParameter)
+
         objCommand.ExecuteNonQuery()
     End Sub
 

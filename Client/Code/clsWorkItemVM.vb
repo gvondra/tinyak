@@ -9,11 +9,14 @@ Public Class clsWorkItemVM
     Private m_strEffortMessage As String
     Private m_intEffortMessageVisibility As Visibility
     Private m_colObserver As List(Of IWorkItemObserver)
+    Private m_colItteration As List(Of clsItteration)
+    Private m_objItteration As clsItteration
 
     Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
 
     Public Sub New(ByVal objWorkItem As clsWorkItem)
         m_objInnerWorkItem = objWorkItem
+        m_objItteration = objWorkItem.Itteration
         m_colObserver = New List(Of IWorkItemObserver)
         m_intTitleMessageVisibility = Visibility.Collapsed
         m_intEffortMessageVisibility = Visibility.Collapsed
@@ -135,6 +138,32 @@ Public Class clsWorkItemVM
         End Set
     End Property
 
+    Public ReadOnly Property ItterationName As String
+        Get
+            If m_objInnerWorkItem.Itteration IsNot Nothing Then
+                Return m_objInnerWorkItem.Itteration.Name
+            Else
+                Return String.Empty
+            End If
+        End Get
+    End Property
+
+    Public ReadOnly Property Itterations As List(Of clsItteration)
+        Get
+            Return m_colItteration
+        End Get
+    End Property
+
+    Public Property Itteration As clsItteration
+        Get
+            Return m_objItteration
+        End Get
+        Set(value As clsItteration)
+            m_objItteration = value
+            OnPropertyChanged()
+        End Set
+    End Property
+
     Public ReadOnly Property StateItems As List(Of clsComboBoxItem)
         Get
             Dim arrState As Array
@@ -172,6 +201,12 @@ Public Class clsWorkItemVM
     Public Sub Update(ByVal objSettings As clsSettings, ByVal objSessionId As Guid)
         Dim i As Integer
 
+        If m_objItteration Is Nothing OrElse m_objItteration.Id.HasValue = False Then
+            m_objInnerWorkItem.Itteration = Nothing
+        Else
+            m_objInnerWorkItem.Itteration = m_objItteration
+        End If
+
         m_objInnerWorkItem.Update(objSettings, objSessionId)
 
         For i = 0 To m_colObserver.Count - 1
@@ -183,5 +218,23 @@ Public Class clsWorkItemVM
         If m_colObserver.Contains(objObserver) = False Then
             m_colObserver.Add(objObserver)
         End If
+    End Sub
+
+    Public Sub LoadItterations(ByVal intProjectId As Integer)
+        Dim colItteration As List(Of clsItteration)
+        Dim i As Integer
+
+        colItteration = clsItteration.GetByProjectId(New clsSettings, winMain.SessionId, intProjectId)
+        If colItteration Is Nothing Then
+            colItteration = New List(Of clsItteration)
+        ElseIf m_objItteration IsNot Nothing Then
+            For i = 0 To colItteration.Count - 1
+                If m_objItteration.Id.Value = colItteration(i).Id.Value Then
+                    colItteration(i) = m_objItteration
+                End If
+            Next i
+        End If
+        colItteration.Insert(0, clsItteration.GetNew)
+        m_colItteration = colItteration
     End Sub
 End Class

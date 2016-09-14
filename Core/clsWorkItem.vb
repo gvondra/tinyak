@@ -12,6 +12,7 @@ Public Class clsWorkItem
     Private m_objWorkItemData As clsWorkItemData
     Private m_objFeature As clsFeature
     Private m_objProject As clsProject
+    Private m_objItteration As clsItteration
 
     Private Sub New(ByVal objWorkItemData As clsWorkItemData, ByVal objFeature As clsFeature)
         m_objWorkItemData = objWorkItemData
@@ -100,6 +101,15 @@ Public Class clsWorkItem
         End Set
     End Property
 
+    Private Property ItterationId As Nullable(Of Integer)
+        Get
+            Return m_objWorkItemData.ItterationId
+        End Get
+        Set(value As Nullable(Of Integer))
+            m_objWorkItemData.ItterationId = value
+        End Set
+    End Property
+
     Friend Shared Function GetNew(ByVal objFeature As clsFeature) As clsWorkItem
         Return New clsWorkItem(New clsWorkItemData, objFeature) With {.AcceptanceCriteria = String.Empty, .Description = String.Empty, .AssignedTo = String.Empty}
     End Function
@@ -148,6 +158,12 @@ Public Class clsWorkItem
 
         objInnerSettings = New clsSettings(objSettings)
         Try
+            If m_objItteration IsNot Nothing Then
+                ItterationId = m_objItteration.Id
+            Else
+                ItterationId = Nothing
+            End If
+
             m_objWorkItemData.Update(objInnerSettings)
             objInnerSettings.DatabaseTransaction.Commit()
             objInnerSettings.DatabaseConnection.Close()
@@ -221,5 +237,30 @@ Public Class clsWorkItem
             m_objProject = clsProject.Get(objSettings, ProjectId.Value)
         End If
         Return m_objProject
+    End Function
+
+    Friend Sub SetItteration(ByVal objItterationDictionary As SortedDictionary(Of Integer, clsItteration))
+        If ItterationId.HasValue AndAlso objItterationDictionary.ContainsKey(ItterationId.Value) Then
+            m_objItteration = objItterationDictionary(ItterationId.Value)
+        Else
+            m_objItteration = Nothing
+        End If
+    End Sub
+
+    Public Sub SetItteration(ByVal objItteration As clsItteration)
+        If objItteration Is Nothing Then
+            m_objItteration = Nothing
+        ElseIf ProjectId.HasValue AndAlso objItteration.IsSameProject(ProjectId.Value) Then
+            m_objItteration = objItteration
+        Else
+            Throw New ApplicationException("Project mismatch")
+        End If
+    End Sub
+
+    Public Function GetItteration(ByVal objSettings As ISettings) As clsItteration
+        If m_objItteration Is Nothing AndAlso ItterationId.HasValue Then
+            m_objItteration = clsItteration.Get(objSettings, ItterationId.Value)
+        End If
+        Return m_objItteration
     End Function
 End Class
