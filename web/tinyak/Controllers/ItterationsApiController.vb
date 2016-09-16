@@ -3,7 +3,7 @@ Imports System.Web.Http
 Imports tas = tinyak.API.Shared
 Imports tc = tinyak.Core
 Namespace Controllers.Api
-    <clsApiActionFilter>
+    <clsApiActionFilter, clsApiExceptionFilterAttribute>
     Public Class ItterationsController
         Inherits clsApiControllerBase
 

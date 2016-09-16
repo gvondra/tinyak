@@ -1,7 +1,7 @@
 ﻿Imports System.Web.Mvc
 Imports tinyak.Core
 Namespace Controllers
-    <Authorize(), clsMvcActionFilter>
+    <Authorize(), clsMvcActionFilter, clsMvcHandleError>
     Public Class ItterationController
         Inherits clsControllerBase
 

@@ -1,6 +1,6 @@
 ﻿Imports tinyak.Core
 Namespace Controllers
-    <clsMvcActionFilter>
+    <clsMvcActionFilter, clsMvcHandleError>
     Public Class HomeController
         Inherits clsControllerBase
 

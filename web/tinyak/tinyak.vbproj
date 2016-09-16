@@ -163,9 +163,11 @@
     <Compile Include="App_Start\WebApiConfig.vb" />
     <Compile Include="clsApiActionFilter.vb" />
     <Compile Include="clsApiControllerBase.vb" />
+    <Compile Include="clsApiExceptionFilterAttribute.vb" />
     <Compile Include="clsControllerBase.vb" />
     <Compile Include="clsControllerFactory.vb" />
     <Compile Include="clsMvcActionFilter.vb" />
+    <Compile Include="clsMvcHandleErrorAttribute.vb" />
     <Compile Include="clsSettings.vb" />
     <Compile Include="Controllers\FeatureApiController.vb" />
     <Compile Include="Controllers\FeaturesApiController.vb" />

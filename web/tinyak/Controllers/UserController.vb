@@ -1,7 +1,7 @@
 ﻿Imports System.Web.Mvc
 Imports tinyak.Core
 Namespace Controllers
-    <clsMvcActionFilter>
+    <clsMvcActionFilter, clsMvcHandleError>
     Public Class UserController
         Inherits clsControllerBase
 

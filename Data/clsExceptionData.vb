@@ -1,94 +1,114 @@
 ﻿Public Class clsExceptionData
-    Friend Const TABLE_NAME As String = "Exception"
-
-    Private m_intId As Nullable(Of Integer)
-    Private m_strTypeName As String
-    Private m_strMessage As String
-    Private m_strSource As String
-    Private m_strTarget As String
-    Private m_strStackTrace As String
-    Private m_intHResult As Integer
-    Private m_objData As Dictionary(Of String, String)
-    Private m_objInnerException As clsExceptionData
-
     Public Property Id As Nullable(Of Integer)
-        Get
-            Return m_intId
-        End Get
-        Set
-            m_intId = Value
-        End Set
-    End Property
-
     Public Property TypeName As String
-        Get
-            Return m_strTypeName
-        End Get
-        Set(value As String)
-            m_strTypeName = value
-        End Set
-    End Property
-
     Public Property Message As String
-        Get
-            Return m_strMessage
-        End Get
-        Set(value As String)
-            m_strMessage = value
-        End Set
-    End Property
-
     Public Property Source As String
-        Get
-            Return m_strSource
-        End Get
-        Set(value As String)
-            m_strSource = value
-        End Set
-    End Property
-
     Public Property Target As String
-        Get
-            Return m_strTarget
-        End Get
-        Set(value As String)
-            m_strTarget = value
-        End Set
-    End Property
-
     Public Property StackTrace As String
-        Get
-            Return m_strStackTrace
-        End Get
-        Set(value As String)
-            m_strStackTrace = value
-        End Set
-    End Property
-
     Public Property HResult As Integer
-        Get
-            Return m_intHResult
-        End Get
-        Set(value As Integer)
-            m_intHResult = value
-        End Set
-    End Property
-
+    Public Property Timestamp As Date
     Public Property Data As Dictionary(Of String, String)
-        Get
-            Return m_objData
-        End Get
-        Set(value As Dictionary(Of String, String))
-            m_objData = value
-        End Set
-    End Property
-
+    Public Property ParentExceptionId As Nullable(Of Integer)
     Public Property InnerException As clsExceptionData
-        Get
-            Return m_objInnerException
-        End Get
-        Set(value As clsExceptionData)
-            m_objInnerException = value
-        End Set
-    End Property
+
+    Public Sub Create(ByVal objSettings As ISettings)
+        Dim objCommand As IDbCommand
+        Dim objParameter As IDataParameter
+        Dim objExceptionId As IDataParameter
+
+        If objSettings.DatabaseConnection Is Nothing Then
+            objSettings.DatabaseConnection = OpenConnection(objSettings)
+        End If
+        If objSettings.DatabaseTransaction Is Nothing Then
+            objSettings.DatabaseTransaction = objSettings.DatabaseConnection.BeginTransaction
+        End If
+        objCommand = objSettings.DatabaseConnection.CreateCommand
+        objCommand.CommandText = "tnyk.ISP_Exception"
+        objCommand.CommandType = CommandType.StoredProcedure
+        objCommand.Transaction = objSettings.DatabaseTransaction
+
+        objExceptionId = CreateParameter(objCommand, "id", DbType.Int32)
+        objExceptionId.Direction = ParameterDirection.Output
+        objCommand.Parameters.Add(objExceptionId)
+        objParameter = CreateParameter(objCommand, "parentExceptionId", DbType.Int32)
+        If ParentExceptionId.HasValue Then
+            objParameter.Value = ParentExceptionId.Value
+        Else
+            objParameter.Value = DBNull.Value
+        End If
+        objCommand.Parameters.Add(objParameter)
+
+        objParameter = CreateParameter(objCommand, "typeName", DbType.String)
+        objParameter.Value = TypeName
+        objCommand.Parameters.Add(objParameter)
+
+        objParameter = CreateParameter(objCommand, "message", DbType.String)
+        objParameter.Value = Message
+        objCommand.Parameters.Add(objParameter)
+
+        objParameter = CreateParameter(objCommand, "source", DbType.String)
+        objParameter.Value = Source
+        objCommand.Parameters.Add(objParameter)
+
+        objParameter = CreateParameter(objCommand, "target", DbType.String)
+        objParameter.Value = Target
+        objCommand.Parameters.Add(objParameter)
+
+        objParameter = CreateParameter(objCommand, "stackTrace", DbType.String)
+        objParameter.Value = StackTrace
+        objCommand.Parameters.Add(objParameter)
+
+        objParameter = CreateParameter(objCommand, "hResult", DbType.Int32)
+        objParameter.Value = HResult
+        objCommand.Parameters.Add(objParameter)
+
+        objParameter = CreateParameter(objCommand, "timestamp", DbType.DateTime)
+        objParameter.Value = Timestamp
+        objCommand.Parameters.Add(objParameter)
+
+        objCommand.ExecuteNonQuery()
+
+        Id = CType(objExceptionId.Value, Int32)
+
+        If Data IsNot Nothing AndAlso Data.Count > 0 Then
+            CreateData(objSettings)
+        End If
+
+        If InnerException IsNot Nothing Then
+            InnerException.ParentExceptionId = Id.Value
+            InnerException.Create(objSettings)
+        End If
+    End Sub
+
+    Private Sub CreateData(ByVal objSettings As ISettings)
+        Dim objCommand As IDbCommand
+        Dim objParameter As IDataParameter
+        Dim objEnumerator As Dictionary(Of String, String).Enumerator
+
+        objEnumerator = Data.GetEnumerator
+        While objEnumerator.MoveNext
+            objCommand = objSettings.DatabaseConnection.CreateCommand
+            objCommand.CommandText = "tnyk.ISP_ExceptionData"
+            objCommand.CommandType = CommandType.StoredProcedure
+            objCommand.Transaction = objSettings.DatabaseTransaction
+
+            objParameter = CreateParameter(objCommand, "id", DbType.Int32)
+            objParameter.Direction = ParameterDirection.Output
+            objCommand.Parameters.Add(objParameter)
+
+            objParameter = CreateParameter(objCommand, "exceptionId", DbType.Int32)
+            objParameter.Value = Id.Value
+            objCommand.Parameters.Add(objParameter)
+
+            objParameter = CreateParameter(objCommand, "name", DbType.String)
+            objParameter.Value = objEnumerator.Current.Key
+            objCommand.Parameters.Add(objParameter)
+
+            objParameter = CreateParameter(objCommand, "value", DbType.String)
+            objParameter.Value = objEnumerator.Current.Value
+            objCommand.Parameters.Add(objParameter)
+
+            objCommand.ExecuteNonQuery()
+        End While
+    End Sub
 End Class

@@ -112,5 +112,8 @@
     <Build Include="tnyk\Stored Procedures\USP_Itteration.sql" />
     <Build Include="tnyk\Tables\WebMetrics.sql" />
     <Build Include="tnyk\Stored Procedures\ISP_WebMetrics.sql" />
+    <Build Include="tnyk\Tables\ExceptionData.sql" />
+    <Build Include="tnyk\Stored Procedures\ISP_Exception.sql" />
+    <Build Include="tnyk\Stored Procedures\ISP_ExceptionData.sql" />
   </ItemGroup>
 </Project>
