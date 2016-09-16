@@ -73,6 +73,7 @@
     <Compile Include="clsSessionData.vb" />
     <Compile Include="clsTaskData.vb" />
     <Compile Include="clsUserData.vb" />
+    <Compile Include="clsWebMetricsData.vb" />
     <Compile Include="clsWorkItemData.vb" />
     <Compile Include="ISettings.vb" />
     <Compile Include="modDatabase.vb" />

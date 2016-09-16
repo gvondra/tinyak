@@ -30,6 +30,7 @@
     Private Sub lblTitle_MouseDown(sender As Object, e As MouseButtonEventArgs) Handles lblTitle.MouseDown
         If e.ChangedButton = MouseButton.Left AndAlso e.ClickCount = 2 Then
             RaiseEvent FeatureDoubleClick(Me, DirectCast(DataContext, clsFeatureListItemVM))
+            e.Handled = True
         End If
     End Sub
 

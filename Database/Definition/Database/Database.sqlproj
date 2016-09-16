@@ -110,5 +110,7 @@
     <Build Include="tnyk\Stored Procedures\SSP_Itteration_By_Project.sql" />
     <Build Include="tnyk\Stored Procedures\SSP_Itteration.sql" />
     <Build Include="tnyk\Stored Procedures\USP_Itteration.sql" />
+    <Build Include="tnyk\Tables\WebMetrics.sql" />
+    <Build Include="tnyk\Stored Procedures\ISP_WebMetrics.sql" />
   </ItemGroup>
 </Project>

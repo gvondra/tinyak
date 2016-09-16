@@ -2,6 +2,7 @@
 Imports System.Web.Http
 Imports tinyak.Core
 Namespace Controllers.Api
+    <clsApiActionFilter>
     Public Class SessionController
         Inherits ApiController
 

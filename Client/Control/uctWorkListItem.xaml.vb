@@ -8,6 +8,7 @@
             CType(DataContext, clsWorkListItemVM).Selected()
             If e.ClickCount = 2 Then
                 RaiseEvent WorkItemDoubleClick(Me, DirectCast(DataContext, clsWorkListItemVM))
+                e.Handled = True
             End If
         End If
     End Sub

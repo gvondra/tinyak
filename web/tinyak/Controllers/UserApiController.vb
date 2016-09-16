@@ -3,6 +3,7 @@ Imports System.Web.Http
 Imports tas = tinyak.API.Shared
 Imports tc = tinyak.Core
 Namespace Controllers.Api
+    ' don't as this will log passwords <clsApiActionFilter>
     Public Class UserController
         Inherits clsApiControllerBase
 

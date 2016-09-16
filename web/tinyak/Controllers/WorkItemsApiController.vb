@@ -3,6 +3,7 @@ Imports System.Web.Http
 Imports tas = tinyak.API.Shared
 Imports tc = tinyak.Core
 Namespace Controllers.Api
+    <clsApiActionFilter>
     Public Class WorkItemsController
         Inherits clsApiControllerBase
 

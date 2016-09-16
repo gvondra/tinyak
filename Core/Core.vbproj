@@ -74,6 +74,7 @@
     <Compile Include="clsTask.vb" />
     <Compile Include="clsUser.vb" />
     <Compile Include="clsValidation.vb" />
+    <Compile Include="clsWebMetrics.vb" />
     <Compile Include="clsWorkItem.vb" />
     <Compile Include="ISettings.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

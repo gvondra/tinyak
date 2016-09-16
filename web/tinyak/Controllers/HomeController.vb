@@ -1,13 +1,16 @@
 ﻿Imports tinyak.Core
-Public Class HomeController
-    Inherits clsControllerBase
+Namespace Controllers
+    <clsMvcActionFilter>
+    Public Class HomeController
+        Inherits clsControllerBase
 
-    Public Sub New(ByVal objSettings As clsSettings, ByVal objSession As clsSession)
-        MyBase.New(objSettings, objSession)
-    End Sub
+        Public Sub New(ByVal objSettings As clsSettings, ByVal objSession As clsSession)
+            MyBase.New(objSettings, objSession)
+        End Sub
 
-    Function Index() As ActionResult
-        Return View()
-    End Function
+        Function Index() As ActionResult
+            Return View()
+        End Function
 
-End Class
+    End Class
+End Namespace

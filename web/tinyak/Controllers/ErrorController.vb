@@ -1,6 +1,7 @@
 ﻿Imports System.Web.Mvc
 
 Namespace Controllers
+    <clsMvcActionFilter>
     Public Class ErrorController
         Inherits Controller
 

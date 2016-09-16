@@ -1,7 +1,7 @@
 ﻿Imports System.Web.Mvc
 Imports tinyak.Core
 Namespace Controllers
-    <Authorize()>
+    <Authorize(), clsMvcActionFilter>
     Public Class ProjectController
         Inherits clsControllerBase
 

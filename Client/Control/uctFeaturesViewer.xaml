@@ -28,6 +28,8 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </StackPanel>
-        <t:uctFeatureList Grid.Column="1" DataContext="{Binding FeatureList}" FeatureDoubleClick="uctFeatureList_FeatureDoubleClick" WorkItemDoubleClick="uctFeatureList_WorkItemDoubleClick" />
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+            <t:uctFeatureList DataContext="{Binding FeatureList}" FeatureDoubleClick="uctFeatureList_FeatureDoubleClick" WorkItemDoubleClick="uctFeatureList_WorkItemDoubleClick" />
+        </ScrollViewer>
     </Grid>
 </UserControl>
