@@ -158,4 +158,19 @@ Public Class clsWebMetrics
             End If
         End Try
     End Sub
+
+    Public Shared Function GetByMinimumTimestamp(ByVal objSettings As ISettings, ByVal datMinimumTimestamp As Date) As List(Of clsWebMetrics)
+        Dim colData As List(Of clsWebMetricsData)
+        Dim objData As clsWebMetricsData
+        Dim colResult As List(Of clsWebMetrics)
+
+        colData = clsWebMetricsData.GetByMinimumTimestamp(New clsSettings(objSettings), datMinimumTimestamp)
+        colResult = New List(Of clsWebMetrics)
+        If colData IsNot Nothing Then
+            For Each objData In colData
+                colResult.Add(New clsWebMetrics(objData))
+            Next
+        End If
+        Return colResult
+    End Function
 End Class

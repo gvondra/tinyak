@@ -23,6 +23,10 @@
                 <Separator/>
                 <MenuItem Header="Exit" Name="mnuExit"/>
             </MenuItem>
+            <MenuItem Header="Administration" Visibility="Collapsed" Name="mnuAdministration">
+                <MenuItem Header="Web Metrics" Name="mnuWebMetrics"/>
+                <MenuItem Header="Exception Log" Name="mnuExceptionLog"/>
+            </MenuItem>
         </Menu>
         <t:uctProjectList Grid.Column="0" Grid.Row="1" x:Name="ctlProjectList" Visibility="Collapsed"/>
         <Grid Grid.Column="1" Grid.Row="1" Name="pnlControl">

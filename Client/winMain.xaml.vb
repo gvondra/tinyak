@@ -6,6 +6,7 @@ Public Class winMain
     Private m_objCurrentProject As clsProject
     Private m_objFeatureWindows As Dictionary(Of Integer, winFeature)
     Private m_objWorkItemWindows As Dictionary(Of Integer, winWorkItem)
+    Private m_blnIsAdministrator As Boolean
 
     Public Shared Property SessionId As Guid
     Public Property Projects As ObservableCollection(Of clsProject)
@@ -42,6 +43,12 @@ Public Class winMain
         Dim objProject As clsProject
         Try
             objSettings = New clsSettings
+            m_blnIsAdministrator = objUser.IsAdministrator
+            If m_blnIsAdministrator Then
+                mnuAdministration.Visibility = Visibility.Visible
+            Else
+                mnuAdministration.Visibility = Visibility.Collapsed
+            End If
             lblUser.DataContext = New clsUserVM(objUser)
             pnlControl.Children.Clear()
             colProject = clsProject.Get(objSettings, SessionId)
@@ -212,5 +219,18 @@ Public Class winMain
                 m_objWorkItemWindows.Remove(intWorkItemId.Value)
             End If
         End If
+    End Sub
+
+    Private Sub mnuWebMetrics_Click(sender As Object, e As RoutedEventArgs) Handles mnuWebMetrics.Click
+        Dim objControl As uctWebMetrics
+        Try
+            ctlProjectList.Visibility = Visibility.Visible
+            pnlControl.Children.Clear()
+            objControl = New uctWebMetrics
+            objControl.Load()
+            pnlControl.Children.Add(objControl)
+        Catch ex As Exception
+            winException.ProcessException(ex)
+        End Try
     End Sub
 End Class

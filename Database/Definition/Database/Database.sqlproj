@@ -115,5 +115,6 @@
     <Build Include="tnyk\Tables\ExceptionData.sql" />
     <Build Include="tnyk\Stored Procedures\ISP_Exception.sql" />
     <Build Include="tnyk\Stored Procedures\ISP_ExceptionData.sql" />
+    <Build Include="tnyk\Stored Procedures\SSP_WebMetrics_By_MinTimestamp.sql" />
   </ItemGroup>
 </Project>

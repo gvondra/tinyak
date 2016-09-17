@@ -22,7 +22,7 @@ Namespace Controllers.Api
                 If objInnerUser IsNot Nothing Then
                     objSession.UserId = objInnerUser.Id
                     objSession.Save(objSettings)
-                    objResult = New tas.clsUser() With {.Name = objInnerUser.Name}
+                    objResult = New tas.clsUser() With {.Name = objInnerUser.Name, .IsAdministrator = objInnerUser.IsAdministrator}
                     Return Request.CreateResponse(HttpStatusCode.OK, objResult)
                 Else
                     Return Request.CreateResponse(HttpStatusCode.Unauthorized)

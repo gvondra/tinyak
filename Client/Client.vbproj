@@ -107,6 +107,7 @@
     <Compile Include="Code\clsItterationVM.vb" />
     <Compile Include="Code\clsSettings.vb" />
     <Compile Include="Code\clsUserVM.vb" />
+    <Compile Include="Code\clsWebMetricsVM.vb" />
     <Compile Include="Code\clsWorkItemVM.vb" />
     <Compile Include="Code\clsWorkListItemVM.vb" />
     <Compile Include="Code\IFeatureObserver.vb" />
@@ -131,6 +132,9 @@
     </Compile>
     <Compile Include="Control\uctProjectList.xaml.vb">
       <DependentUpon>uctProjectList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\uctWebMetrics.xaml.vb">
+      <DependentUpon>uctWebMetrics.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\uctWorkListItem.xaml.vb">
       <DependentUpon>uctWorkListItem.xaml</DependentUpon>
@@ -176,6 +180,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Control\uctProjectList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\uctWebMetrics.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

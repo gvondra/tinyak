@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [tnyk].[WebMetrics]
 (
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+	[WebMetricsId] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Url] NVARCHAR(300) NOT NULL, 
     [Controller] VARCHAR(50) NOT NULL, 
     [Action] VARCHAR(50) NOT NULL, 

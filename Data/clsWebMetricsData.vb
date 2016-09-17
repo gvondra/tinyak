@@ -15,6 +15,76 @@
     Public Property UserAgent As String
     Public Property Parameters As String
 
+    Private Shared Sub Initialize(ByVal objReader As IDataReader, ByVal objWebMetrics As clsWebMetricsData)
+        With objWebMetrics
+            .Id = objReader.GetInt32(objReader.GetOrdinal("WebMetricsId"))
+            .Url = objReader.GetString(objReader.GetOrdinal("Url")).Trim
+            .Controller = objReader.GetString(objReader.GetOrdinal("Controller")).Trim
+            .Action = objReader.GetString(objReader.GetOrdinal("Action")).Trim
+            .Timestamp = objReader.GetDateTime(objReader.GetOrdinal("Timestamp"))
+            Date.SpecifyKind(.Timestamp, DateTimeKind.Utc)
+            If objReader.IsDBNull(objReader.GetOrdinal("Duration")) = False Then
+                .Duration = objReader.GetDouble(objReader.GetOrdinal("Duration"))
+            Else
+                .Duration = Nothing
+            End If
+            .ContentEncoding = objReader.GetString(objReader.GetOrdinal("ContentEncoding")).Trim
+            If objReader.IsDBNull(objReader.GetOrdinal("ContentLength")) = False Then
+                .ContentLength = objReader.GetInt32(objReader.GetOrdinal("ContentLength"))
+            Else
+                .ContentLength = Nothing
+            End If
+            .ContentType = objReader.GetString(objReader.GetOrdinal("ContentType")).Trim
+            .Method = objReader.GetString(objReader.GetOrdinal("Method")).Trim
+            .RequestType = objReader.GetString(objReader.GetOrdinal("RequestType")).Trim
+            If objReader.IsDBNull(objReader.GetOrdinal("TotalBytes")) = False Then
+                .TotalBytes = objReader.GetInt32(objReader.GetOrdinal("TotalBytes"))
+            Else
+                .TotalBytes = Nothing
+            End If
+            .UrlReferrer = objReader.GetString(objReader.GetOrdinal("UrlReferrer")).Trim
+            .UserAgent = objReader.GetString(objReader.GetOrdinal("UserAgent")).Trim
+            If objReader.IsDBNull(objReader.GetOrdinal("Parameters")) = False Then
+                .Parameters = objReader.GetString(objReader.GetOrdinal("Parameters")).Trim
+            Else
+                .Parameters = Nothing
+            End If
+        End With
+    End Sub
+
+    Public Shared Function GetByMinimumTimestamp(ByVal objSettings As ISettings, ByVal datMinimumTimestamp As Date) As List(Of clsWebMetricsData)
+        Dim objConnection As IDbConnection
+        Dim objCommand As IDbCommand
+        Dim objParameter As IDataParameter
+        Dim objReader As IDataReader
+        Dim colResult As List(Of clsWebMetricsData)
+        Dim objWebMetric As clsWebMetricsData
+
+        objConnection = OpenConnection(objSettings)
+        Try
+            objCommand = objConnection.CreateCommand()
+            objCommand.CommandText = "tnyk.SSP_WebMetrics_By_MinTimestamp"
+            objCommand.CommandType = CommandType.StoredProcedure
+
+            objParameter = CreateParameter(objCommand, "minTimestamp", DbType.DateTime)
+            objParameter.Value = datMinimumTimestamp
+            objCommand.Parameters.Add(objParameter)
+
+            objReader = objCommand.ExecuteReader
+            colResult = New List(Of clsWebMetricsData)
+            While objReader.Read
+                objWebMetric = New clsWebMetricsData
+                Initialize(objReader, objWebMetric)
+                colResult.Add(objWebMetric)
+            End While
+
+            objConnection.Close()
+        Finally
+            objConnection.Dispose()
+        End Try
+        Return colResult
+    End Function
+
     Public Sub Create(ByVal objSettings As ISettings)
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter

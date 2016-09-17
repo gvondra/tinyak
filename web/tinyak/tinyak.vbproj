@@ -179,6 +179,7 @@
     <Compile Include="Controllers\SessionApiController.vb" />
     <Compile Include="Controllers\UserApiController.vb" />
     <Compile Include="Controllers\UserController.vb" />
+    <Compile Include="Controllers\WebMetricsApiController.vb" />
     <Compile Include="Controllers\WorkItemApiController.vb" />
     <Compile Include="Controllers\WorkItemsApiController.vb" />
     <Compile Include="Global.asax.vb">
