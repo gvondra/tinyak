@@ -14,6 +14,8 @@
     Public Property UrlReferrer As String
     Public Property UserAgent As String
     Public Property Parameters As String
+    Public Property StatusCode As Nullable(Of Integer)
+    Public Property StatusDescription As String
 
     Private Shared Sub Initialize(ByVal objReader As IDataReader, ByVal objWebMetrics As clsWebMetricsData)
         With objWebMetrics
@@ -49,6 +51,12 @@
             Else
                 .Parameters = Nothing
             End If
+            If objReader.IsDBNull(objReader.GetOrdinal("StatusCode")) = False Then
+                .StatusCode = objReader.GetInt32(objReader.GetOrdinal("StatusCode"))
+            Else
+                .StatusCode = Nothing
+            End If
+            .StatusDescription = objReader.GetString(objReader.GetOrdinal("StatusDescription")).Trim
         End With
     End Sub
 
@@ -175,6 +183,21 @@
         Else
             objParameter.Value = DBNull.Value
         End If
+        objCommand.Parameters.Add(objParameter)
+
+        objParameter = CreateParameter(objCommand, "statusCode", DbType.Int32)
+        If StatusCode.HasValue Then
+            objParameter.Value = StatusCode.Value
+        Else
+            objParameter.Value = DBNull.Value
+        End If
+        objCommand.Parameters.Add(objParameter)
+
+        objParameter = CreateParameter(objCommand, "statusDescription", DbType.String)
+        If StatusDescription Is Nothing Then
+            StatusDescription = String.Empty
+        End If
+        objParameter.Value = StatusDescription
         objCommand.Parameters.Add(objParameter)
 
         objCommand.ExecuteNonQuery()

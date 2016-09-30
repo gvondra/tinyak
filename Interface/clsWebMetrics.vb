@@ -133,6 +133,24 @@ Public Class clsWebMetrics
         End Set
     End Property
 
+    Public Property StatusCode As Nullable(Of Integer)
+        Get
+            Return m_objInnerWebMetrics.StatusCode
+        End Get
+        Set(value As Nullable(Of Integer))
+            m_objInnerWebMetrics.StatusCode = value
+        End Set
+    End Property
+
+    Public Property StatusDescription As String
+        Get
+            Return m_objInnerWebMetrics.StatusDescription
+        End Get
+        Set(value As String)
+            m_objInnerWebMetrics.StatusDescription = value
+        End Set
+    End Property
+
     Public Shared Function [Get](ByVal objSettings As ISettings, ByVal objSession As Guid, ByVal datMinimumTimestamp As Date) As List(Of clsWebMetrics)
         Dim objRequest As HttpWebRequest
         Dim objResponse As HttpWebResponse

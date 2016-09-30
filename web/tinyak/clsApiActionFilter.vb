@@ -16,6 +16,8 @@ Public Class clsApiActionFilter
     Public Overrides Sub OnActionExecuted(actionExecutedContext As HttpActionExecutedContext)
         Dim objWebMetrics As clsWebMetrics = clsWebMetrics.GetNew
         Dim objRequest As HttpRequestBase
+        Dim objResponse As HttpResponseBase
+
         With objWebMetrics
             .Action = actionExecutedContext.ActionContext.ActionDescriptor.ActionName
             .Controller = actionExecutedContext.ActionContext.ActionDescriptor.ControllerDescriptor.ControllerName
@@ -40,6 +42,10 @@ Public Class clsApiActionFilter
             Else
                 .UserAgent = String.Empty
             End If
+
+            objResponse = CType(actionExecutedContext.Request.Properties("MS_HttpContext"), HttpContextWrapper).Response
+            .StatusCode = objResponse.StatusCode
+            .StatusDescription = objResponse.StatusDescription
         End With
         SetParameters(objRequest, objWebMetrics)
         objWebMetrics.Create(New clsSettings)

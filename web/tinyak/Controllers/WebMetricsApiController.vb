@@ -43,6 +43,8 @@ Namespace Controllers.Api
                                 .Url = objWebMetrics.Url
                                 .UrlReferrer = objWebMetrics.UrlReferrer
                                 .UserAgent = objWebMetrics.UserAgent
+                                .StatusCode = objWebMetrics.StatusCode
+                                .StatusDescription = objWebMetrics.StatusDescription
                             End With
                         Next
                     Else

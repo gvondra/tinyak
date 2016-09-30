@@ -39,6 +39,8 @@ Public Class uctWebMetrics
             dtData.Columns.Add("UrlReferrer", GetType(String))
             dtData.Columns.Add("UserAgent", GetType(String))
             dtData.Columns.Add("Parameters", GetType(String))
+            dtData.Columns.Add("StatusCode", GetType(Integer))
+            dtData.Columns.Add("StatusDescription", GetType(String))
 
             If colWebMetrics IsNot Nothing Then
                 For Each objWebMetrics In colWebMetrics
@@ -72,6 +74,13 @@ Public Class uctWebMetrics
                     drwData("UrlReferrer") = objWebMetrics.UrlReferrer
                     drwData("UserAgent") = objWebMetrics.UserAgent
                     drwData("Parameters") = objWebMetrics.Parameters
+
+                    If objWebMetrics.StatusCode.HasValue Then
+                        drwData("StatusCode") = objWebMetrics.StatusCode.Value
+                    Else
+                        drwData("StatusCode") = DBNull.Value
+                    End If
+                    drwData("StatusDescription") = objWebMetrics.StatusDescription
 
                     dtData.Rows.Add(drwData)
                 Next

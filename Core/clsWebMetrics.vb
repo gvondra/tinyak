@@ -132,6 +132,24 @@ Public Class clsWebMetrics
         End Set
     End Property
 
+    Public Property StatusCode As Nullable(Of Integer)
+        Get
+            Return m_objWebMetricsData.StatusCode
+        End Get
+        Set(value As Nullable(Of Integer))
+            m_objWebMetricsData.StatusCode = value
+        End Set
+    End Property
+
+    Public Property StatusDescription As String
+        Get
+            Return m_objWebMetricsData.StatusDescription
+        End Get
+        Set(value As String)
+            m_objWebMetricsData.StatusDescription = value
+        End Set
+    End Property
+
     Public Shared Function GetNew() As clsWebMetrics
         Return New clsWebMetrics(New clsWebMetricsData) With {.Timestamp = Date.UtcNow}
     End Function

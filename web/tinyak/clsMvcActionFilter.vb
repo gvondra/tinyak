@@ -14,6 +14,8 @@ Public Class clsMvcActionFilter
     Public Overrides Sub OnActionExecuted(filterContext As ActionExecutedContext)
         Dim objWebMetrics As clsWebMetrics = clsWebMetrics.GetNew
         Dim objRequest As HttpRequestBase
+        Dim objResponse As HttpResponseBase
+
         With objWebMetrics
             .Action = filterContext.ActionDescriptor.ActionName
             .Controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName
@@ -38,6 +40,10 @@ Public Class clsMvcActionFilter
             Else
                 .UserAgent = String.Empty
             End If
+
+            objResponse = filterContext.HttpContext.Response
+            .StatusCode = objResponse.StatusCode
+            .StatusDescription = objResponse.StatusDescription
         End With
         SetParameters(objRequest, objWebMetrics)
         objWebMetrics.Create(New clsSettings)

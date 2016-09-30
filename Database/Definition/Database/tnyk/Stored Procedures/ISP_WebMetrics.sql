@@ -13,11 +13,13 @@
     @totalBytes INT, 
     @urlReferrer NVARCHAR(300), 
     @userAgent NVARCHAR(300), 
-    @parameters NTEXT
+    @parameters NTEXT,
+	@statusCode INT,
+	@statusDescription NVARCHAR(100)
 AS
 BEGIN
-	INSERT INTO [tnyk].[WebMetrics] ([Url], [Controller], [Action], [Timestamp], [Duration], [ContentEncoding], [ContentLength], [ContentType], [Method], [RequestType], [TotalBytes], [UrlReferrer], [UserAgent], [Parameters])
-	VALUES (@url, @controller, @action, @timestamp, @duration, @contentEncoding, @contentLength, @contentType, @method, @requestType, @totalBytes, @urlReferrer, @userAgent, @parameters)
+	INSERT INTO [tnyk].[WebMetrics] ([Url], [Controller], [Action], [Timestamp], [Duration], [ContentEncoding], [ContentLength], [ContentType], [Method], [RequestType], [TotalBytes], [UrlReferrer], [UserAgent], [Parameters], [StatusCode], [StatusDescription])
+	VALUES (@url, @controller, @action, @timestamp, @duration, @contentEncoding, @contentLength, @contentType, @method, @requestType, @totalBytes, @urlReferrer, @userAgent, @parameters, @statusCode, @statusDescription)
 	;
 	SET @id = SCOPE_IDENTITY();
 END

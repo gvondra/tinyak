@@ -14,5 +14,7 @@
     [TotalBytes] INT NULL, 
     [UrlReferrer] NVARCHAR(300) NOT NULL, 
     [UserAgent] NVARCHAR(300) NOT NULL, 
-    [Parameters] NTEXT NULL
+    [Parameters] NTEXT NULL, 
+    [StatusCode] INT NULL, 
+    [StatusDescription] NVARCHAR(100) NOT NULL DEFAULT ('')
 )

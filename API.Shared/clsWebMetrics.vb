@@ -28,4 +28,8 @@ Public Class clsWebMetrics
     Public Property UserAgent As String
     <DataMember>
     Public Property Parameters As String
+    <DataMember>
+    Public Property StatusCode As Nullable(Of Integer)
+    <DataMember>
+    Public Property StatusDescription As String
 End Class
