@@ -27,6 +27,12 @@
                     <li>
                         @Html.ActionLink("Projects", "List", "Project")
                     </li>
+                    <li>
+                        <a href="http://tinyak.net/client/tinyak.application">Launch It!</a>
+                    </li>
+                    <li>
+                        <a href="http://tinyak.net/client/setup.exe">Install It!</a>
+                    </li>
                 </ul>
             </nav>
         </div>
