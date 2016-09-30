@@ -68,7 +68,6 @@
     <Build Include="tnyk\Tables\User.sql" />
     <Build Include="tnyk\Tables\Session.sql" />
     <Build Include="tnyk\Tables\ServiceCall.sql" />
-    <Build Include="tnyk\Tables\ErrorLog.sql" />
     <Build Include="tnyk\Tables\Exception.sql" />
     <Build Include="tnyk\Tables\Feature.sql" />
     <Build Include="tnyk\Tables\Project.sql" />
@@ -116,5 +115,6 @@
     <Build Include="tnyk\Stored Procedures\ISP_Exception.sql" />
     <Build Include="tnyk\Stored Procedures\ISP_ExceptionData.sql" />
     <Build Include="tnyk\Stored Procedures\SSP_WebMetrics_By_MinTimestamp.sql" />
+    <Build Include="tnyk\Stored Procedures\SSP_Exception_By_MinTimestamp.sql" />
   </ItemGroup>
 </Project>

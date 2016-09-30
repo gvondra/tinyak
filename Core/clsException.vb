@@ -121,6 +121,21 @@ Public Class clsException
         Return objResult
     End Function
 
+    Public Shared Function GetByMinimumTimestamp(ByVal objSettings As ISettings, ByVal datMinimumTimestamp As Date) As List(Of clsException)
+        Dim colData As List(Of clsExceptionData)
+        Dim objData As clsExceptionData
+        Dim colResult As List(Of clsException)
+
+        colData = clsExceptionData.GetByMinimumTimestamp(New clsSettings(objSettings), datMinimumTimestamp)
+        colResult = New List(Of clsException)
+        If colData IsNot Nothing Then
+            For Each objData In colData
+                colResult.Add(New clsException(objData))
+            Next
+        End If
+        Return colResult
+    End Function
+
     Private Sub Update(ByVal objException As clsExceptionData)
         objException.InnerException = m_objExceptionData
     End Sub

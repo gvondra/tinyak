@@ -233,4 +233,17 @@ Public Class winMain
             winException.ProcessException(ex)
         End Try
     End Sub
+
+    Private Sub mnuExceptionLog_Click(sender As Object, e As RoutedEventArgs) Handles mnuExceptionLog.Click
+        Dim objControl As uctExceptions
+        Try
+            ctlProjectList.Visibility = Visibility.Visible
+            pnlControl.Children.Clear()
+            objControl = New uctExceptions
+            objControl.Load()
+            pnlControl.Children.Add(objControl)
+        Catch ex As Exception
+            winException.ProcessException(ex)
+        End Try
+    End Sub
 End Class

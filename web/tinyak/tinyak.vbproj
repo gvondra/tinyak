@@ -169,6 +169,7 @@
     <Compile Include="clsMvcActionFilter.vb" />
     <Compile Include="clsMvcHandleErrorAttribute.vb" />
     <Compile Include="clsSettings.vb" />
+    <Compile Include="Controllers\ExceptionApiController.vb" />
     <Compile Include="Controllers\FeatureApiController.vb" />
     <Compile Include="Controllers\FeaturesApiController.vb" />
     <Compile Include="Controllers\ErrorController.vb" />

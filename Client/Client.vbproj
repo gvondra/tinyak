@@ -99,6 +99,7 @@
     <Compile Include="Code\clsAddFeatureVM.vb" />
     <Compile Include="Code\clsAppSettings.vb" />
     <Compile Include="Code\clsComboBoxItem.vb" />
+    <Compile Include="Code\clsExceptionListVM.vb" />
     <Compile Include="Code\clsExceptionVM.vb" />
     <Compile Include="Code\clsFeatureListItemVM.vb" />
     <Compile Include="Code\clsFeatureListVM.vb" />
@@ -117,6 +118,12 @@
     </Compile>
     <Compile Include="Control\uctAddWorkItem.xaml.vb">
       <DependentUpon>uctAddWorkItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\uctException.xaml.vb">
+      <DependentUpon>uctException.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\uctExceptions.xaml.vb">
+      <DependentUpon>uctExceptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\uctFeatureList.xaml.vb">
       <DependentUpon>uctFeatureList.xaml</DependentUpon>
@@ -160,6 +167,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Control\uctAddWorkItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\uctException.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\uctExceptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

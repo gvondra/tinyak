@@ -69,6 +69,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsException.vb" />
     <Compile Include="clsFeature.vb" />
     <Compile Include="clsFeatureListItem.vb" />
     <Compile Include="clsItteration.vb" />

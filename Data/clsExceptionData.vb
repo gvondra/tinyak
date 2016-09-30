@@ -11,6 +11,83 @@
     Public Property ParentExceptionId As Nullable(Of Integer)
     Public Property InnerException As clsExceptionData
 
+    Private Shared Sub Initialize(ByVal objReader As IDataReader, objException As clsExceptionData)
+        With objException
+            .Id = objReader.GetInt32(objReader.GetOrdinal("ExceptionId"))
+            If objReader.IsDBNull(objReader.GetOrdinal("ParentExceptionId")) = False Then
+                .ParentExceptionId = objReader.GetInt32(objReader.GetOrdinal("ParentExceptionId"))
+            Else
+                .ParentExceptionId = Nothing
+            End If
+            .TypeName = objReader.GetString(objReader.GetOrdinal("TypeName"))
+            .Message = objReader.GetString(objReader.GetOrdinal("Message"))
+            .Source = objReader.GetString(objReader.GetOrdinal("Source"))
+            .Target = objReader.GetString(objReader.GetOrdinal("Target"))
+            .StackTrace = objReader.GetString(objReader.GetOrdinal("StackTrace"))
+            .HResult = objReader.GetInt32(objReader.GetOrdinal("HResult"))
+            .Timestamp = objReader.GetDateTime(objReader.GetOrdinal("Timestamp"))
+        End With
+    End Sub
+
+    Public Shared Function GetByMinimumTimestamp(ByVal objSettings As ISettings, ByVal datMinimumTimestamp As Date) As List(Of clsExceptionData)
+        Dim objConnection As IDbConnection
+        Dim objCommand As IDbCommand
+        Dim objParameter As IDataParameter
+        Dim objReader As IDataReader
+        Dim colResult As List(Of clsExceptionData)
+        Dim objException As clsExceptionData
+        Dim objDictionary As SortedDictionary(Of Integer, clsExceptionData)
+        Dim intExceptionId As Integer
+        Dim objEnumerator As SortedDictionary(Of Integer, clsExceptionData).Enumerator
+
+        objConnection = OpenConnection(objSettings)
+        Try
+            objCommand = objConnection.CreateCommand()
+            objCommand.CommandText = "tnyk.SSP_Exception_By_MinTimestamp"
+            objCommand.CommandType = CommandType.StoredProcedure
+
+            objParameter = CreateParameter(objCommand, "minTimestamp", DbType.DateTime)
+            objParameter.Value = datMinimumTimestamp
+            objCommand.Parameters.Add(objParameter)
+
+            objReader = objCommand.ExecuteReader
+            colResult = New List(Of clsExceptionData)
+            objDictionary = New SortedDictionary(Of Integer, clsExceptionData)
+            While objReader.Read
+                objException = New clsExceptionData
+                Initialize(objReader, objException)
+                If objException.ParentExceptionId.HasValue = False Then
+                    colResult.Add(objException)
+                End If
+                objDictionary.Add(objException.Id.Value, objException)
+            End While
+
+            If objReader.NextResult Then
+                While objReader.Read
+                    intExceptionId = objReader.GetInt32(objReader.GetOrdinal("ExceptionId"))
+                    objException = objDictionary(intExceptionId)
+                    If objException.Data Is Nothing Then
+                        objException.Data = New Dictionary(Of String, String)
+                    End If
+                    objException.Data.Add(objReader.GetString(objReader.GetOrdinal("Name")).Trim, objReader.GetString(objReader.GetOrdinal("Value")))
+                End While
+            End If
+
+            objEnumerator = objDictionary.GetEnumerator
+            While objEnumerator.MoveNext
+                If objEnumerator.Current.Value.ParentExceptionId.HasValue Then
+                    objException = objDictionary(objEnumerator.Current.Value.ParentExceptionId.Value)
+                    objException.InnerException = objEnumerator.Current.Value
+                End If
+            End While
+
+            objConnection.Close()
+        Finally
+            objConnection.Dispose()
+        End Try
+        Return colResult
+    End Function
+
     Public Sub Create(ByVal objSettings As ISettings)
         Dim objCommand As IDbCommand
         Dim objParameter As IDataParameter

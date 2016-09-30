@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="uctException"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:tinyak.Client"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" FontSize="12" FontFamily="Courier New">
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="Background" Value="{StaticResource BackgroundColor}"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundColor}"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" Grid.Row="0">Timestamp:</TextBlock>
+        <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding Timestamp, StringFormat='yyyy-MM-dd hh:mm:ss tt', Mode=OneWay}"/>
+        <TextBlock Grid.Column="0" Grid.Row="1">Type:</TextBlock>
+        <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding TypeName, Mode=OneWay}"/>
+        <TextBlock Grid.Column="0" Grid.Row="2">Message:</TextBlock>
+        <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding Message, Mode=OneWay}"/>
+        <TextBlock Grid.Column="0" Grid.Row="3">HResult:</TextBlock>
+        <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding HResult, Mode=OneWay}"/>
+        <TextBlock Grid.Column="0" Grid.Row="4">Source:</TextBlock>
+        <TextBox Grid.Column="2" Grid.Row="4" Text="{Binding Source, Mode=OneWay}"/>
+        <TextBlock Grid.Column="0" Grid.Row="5">Target:</TextBlock>
+        <TextBox Grid.Column="2" Grid.Row="5" Text="{Binding Target, Mode=OneWay}"/>
+        <TextBlock Grid.Column="0" Grid.Row="6">Stack Trace:</TextBlock>
+        <TextBox Grid.Column="2" Grid.Row="6" Text="{Binding StackTrace, Mode=OneWay}"/>
+        <TextBlock Grid.Column="0" Grid.Row="7" Visibility="{Binding DataVisibility, Mode=OneWay}">Data:</TextBlock>
+        <ItemsControl Grid.Column="2" Grid.Row="7" Visibility="{Binding DataVisibility, Mode=OneWay}" ItemsSource="{Binding Data, Mode=OneWay}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock><TextBlock Text="{Binding Name, Mode=OneWay}" /> = <TextBlock Text="{Binding Value, Mode=OneWay}" /></TextBlock>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <TextBlock Grid.Column="0" Grid.Row="8" Name="lblInnerException" Visibility="Collapsed">Inner<LineBreak/>Exception</TextBlock>
+        <Grid Grid.Column="2" Grid.Row="8" Name="pnlInnerExcpetion" Visibility="Collapsed"/>
+    </Grid>
+</UserControl>
