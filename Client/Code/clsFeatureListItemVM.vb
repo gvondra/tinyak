@@ -127,13 +127,15 @@ Public Class clsFeatureListItemVM
         Try
             colWorkItem = clsWorkListItem.GetByFeatureId(New clsSettings, objSessionId, m_objInnerFeatureListItem.Id)
             If colWorkItem IsNot Nothing Then
-                If intItterationId.HasValue Then
-                    For i = colWorkItem.Count - 1 To 0 Step -1
+                For i = colWorkItem.Count - 1 To 0 Step -1
+                    If intItterationId.HasValue Then
                         If colWorkItem(i).Itteration Is Nothing OrElse colWorkItem(i).Itteration.Id.Value <> intItterationId.Value Then
                             colWorkItem.RemoveAt(i)
                         End If
-                    Next
-                End If
+                    ElseIf colWorkItem(i).State = enumWorkItemState.Rejected OrElse colWorkItem(i).State = enumWorkItemState.Complete Then
+                        colWorkItem.RemoveAt(i)
+                    End If
+                Next i
                 objLoad = New LoadWorkItemsDelegate(AddressOf LoadWorkItems)
                 objDispatcher.Invoke(objLoad, colWorkItem, objDispatcher)
             End If
