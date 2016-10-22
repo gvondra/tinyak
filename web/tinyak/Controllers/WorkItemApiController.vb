@@ -92,6 +92,7 @@ Namespace Controllers.Api
             Dim objFeature As tc.clsFeature
             Dim objWorkItem As tc.clsWorkItem
             Dim objResponse As tas.clsCreateWorkItemResponse
+            Dim objItteration As tc.clsItteration
 
             objSettings = New clsSettings
             objSession = GetSession(objSettings)
@@ -105,6 +106,14 @@ Namespace Controllers.Api
                         If String.IsNullOrEmpty(objRequest.Title) = False Then
                             objWorkItem = objFeature.GetNewWorkItem
                             objWorkItem.Title = objRequest.Title.TrimEnd
+
+                            If objRequest.ItterationId.HasValue Then
+                                objItteration = tc.clsItteration.Get(objSettings, objRequest.ItterationId.Value)
+                            Else
+                                objItteration = Nothing
+                            End If
+                            objWorkItem.SetItteration(objItteration)
+
                             objWorkItem.Create(objSettings)
                             objResponse.WorkItem = New tas.clsWorkListItem()
                             With objResponse.WorkItem
@@ -113,6 +122,11 @@ Namespace Controllers.Api
                                 .Id = objWorkItem.Id.Value
                                 .State = CType(CType(objWorkItem.State, Int16), tas.enumWorkItemState)
                                 .Title = objWorkItem.Title
+                                If objItteration IsNot Nothing Then
+                                    .Itteration = New tas.clsItteration() With {.EndDate = objItteration.EndDate, .Id = objItteration.Id.Value, .IsActive = objItteration.IsActive, .Name = objItteration.Name, .StartDate = objItteration.StartDate}
+                                Else
+                                    .Itteration = Nothing
+                                End If
                             End With
                             Return Request.CreateResponse(HttpStatusCode.OK, objResponse)
                         Else

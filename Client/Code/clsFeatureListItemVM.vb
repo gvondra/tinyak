@@ -9,6 +9,7 @@ Public Class clsFeatureListItemVM
     Private m_objInnerFeatureListItem As clsFeatureListItem
     Private m_objAddWorkItem As clsAddWorkItemVM
     Private m_objProject As clsProject
+    Private m_objSelectedItterationId As Nullable(Of Integer)
     Private m_blnIsExpanded As Boolean
     Private m_strExpandText As String
     Private m_intContentVisibility As Visibility
@@ -58,6 +59,16 @@ Public Class clsFeatureListItemVM
         Set(value As clsProject)
             m_objProject = value
             m_objAddWorkItem.Project = value
+        End Set
+    End Property
+
+    Public Property SelectedItterationId As Nullable(Of Integer)
+        Get
+            Return m_objSelectedItterationId
+        End Get
+        Set
+            m_objSelectedItterationId = Value
+            m_objAddWorkItem.SelectedItterationId = Value
         End Set
     End Property
 

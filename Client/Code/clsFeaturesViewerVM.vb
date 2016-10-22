@@ -7,6 +7,7 @@ Public Class clsFeaturesViewerVM
     Private m_objProject As clsProject
     Private m_objFeatureListVM As clsFeatureListVM
     Private m_colItteration As ObservableCollection(Of clsItterationVM)
+    Private m_intSelectedItterationId As Nullable(Of Integer)
     Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
 
     Public Sub New()
@@ -21,6 +22,16 @@ Public Class clsFeaturesViewerVM
         Set(value As clsProject)
             m_objProject = value
             m_objFeatureListVM.Project = value
+        End Set
+    End Property
+
+    Public Property SelectedItterationId As Nullable(Of Integer)
+        Get
+            Return m_intSelectedItterationId
+        End Get
+        Set(value As Nullable(Of Integer))
+            m_intSelectedItterationId = value
+            m_objFeatureListVM.SelectedItterationId = value
         End Set
     End Property
 

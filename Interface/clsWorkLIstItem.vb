@@ -63,7 +63,7 @@ Public Class clsWorkListItem
         End Set
     End Property
 
-    Public Shared Function Create(ByVal objSettings As ISettings, ByVal objSession As Guid, ByVal intProjectId As Integer, ByVal intFeatureId As Integer, ByVal strTitle As String) As clsWorkListItem
+    Public Shared Function Create(ByVal objSettings As ISettings, ByVal objSession As Guid, ByVal intProjectId As Integer, ByVal intFeatureId As Integer, ByVal strTitle As String, ByVal intItterationId As Nullable(Of Integer)) As clsWorkListItem
         Dim objRequest As HttpWebRequest
         Dim objResponse As HttpWebResponse
         Dim objUri As Uri
@@ -81,6 +81,7 @@ Public Class clsWorkListItem
         objCreateRequest = New tas.clsCreateWorkItemRequest
         objCreateRequest.FeatureId = intFeatureId
         objCreateRequest.Title = strTitle
+        objCreateRequest.ItterationId = intItterationId
         objSerializer = New DataContractSerializer(GetType(tas.clsCreateWorkItemRequest))
         objStream = objRequest.GetRequestStream
         objSerializer.WriteObject(objStream, objCreateRequest)

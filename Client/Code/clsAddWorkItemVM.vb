@@ -15,6 +15,8 @@ Public Class clsAddWorkItemVM
 
     Public Property Project As clsProject
 
+    Public Property SelectedItterationId As Nullable(Of Integer)
+
     Public Property Title As String
         Get
             Return m_strTitle

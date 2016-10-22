@@ -31,7 +31,7 @@
         Dim objWorkItem As clsWorkListItem
         Try
             If String.IsNullOrEmpty(Title) = False Then
-                objWorkItem = clsWorkListItem.Create(New clsSettings, SessionId, ProjectId, Feature.Id, Title)
+                objWorkItem = clsWorkListItem.Create(New clsSettings, SessionId, ProjectId, Feature.Id, Title, DirectCast(DataContext, clsAddWorkItemVM).SelectedItterationId)
                 RaiseEvent AfterAddWorkItem(Me, objWorkItem)
                 Title = String.Empty
                 txtTitle.Focus()

@@ -17,6 +17,7 @@
     Private Sub LoadBacklog()
         Dim objLoadItterations As GetItterationsDelegate
 
+        m_objFeatureViewer.SelectedItterationId = Nothing
         m_objFeatureViewer.FeatureList.LoadBacklog(SessionId, Dispatcher)
 
         objLoadItterations = New GetItterationsDelegate(AddressOf clsItteration.GetByProjectId)
@@ -79,6 +80,7 @@
     Private Sub Hyperlink_Click(sender As Object, e As RoutedEventArgs)
         Try
             m_objSelectedItteration = DirectCast(CType(sender, Hyperlink).DataContext, clsItterationVM)
+            m_objFeatureViewer.SelectedItterationId = m_objSelectedItteration.Id
             m_objFeatureViewer.FeatureList.LoadBacklog(SessionId, Dispatcher, m_objSelectedItteration.Id.Value)
         Catch ex As Exception
             winException.ProcessException(ex)

@@ -12,6 +12,7 @@
 
         objVm = New clsFeatureListItemVM(objFeature)
         objVm.Project = DirectCast(DataContext, clsFeatureListVM).Project
+        objVm.SelectedItterationId = DirectCast(DataContext, clsFeatureListVM).SelectedItterationId
         DirectCast(DataContext, clsFeatureListVM).FeatureListItems.Add(New clsFeatureListItemVM(objFeature))
     End Sub
 

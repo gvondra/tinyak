@@ -7,6 +7,7 @@ Public Class clsFeatureListVM
     Private m_objAddFeature As clsAddFeatureVM
     Private m_objProject As clsProject
     Private m_colFeatureListItem As ObservableCollection(Of clsFeatureListItemVM)
+    Private m_intSelectedItterationId As Nullable(Of Integer)
 
     Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
 
@@ -22,6 +23,15 @@ Public Class clsFeatureListVM
         Set(value As clsProject)
             m_objProject = value
             m_objAddFeature.Project = value
+        End Set
+    End Property
+
+    Public Property SelectedItterationId As Nullable(Of Integer)
+        Get
+            Return m_intSelectedItterationId
+        End Get
+        Set(value As Nullable(Of Integer))
+            m_intSelectedItterationId = value
         End Set
     End Property
 
@@ -91,7 +101,7 @@ Public Class clsFeatureListVM
         Dim objDelegate As clsFeatureListItemVM.LoadWorkItemsDeleage
 
         For Each objFeature In colFeature
-            objVM = New clsFeatureListItemVM(objFeature) With {.Project = Project}
+            objVM = New clsFeatureListItemVM(objFeature) With {.Project = Project, .SelectedItterationId = intItterationId}
             m_colFeatureListItem.Add(objVM)
 
             objDelegate = New clsFeatureListItemVM.LoadWorkItemsDeleage(AddressOf objVM.LoadWorkItems)

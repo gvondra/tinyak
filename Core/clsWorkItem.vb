@@ -132,6 +132,11 @@ Public Class clsWorkItem
                 Throw New ApplicationException("Cannot create work item without feature")
             End If
         End If
+        If m_objItteration IsNot Nothing Then
+            ItterationId = m_objItteration.Id
+        Else
+            ItterationId = Nothing
+        End If
 
         objInnerSettings = New clsSettings(objSettings)
         Try
@@ -252,7 +257,7 @@ Public Class clsWorkItem
     Public Sub SetItteration(ByVal objItteration As clsItteration)
         If objItteration Is Nothing Then
             m_objItteration = Nothing
-        ElseIf ProjectId.HasValue AndAlso objItteration.IsSameProject(ProjectId.Value) Then
+        ElseIf ProjectId.HasValue = False OrElse objItteration.IsSameProject(ProjectId.Value) Then
             m_objItteration = objItteration
         Else
             Throw New ApplicationException("Project mismatch")
