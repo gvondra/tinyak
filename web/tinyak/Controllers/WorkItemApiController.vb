@@ -53,6 +53,36 @@ Namespace Controllers.Api
             End If
         End Function
 
+        <HttpDelete>
+        Public Function Delete(ByVal id As Integer) As HttpResponseMessage
+            Dim objSettings As clsSettings
+            Dim objSession As tc.clsSession
+            Dim objProject As tc.clsProject
+            Dim objInnerUser As tc.clsUser
+            Dim objWorkItem As tc.clsWorkItem
+
+
+            objSettings = New clsSettings
+            objSession = GetSession(objSettings)
+            If objSession IsNot Nothing Then
+                objInnerUser = objSession.GetUser(objSettings)
+                objWorkItem = tc.clsWorkItem.Get(objSettings, id)
+                If objWorkItem IsNot Nothing Then
+                    objProject = objWorkItem.GetProject(objSettings)
+                Else
+                    objProject = Nothing
+                End If
+                If objInnerUser IsNot Nothing AndAlso objProject IsNot Nothing AndAlso objProject.IncludesMember(objInnerUser.EmailAddress) AndAlso objWorkItem IsNot Nothing Then
+                    objWorkItem.Delete(objSettings)
+                    Return Request.CreateResponse(HttpStatusCode.OK)
+                Else
+                    Return Request.CreateResponse(HttpStatusCode.Unauthorized)
+                End If
+            Else
+                Return Request.CreateResponse(HttpStatusCode.Unauthorized)
+            End If
+        End Function
+
         <HttpPost>
         Public Function Create(ByVal projectId As Integer, ByVal objRequest As tas.clsCreateWorkItemRequest) As HttpResponseMessage
             Dim objSettings As clsSettings

@@ -6,6 +6,11 @@
              xmlns:local="clr-namespace:tinyak.Client"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem Header="Delete" Click="Delete_Click"/>
+        </ContextMenu>
+    </UserControl.ContextMenu>
     <Grid Background="{Binding Background}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5*"/>

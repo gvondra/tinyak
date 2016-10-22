@@ -127,4 +127,10 @@ Public Class clsWorkListItemVM
         Me.Title = objWorkItem.Title
         Me.Itteration = objWorkItem.ItterationName
     End Sub
+
+    Public Sub Delete()
+        If m_objInnerWorkListItem.Id.HasValue Then
+            m_objInnerWorkListItem.Delete(New clsSettings, winMain.SessionId)
+        End If
+    End Sub
 End Class

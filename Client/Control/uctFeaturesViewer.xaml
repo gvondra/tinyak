@@ -29,7 +29,7 @@
             </ItemsControl>
         </StackPanel>
         <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
-            <t:uctFeatureList DataContext="{Binding FeatureList}" FeatureDoubleClick="uctFeatureList_FeatureDoubleClick" WorkItemDoubleClick="uctFeatureList_WorkItemDoubleClick" />
+            <t:uctFeatureList DataContext="{Binding FeatureList}" FeatureDoubleClick="uctFeatureList_FeatureDoubleClick" WorkItemDoubleClick="uctFeatureList_WorkItemDoubleClick" WorkItemDelete="uctFeatureList_WorkItemDelete" />
         </ScrollViewer>
     </Grid>
 </UserControl>

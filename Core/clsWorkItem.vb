@@ -182,27 +182,29 @@ Public Class clsWorkItem
         End Try
     End Sub
 
-    Public Shared Sub Delete(ByVal objSettings As ISettings, ByVal intId As Integer)
+    Public Sub Delete(ByVal objSettings As ISettings)
         Dim objInnerSettings As clsSettings
 
-        objInnerSettings = New clsSettings(objSettings)
-        Try
-            clsWorkItemData.Delete(objInnerSettings, intId)
-            objInnerSettings.DatabaseTransaction.Commit()
-            objInnerSettings.DatabaseConnection.Close()
-        Catch
-            objInnerSettings.DatabaseTransaction.Rollback()
-            Throw
-        Finally
-            If objInnerSettings.DatabaseTransaction IsNot Nothing Then
-                objInnerSettings.DatabaseTransaction.Dispose()
-                objInnerSettings.DatabaseTransaction = Nothing
-            End If
-            If objInnerSettings.DatabaseConnection IsNot Nothing Then
-                objInnerSettings.DatabaseConnection.Dispose()
-                objInnerSettings.DatabaseConnection = Nothing
-            End If
-        End Try
+        If Id.HasValue Then
+            objInnerSettings = New clsSettings(objSettings)
+            Try
+                clsWorkItemData.Delete(objInnerSettings, Id.Value)
+                objInnerSettings.DatabaseTransaction.Commit()
+                objInnerSettings.DatabaseConnection.Close()
+            Catch
+                objInnerSettings.DatabaseTransaction.Rollback()
+                Throw
+            Finally
+                If objInnerSettings.DatabaseTransaction IsNot Nothing Then
+                    objInnerSettings.DatabaseTransaction.Dispose()
+                    objInnerSettings.DatabaseTransaction = Nothing
+                End If
+                If objInnerSettings.DatabaseConnection IsNot Nothing Then
+                    objInnerSettings.DatabaseConnection.Dispose()
+                    objInnerSettings.DatabaseConnection = Nothing
+                End If
+            End Try
+        End If
     End Sub
 
     Friend Shared Function GetByFeature(ByVal objSettings As clsSettings, ByVal objFeature As clsFeature) As List(Of clsWorkItem)

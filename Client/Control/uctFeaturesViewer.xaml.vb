@@ -1,5 +1,6 @@
 ﻿Public Class uctFeaturesViewer
     Private m_objFeatureViewer As clsFeaturesViewerVM
+    Private m_objSelectedItteration As clsItterationVM
 
     Public Event FeatureDoubleClick(ByVal objSender As Object, ByVal objFeature As clsFeatureListItemVM)
     Public Event WorkItemDoubleClick(ByVal objSender As Object, ByVal objWorkItem As clsWorkListItemVM)
@@ -76,10 +77,23 @@
     End Sub
 
     Private Sub Hyperlink_Click(sender As Object, e As RoutedEventArgs)
-        Dim objItteration As clsItterationVM
         Try
-            objItteration = DirectCast(CType(sender, Hyperlink).DataContext, clsItterationVM)
-            m_objFeatureViewer.FeatureList.LoadBacklog(SessionId, Dispatcher, objItteration.Id.Value)
+            m_objSelectedItteration = DirectCast(CType(sender, Hyperlink).DataContext, clsItterationVM)
+            m_objFeatureViewer.FeatureList.LoadBacklog(SessionId, Dispatcher, m_objSelectedItteration.Id.Value)
+        Catch ex As Exception
+            winException.ProcessException(ex)
+        End Try
+    End Sub
+
+    Private Sub uctFeatureList_WorkItemDelete(objSender As Object, objWorkItem As clsWorkListItemVM)
+        Dim intItterationId As Nullable(Of Integer)
+        Try
+            If m_objSelectedItteration IsNot Nothing Then
+                intItterationId = m_objSelectedItteration.Id
+            Else
+                intItterationId = Nothing
+            End If
+            m_objFeatureViewer.FeatureList.LoadBacklog(SessionId, Dispatcher, intItterationId)
         Catch ex As Exception
             winException.ProcessException(ex)
         End Try

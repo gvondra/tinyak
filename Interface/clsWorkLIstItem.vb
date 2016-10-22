@@ -131,6 +131,19 @@ Public Class clsWorkListItem
         Return colResult
     End Function
 
+    Public Sub Delete(ByVal objSettings As ISettings, ByVal objSessionId As Guid)
+        Dim objRequest As HttpWebRequest
+        Dim objResponse As HttpWebResponse
+        Dim objUri As Uri
+
+        If Id.HasValue Then
+            objUri = GetUri(objSettings, String.Format("WorkItem/{0}", Id.Value))
+            objRequest = CreateDeleteRequest(objSessionId, objUri)
+
+            objResponse = DirectCast(objRequest.GetResponse, HttpWebResponse)
+        End If
+    End Sub
+
     Public Function CompareTo(other As clsWorkListItem) As Int32 Implements IComparable(Of clsWorkListItem).CompareTo
         Return String.Compare(Title, other.Title, True)
     End Function
