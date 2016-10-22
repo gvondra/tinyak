@@ -1,4 +1,7 @@
-﻿Public Class winWorkItem
+﻿Imports System.Timers
+
+Public Class winWorkItem
+    Private WithEvents tmrHideStatus As Timers.Timer
     Private ReadOnly Property WorkItem As clsWorkItemVM
         Get
             Return DirectCast(DataContext, clsWorkItemVM)
@@ -16,10 +19,30 @@
                 cboState.GetBindingExpression(ComboBox.SelectedValueProperty).UpdateSource()
                 cboItteration.GetBindingExpression(ComboBox.SelectedItemProperty).UpdateSource()
                 WorkItem.Update(New clsSettings, winMain.SessionId)
+                lblStatus.Text = "Item Saved"
+                tmrHideStatus.Enabled = True
             End If
         Catch ex As Exception
             winException.BeginProcessException(ex, Dispatcher)
         End Try
+    End Sub
+
+    Private Sub tmrHideStatus_Elapsed(sender As Object, e As ElapsedEventArgs) Handles tmrHideStatus.Elapsed
+        Dim objSetStatus As SetStatusDelegate
+
+        tmrHideStatus.Enabled = False
+        objSetStatus = New SetStatusDelegate(AddressOf SetStatus)
+        Dispatcher.Invoke(objSetStatus, String.Empty)
+    End Sub
+
+    Private Delegate Sub SetStatusDelegate(ByVal strStatus As String)
+    Private Sub SetStatus(ByVal strStatus As String)
+        lblStatus.Text = strStatus
+    End Sub
+
+    Private Sub winWorkItem_Initialized(sender As Object, e As EventArgs) Handles Me.Initialized
+        tmrHideStatus = New Timers.Timer()
+        tmrHideStatus.Interval = 5000
     End Sub
 
     Private Function ValidateData() As Boolean
