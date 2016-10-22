@@ -8,17 +8,19 @@ Public Class winWorkItem
         End Get
     End Property
 
+    Private Sub btnSaveClose_Click(sender As Object, e As RoutedEventArgs) Handles btnSaveClose.Click
+        Try
+            If Save() Then
+                Close()
+            End If
+        Catch ex As Exception
+            winException.BeginProcessException(ex, Dispatcher)
+        End Try
+    End Sub
+
     Private Sub btnSave_Click(sender As Object, e As RoutedEventArgs) Handles btnSave.Click
         Try
-            If ValidateData() Then
-                txtTitle.GetBindingExpression(TextBox.TextProperty).UpdateSource()
-                txtAssignedTo.GetBindingExpression(TextBox.TextProperty).UpdateSource()
-                txtEffort.GetBindingExpression(TextBox.TextProperty).UpdateSource()
-                txtDescription.GetBindingExpression(TextBox.TextProperty).UpdateSource()
-                txtAcceptanceCriteria.GetBindingExpression(TextBox.TextProperty).UpdateSource()
-                cboState.GetBindingExpression(ComboBox.SelectedValueProperty).UpdateSource()
-                cboItteration.GetBindingExpression(ComboBox.SelectedItemProperty).UpdateSource()
-                WorkItem.Update(New clsSettings, winMain.SessionId)
+            If Save() Then
                 lblStatus.Text = "Item Saved"
                 tmrHideStatus.Enabled = True
             End If
@@ -26,6 +28,22 @@ Public Class winWorkItem
             winException.BeginProcessException(ex, Dispatcher)
         End Try
     End Sub
+
+    Private Function Save() As Boolean
+        Dim blnResult As Boolean = False
+        If ValidateData() Then
+            txtTitle.GetBindingExpression(TextBox.TextProperty).UpdateSource()
+            txtAssignedTo.GetBindingExpression(TextBox.TextProperty).UpdateSource()
+            txtEffort.GetBindingExpression(TextBox.TextProperty).UpdateSource()
+            txtDescription.GetBindingExpression(TextBox.TextProperty).UpdateSource()
+            txtAcceptanceCriteria.GetBindingExpression(TextBox.TextProperty).UpdateSource()
+            cboState.GetBindingExpression(ComboBox.SelectedValueProperty).UpdateSource()
+            cboItteration.GetBindingExpression(ComboBox.SelectedItemProperty).UpdateSource()
+            WorkItem.Update(New clsSettings, winMain.SessionId)
+            blnResult = True
+        End If
+        Return blnResult
+    End Function
 
     Private Sub tmrHideStatus_Elapsed(sender As Object, e As ElapsedEventArgs) Handles tmrHideStatus.Elapsed
         Dim objSetStatus As SetStatusDelegate
