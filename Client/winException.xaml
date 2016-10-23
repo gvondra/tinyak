@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:tinyak.Client"
         mc:Ignorable="d"
-        Title="tinyak error" Height="900" Width="1600" Style="{StaticResource WindowStyle}" Background="{DynamicResource GradientBackground}">
+        Title="tinyak error" Height="900" Width="1600" Style="{StaticResource WindowStyle}" Background="{DynamicResource GradientBackground}" Top="0" Left="0">
     <Window.Resources>
         <LinearGradientBrush x:Key="GradientBackground" StartPoint="0.01,0" EndPoint="0,1">
             <LinearGradientBrush.GradientStops>
