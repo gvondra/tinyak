@@ -27,4 +27,8 @@
     Private Sub uctFeatureListItem_WorkItemDelete(objSender As Object, objWorkItem As clsWorkListItemVM)
         RaiseEvent WorkItemDelete(objSender, objWorkItem)
     End Sub
+
+    Private Sub uctFeatureListItem_DeselectAllWorkItems(objSender As Control)
+        DirectCast(DataContext, clsFeatureListVM).DeselectAllWorkItems
+    End Sub
 End Class

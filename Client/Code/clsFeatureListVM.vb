@@ -108,4 +108,13 @@ Public Class clsFeatureListVM
             objDelegate.BeginInvoke(objSessionId, objDispatcher, intItterationId, Nothing, objDelegate)
         Next
     End Sub
+
+    Public Sub DeselectAllWorkItems()
+        Dim featureListItem As clsFeatureListItemVM
+        If m_colFeatureListItem IsNot Nothing Then
+            For Each featureListItem In m_colFeatureListItem
+                featureListItem.DeleselectAllWorkItems()
+            Next featureListItem
+        End If
+    End Sub
 End Class

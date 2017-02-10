@@ -2,6 +2,7 @@
     Public Event FeatureDoubleClick(ByVal objSender As Object, ByVal objFeature As clsFeatureListItemVM)
     Public Event WorkItemDoubleClick(ByVal objSender As Object, ByVal objWorkItem As clsWorkListItemVM)
     Public Event WorkItemDelete(ByVal objSender As Object, ByVal objWorkItem As clsWorkListItemVM)
+    Public Event DeselectAllWorkItems(ByVal objSender As Control)
 
     Private Sub Expand_Click(sender As Object, e As RoutedEventArgs)
         CType(DataContext, clsFeatureListItemVM).ToggleIsExpanded()
@@ -22,7 +23,7 @@
     End Sub
 
     Private Sub uctWorkListItem_DeselectAllWorkItems(objSender As Control)
-        CType(DataContext, clsFeatureListItemVM).DeleselectAllWorkItems()
+        RaiseEvent DeselectAllWorkItems(Me)
     End Sub
 
     Private Sub ctlAddWorkItem_AfterAddWorkItem(objSender As Control, objWorkItem As clsWorkListItem)
