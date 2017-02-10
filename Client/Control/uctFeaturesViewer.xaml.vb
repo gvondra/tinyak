@@ -19,6 +19,7 @@
 
         m_objFeatureViewer.SelectedItterationId = Nothing
         m_objFeatureViewer.FeatureList.LoadBacklog(SessionId, Dispatcher)
+        m_objFeatureViewer.FeatureList.ItterationDateVisibility = Visibility.Collapsed
 
         objLoadItterations = New GetItterationsDelegate(AddressOf clsItteration.GetByProjectId)
         objLoadItterations.BeginInvoke(New clsSettings, winMain.SessionId, m_objFeatureViewer.Project.Id, AddressOf GetItterationsCallback, objLoadItterations)
@@ -82,6 +83,13 @@
             m_objSelectedItteration = DirectCast(CType(sender, Hyperlink).DataContext, clsItterationVM)
             m_objFeatureViewer.SelectedItterationId = m_objSelectedItteration.Id
             m_objFeatureViewer.FeatureList.LoadBacklog(SessionId, Dispatcher, m_objSelectedItteration.Id.Value)
+            m_objFeatureViewer.FeatureList.ItterationStartDate = m_objSelectedItteration.StartDate
+            m_objFeatureViewer.FeatureList.ItterationEndDate = m_objSelectedItteration.EndDate
+            If m_objSelectedItteration.StartDate.HasValue OrElse m_objSelectedItteration.EndDate.HasValue Then
+                m_objFeatureViewer.FeatureList.ItterationDateVisibility = Visibility.Visible
+            Else
+                m_objFeatureViewer.FeatureList.ItterationDateVisibility = Visibility.Collapsed
+            End If
         Catch ex As Exception
             winException.ProcessException(ex)
         End Try

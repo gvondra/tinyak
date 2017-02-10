@@ -8,12 +8,16 @@ Public Class clsFeatureListVM
     Private m_objProject As clsProject
     Private m_colFeatureListItem As ObservableCollection(Of clsFeatureListItemVM)
     Private m_intSelectedItterationId As Nullable(Of Integer)
+    Private m_intItterationDateVisibility As Visibility
+    Private m_datItterationStartDate As Date?
+    Private m_datItterationEndDate As Date?
 
     Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
 
     Public Sub New()
         m_objAddFeature = New clsAddFeatureVM
         m_colFeatureListItem = New ObservableCollection(Of clsFeatureListItemVM)
+        m_intItterationDateVisibility = Visibility.Collapsed
     End Sub
 
     Public Property Project As clsProject
@@ -32,6 +36,36 @@ Public Class clsFeatureListVM
         End Get
         Set(value As Nullable(Of Integer))
             m_intSelectedItterationId = value
+        End Set
+    End Property
+
+    Public Property ItterationDateVisibility As Visibility
+        Get
+            Return m_intItterationDateVisibility
+        End Get
+        Set(value As Visibility)
+            m_intItterationDateVisibility = value
+            OnPropertyChanged()
+        End Set
+    End Property
+
+    Public Property ItterationStartDate As Date?
+        Get
+            Return m_datItterationStartDate
+        End Get
+        Set(value As Date?)
+            m_datItterationStartDate = value
+            OnPropertyChanged()
+        End Set
+    End Property
+
+    Public Property ItterationEndDate As Date?
+        Get
+            Return m_datItterationEndDate
+        End Get
+        Set(value As Date?)
+            m_datItterationEndDate = value
+            OnPropertyChanged()
         End Set
     End Property
 

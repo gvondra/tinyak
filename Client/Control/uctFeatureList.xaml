@@ -10,10 +10,14 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <t:uctAddFeature Grid.Row="0" OnHide="uctAddFeature_OnHide" AfterAddFeature="uctAddFeature_AfterAddFeature" DataContext="{Binding AddFeature}" Visibility="{Binding Visibility}" />
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding FeatureListItems}">
+        <WrapPanel Grid.Row="0" Orientation="Horizontal"  HorizontalAlignment="Right" Visibility="{Binding ItterationDateVisibility}">
+            <TextBlock><TextBlock Text="{Binding ItterationStartDate, StringFormat='M-d-yyyy'}" /> to <TextBlock Text="{Binding ItterationEndDate, StringFormat='M-d-yyyy'}"/></TextBlock>
+        </WrapPanel>
+        <t:uctAddFeature Grid.Row="1" OnHide="uctAddFeature_OnHide" AfterAddFeature="uctAddFeature_AfterAddFeature" DataContext="{Binding AddFeature}" Visibility="{Binding Visibility}" />
+        <ItemsControl Grid.Row="2" ItemsSource="{Binding FeatureListItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <t:uctFeatureListItem FeatureDoubleClick="uctFeatureListItem_FeatureDoubleClick" WorkItemDoubleClick="uctFeatureListItem_WorkItemDoubleClick" WorkItemDelete="uctFeatureListItem_WorkItemDelete" DeselectAllWorkItems="uctFeatureListItem_DeselectAllWorkItems" />
